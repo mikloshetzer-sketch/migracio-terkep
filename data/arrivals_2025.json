@@ -1,0 +1,13 @@
+{
+  "year": 2025,
+  "unit": "applications",
+  "note": "Placeholder dataset. Will be replaced with Eurostat-based totals per EU member state.",
+  "totalsByCountry": {
+    "DE": 0,
+    "FR": 0,
+    "IT": 0,
+    "ES": 0,
+    "GR": 0,
+    "HU": 0
+  }
+}
