@@ -1,240 +1,165 @@
-import { useEffect, useRef } from "react";
-import maplibregl from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
+import { useEffect, useRef } from "react"
+import maplibregl from "maplibre-gl"
+import "maplibre-gl/dist/maplibre-gl.css"
 
 export default function Map() {
-  const mapContainer = useRef(null);
-  const mapRef = useRef(null);
-  const popupRef = useRef(null);
+  const mapContainer = useRef(null)
+  const map = useRef(null)
 
   useEffect(() => {
-    if (mapRef.current) return;
+    if (map.current) return
 
-    const map = new maplibregl.Map({
+    map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: "https://demotiles.maplibre.org/style.json",
-      center: [12, 50],
-      zoom: 3.6,
-    });
+      center: [15, 50],
+      zoom: 4
+    })
 
-    mapRef.current = map;
+    const BASE = "/migracio-terkep/data"
 
-    map.addControl(new maplibregl.NavigationControl(), "top-right");
+    map.current.on("load", async () => {
+      // ---------------------------
+      // LOAD DATA FILES
+      // ---------------------------
+      const [euRes, arrivalsRes, routesRes] = await Promise.all([
+        fetch(`${BASE}/eu_countries.geojson`),
+        fetch(`${BASE}/arrivals_2025.json`),
+        fetch(`${BASE}/routes_2025.json`)
+      ])
 
-    const base = import.meta.env.BASE_URL; // pl. /migracio-terkep/
-    const urlCountries = `${base}data/eu_countries.geojson`;
-    const urlArrivals = `${base}data/arrivals_2025.json`;
-    const urlRoutes = `${base}data/routes_2025.json`;
+      const euData = await euRes.json()
+      const arrivalsData = await arrivalsRes.json()
+      const routesData = await routesRes.json()
 
-    // egyszerű centroid (közelítő, de vizuálisan ok)
-    function centroidOfFeature(feat) {
-      const g = feat.geometry;
-      if (!g) return null;
-
-      // flatten koordináták
-      const coords = [];
-      const pushRing = (ring) => {
-        for (const p of ring) coords.push(p);
-      };
-
-      if (g.type === "Polygon") {
-        for (const ring of g.coordinates) pushRing(ring);
-      } else if (g.type === "MultiPolygon") {
-        for (const poly of g.coordinates) {
-          for (const ring of poly) pushRing(ring);
-        }
-      } else {
-        return null;
-      }
-
-      if (!coords.length) return null;
-
-      let minX = Infinity,
-        minY = Infinity,
-        maxX = -Infinity,
-        maxY = -Infinity;
-
-      for (const [x, y] of coords) {
-        if (x < minX) minX = x;
-        if (y < minY) minY = y;
-        if (x > maxX) maxX = x;
-        if (y > maxY) maxY = y;
-      }
-      return [(minX + maxX) / 2, (minY + maxY) / 2];
-    }
-
-    map.on("load", async () => {
-      // 1) betöltések
-      const [countriesRes, arrivalsRes, routesRes] = await Promise.all([
-        fetch(urlCountries),
-        fetch(urlArrivals),
-        fetch(urlRoutes),
-      ]);
-
-      const countries = await countriesRes.json();
-      const arrivals = await arrivalsRes.json();
-      const routesJson = await routesRes.json();
-
-      // arrivals: { totalsByCountry: { "BE": 123, ... } }
-      const totals = arrivals?.totalsByCountry || {};
-
-      // 2) országok source + layer
-      map.addSource("countries", {
+      // ---------------------------
+      // EU COUNTRIES LAYER
+      // ---------------------------
+      map.current.addSource("eu", {
         type: "geojson",
-        data: countries,
-        // nagyon fontos: azonosító, amire a feature-state megy
-        promoteId: "CNTR_ID",
-      });
+        data: euData
+      })
 
-      map.addLayer({
-        id: "countries-fill",
+      map.current.addLayer({
+        id: "eu-fill",
         type: "fill",
-        source: "countries",
+        source: "eu",
         paint: {
-          "fill-outline-color": "#ffffff",
-          "fill-opacity": 0.75,
-          // színezés value alapján (feature-state.value)
-          "fill-color": [
-            "interpolate",
-            ["linear"],
-            ["coalesce", ["feature-state", "value"], 0],
-            0,
-            "#f2f2f2",
-            1,
-            "#cfe8ff",
-            1000,
-            "#8cc8ff",
-            5000,
-            "#4aa6ff",
-            20000,
-            "#006dff",
-          ],
-        },
-      });
+          "fill-color": "#e6e6e6",
+          "fill-opacity": 0.6
+        }
+      })
 
-      map.addLayer({
-        id: "countries-line",
+      map.current.addLayer({
+        id: "eu-borders",
         type: "line",
-        source: "countries",
+        source: "eu",
         paint: {
-          "line-color": "#ffffff",
-          "line-width": 1,
-          "line-opacity": 0.9,
-        },
-      });
+          "line-color": "#333",
+          "line-width": 1
+        }
+      })
 
-      // 3) beállítjuk a value-kat feature-state-be CNTR_ID alapján
-      for (const [iso2, value] of Object.entries(totals)) {
-        map.setFeatureState(
-          { source: "countries", id: iso2 },
-          { value: Number(value) || 0 }
-        );
+      // ---------------------------
+      // TOOLTIP
+      // ---------------------------
+      const popup = new maplibregl.Popup({
+        closeButton: true,
+        closeOnClick: true
+      })
+
+      map.current.on("click", "eu-fill", e => {
+        const props = e.features[0].properties
+        const code = props.ISO2 || props.CNTR_ID
+        const value = arrivalsData.totalsByCountry[code] || 0
+
+        popup
+          .setLngLat(e.lngLat)
+          .setHTML(
+            `<b>${props.NAME || "Unknown"}</b><br/>Arrivals 2025: ${value.toLocaleString()}`
+          )
+          .addTo(map.current)
+      })
+
+      // ---------------------------
+      // ROUTES → GEOJSON
+      // ---------------------------
+      const centroids = {}
+      euData.features.forEach(f => {
+        const code = f.properties.ISO2 || f.properties.CNTR_ID
+        const coords = f.geometry.coordinates.flat(2)
+
+        let lng = 0
+        let lat = 0
+        coords.forEach(c => {
+          lng += c[0]
+          lat += c[1]
+        })
+
+        centroids[code] = [lng / coords.length, lat / coords.length]
+      })
+
+      const routeFeatures = routesData.routes
+        .map(r => {
+          if (!centroids[r.from] || !centroids[r.to]) return null
+
+          return {
+            type: "Feature",
+            properties: {
+              count: r.count,
+              path: r.path
+            },
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                centroids[r.from],
+                centroids[r.to]
+              ]
+            }
+          }
+        })
+        .filter(Boolean)
+
+      const routesGeoJSON = {
+        type: "FeatureCollection",
+        features: routeFeatures
       }
 
-      // 4) route vonalak generálása ország-centroidokból
-      const centroidById = new Map();
-      for (const f of countries.features || []) {
-        const id = f?.properties?.CNTR_ID;
-        if (!id) continue;
-        const c = centroidOfFeature(f);
-        if (c) centroidById.set(id, c);
-      }
-
-      const routes = routesJson?.routes || [];
-      const routeFeatures = [];
-
-      for (const r of routes) {
-        const from = r.from;
-        const to = r.to;
-        const count = Number(r.count) || 0;
-
-        const a = centroidById.get(from);
-        const b = centroidById.get(to);
-        if (!a || !b) continue;
-
-        routeFeatures.push({
-          type: "Feature",
-          properties: {
-            from,
-            to,
-            count,
-            path: r.path || "",
-          },
-          geometry: {
-            type: "LineString",
-            coordinates: [a, b],
-          },
-        });
-      }
-
-      map.addSource("routes", {
+      // ---------------------------
+      // ROUTE LAYER
+      // ---------------------------
+      map.current.addSource("routes", {
         type: "geojson",
-        data: { type: "FeatureCollection", features: routeFeatures },
-      });
+        data: routesGeoJSON
+      })
 
-      map.addLayer({
+      map.current.addLayer({
         id: "routes-line",
         type: "line",
         source: "routes",
         paint: {
-          "line-color": "#111111",
-          "line-opacity": 0.6,
+          "line-color": "#ff3b3b",
           "line-width": [
             "interpolate",
             ["linear"],
             ["get", "count"],
-            0,
+            1000,
             1,
-            10000,
-            2,
             50000,
             4,
-            200000,
-            7,
+            150000,
+            8
           ],
-        },
-      });
+          "line-opacity": 0.85
+        }
+      })
+    })
+  }, [])
 
-      // 5) hover popup országokra
-      popupRef.current = new maplibregl.Popup({
-        closeButton: true,
-        closeOnClick: false,
-      });
-
-      map.on("mousemove", "countries-fill", (e) => {
-        map.getCanvas().style.cursor = "pointer";
-        const f = e.features?.[0];
-        if (!f) return;
-
-        const props = f.properties || {};
-        const name =
-          props.NAME_ENGL ||
-          props.CNTR_NAME ||
-          props.NAME ||
-          props.CNTR_ID ||
-          "Unknown";
-
-        const st = map.getFeatureState({ source: "countries", id: props.CNTR_ID });
-        const value = Number(st?.value ?? 0);
-
-        popupRef.current
-          .setLngLat(e.lngLat)
-          .setHTML(`<b>${name}</b><br/>Value: ${value}`)
-          .addTo(map);
-      });
-
-      map.on("mouseleave", "countries-fill", () => {
-        map.getCanvas().style.cursor = "";
-        popupRef.current?.remove();
-      });
-    });
-
-    return () => {
-      popupRef.current?.remove();
-      map.remove();
-      mapRef.current = null;
-    };
-  }, []);
-
-  return <div ref={mapContainer} style={{ width: "100vw", height: "100vh" }} />;
+  return (
+    <div
+      ref={mapContainer}
+      style={{ width: "100vw", height: "100vh" }}
+    />
+  )
 }
