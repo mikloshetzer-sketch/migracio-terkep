@@ -2,7 +2,7 @@ import Map from './Map'
 
 export default function App() {
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
+    <div style={{ width: '100vw', height: '100vh' }}>
       <Map />
     </div>
   )
