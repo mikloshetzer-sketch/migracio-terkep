@@ -12,70 +12,69 @@ export default function Map() {
     map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: 'https://demotiles.maplibre.org/style.json',
-      center: [15, 48],
+      center: [10, 50],
       zoom: 4
     })
 
     map.current.on('load', async () => {
-      // --- EU országok ---
-      const euRes = await fetch('./data/eu_countries.geojson')
-      const euData = await euRes.json()
+      try {
+        // GITHUB PAGES BASE PATH FIX
+        const base = import.meta.env.BASE_URL
 
-      map.current.addSource('eu', {
-        type: 'geojson',
-        data: euData
-      })
+        // LOAD EU COUNTRIES
+        const euRes = await fetch(`${base}data/eu_countries.geojson`)
+        const euData = await euRes.json()
 
-      map.current.addLayer({
-        id: 'eu-fill',
-        type: 'fill',
-        source: 'eu',
-        paint: {
-          'fill-color': '#4CAF50',
-          'fill-opacity': 0.25
-        }
-      })
+        map.current.addSource('eu', {
+          type: 'geojson',
+          data: euData
+        })
 
-      map.current.addLayer({
-        id: 'eu-border',
-        type: 'line',
-        source: 'eu',
-        paint: {
-          'line-color': '#2E7D32',
-          'line-width': 1.5
-        }
-      })
+        map.current.addLayer({
+          id: 'eu-fill',
+          type: 'fill',
+          source: 'eu',
+          paint: {
+            'fill-color': '#4caf50',
+            'fill-opacity': 0.4
+          }
+        })
 
-      // --- Migrációs útvonalak ---
-      const routeRes = await fetch('./data/routes_2025.json')
-      const routeData = await routeRes.json()
+        map.current.addLayer({
+          id: 'eu-border',
+          type: 'line',
+          source: 'eu',
+          paint: {
+            'line-color': '#2e7d32',
+            'line-width': 2
+          }
+        })
 
-      map.current.addSource('routes', {
-        type: 'geojson',
-        data: routeData
-      })
+        // LOAD MIGRATION ROUTES
+        const routeRes = await fetch(`${base}data/routes_2025.json`)
+        const routeData = await routeRes.json()
 
-      map.current.addLayer({
-        id: 'routes-line',
-        type: 'line',
-        source: 'routes',
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-color': [
-            'match',
-            ['get', 'route'],
-            'Eastern Med', '#FF0000',
-            'Central Med', '#FF9800',
-            'Western Med', '#FBC02D',
-            'Balkan', '#2196F3',
-            '#888888'
-          ],
-          'line-width': 4
-        }
-      })
+        map.current.addSource('routes', {
+          type: 'geojson',
+          data: routeData
+        })
+
+        map.current.addLayer({
+          id: 'routes-line',
+          type: 'line',
+          source: 'routes',
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          paint: {
+            'line-color': '#ff0000',
+            'line-width': 3
+          }
+        })
+      } catch (err) {
+        console.error('Map data load error:', err)
+      }
     })
   }, [])
 
