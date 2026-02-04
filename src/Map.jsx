@@ -3,42 +3,134 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-// segéd: ez kezeli a GitHub Pages base path-et (pl. /migracio-terkep/)
 const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
 
-// segéd: szám formázás
 const fmt = (n) => {
   const x = Number(n ?? 0);
   return x.toLocaleString("hu-HU");
 };
 
-// segéd: ISO2 kinyerés több lehetséges property névből
 const getIso2 = (props = {}) =>
   props.ISO2 || props.CNTR_ID || props.ISO_A2 || props.iso2 || props.cntr_id || props.iso_a2 || null;
+
+// Fallback koordináták (lon, lat) – bővíthető.
+// EU/EEA + néhány kulcs ország a routes-hoz (MA, TR, SY, AF stb.)
+const ISO2_COORDS = {
+  // EU (nagyjából főváros-közeli pontok)
+  AT: [16.3738, 48.2082],
+  BE: [4.3517, 50.8503],
+  BG: [23.3219, 42.6977],
+  HR: [15.9819, 45.8150],
+  CY: [33.3823, 35.1856],
+  CZ: [14.4378, 50.0755],
+  DK: [12.5683, 55.6761],
+  EE: [24.7536, 59.4370],
+  FI: [24.9384, 60.1699],
+  FR: [2.3522, 48.8566],
+  DE: [13.4050, 52.5200],
+  GR: [23.7275, 37.9838],
+  HU: [19.0402, 47.4979],
+  IE: [-6.2603, 53.3498],
+  IT: [12.4964, 41.9028],
+  LV: [24.1052, 56.9496],
+  LT: [25.2797, 54.6872],
+  LU: [6.1319, 49.6116],
+  MT: [14.5146, 35.8989],
+  NL: [4.9041, 52.3676],
+  PL: [21.0122, 52.2297],
+  PT: [-9.1393, 38.7223],
+  RO: [26.1025, 44.4268],
+  SK: [17.1077, 48.1486],
+  SI: [14.5058, 46.0569],
+  ES: [-3.7038, 40.4168],
+  SE: [18.0686, 59.3293],
+
+  // Non-EU a térképen / routes-ban
+  UK: [-0.1276, 51.5072],
+  CH: [7.4474, 46.9480],
+  NO: [10.7522, 59.9139],
+  RS: [20.4489, 44.7866],
+  BA: [18.4131, 43.8563],
+  AL: [19.8187, 41.3275],
+  MK: [21.4316, 41.9981],
+  ME: [19.2594, 42.4304],
+
+  MA: [-6.8416, 34.0209], // Rabat (Morocco)
+  DZ: [3.0588, 36.7538],
+  TN: [10.1815, 36.8065],
+  LY: [13.1913, 32.8872],
+  EG: [31.2357, 30.0444],
+
+  TR: [32.8597, 39.9334], // Ankara
+  SY: [36.2765, 33.5138], // Damascus
+  LB: [35.5018, 33.8938],
+  JO: [35.9106, 31.9539],
+  IQ: [44.3661, 33.3152],
+  IR: [51.3890, 35.6892],
+
+  UA: [30.5234, 50.4501],
+  MD: [28.8638, 47.0105],
+  GE: [44.8271, 41.7151],
+  AM: [44.5152, 40.1872],
+  AZ: [49.8671, 40.4093],
+
+  AF: [69.2075, 34.5553], // Kabul
+};
+
+function makeRouteFeature(rt, idx) {
+  // 1) ha van explicit koordináta a JSON-ben, azt használjuk
+  const coords = rt.coordinates || rt.coords;
+  if (Array.isArray(coords) && coords.length >= 2) {
+    return {
+      type: "Feature",
+      id: idx,
+      properties: {
+        from: rt.from,
+        to: rt.to,
+        count: Number(rt.count || 0),
+        path: rt.path || "",
+      },
+      geometry: { type: "LineString", coordinates: coords },
+    };
+  }
+
+  // 2) fallback: ISO2 -> pont
+  const a = ISO2_COORDS[rt.from];
+  const b = ISO2_COORDS[rt.to];
+  if (!a || !b) return null;
+
+  return {
+    type: "Feature",
+    id: idx,
+    properties: {
+      from: rt.from,
+      to: rt.to,
+      count: Number(rt.count || 0),
+      path: rt.path || "",
+    },
+    geometry: { type: "LineString", coordinates: [a, b] },
+  };
+}
 
 export default function Map() {
   const mapRef = useRef(null);
   const mapDivRef = useRef(null);
 
-  // view: "arrivals" vagy "routes"
   const [view, setView] = useState(() => {
     const v = new URLSearchParams(window.location.search).get("v");
     return v === "routes" ? "routes" : "arrivals";
   });
 
-  // adat-state
   const [arrivals, setArrivals] = useState(null);
   const [routes, setRoutes] = useState(null);
   const [geo, setGeo] = useState(null);
 
-  // tooltip/buborék state
-  const [countryPopup, setCountryPopup] = useState(null); // {name, iso2, value, lngLat}
-  const [routePopup, setRoutePopup] = useState(null); // {from,to,count,path,lngLat}
+  const [countryPopup, setCountryPopup] = useState(null);
+  const [routePopup, setRoutePopup] = useState(null);
 
-  // adatok betöltése
+  // adatok
   useEffect(() => {
     let alive = true;
-
     (async () => {
       const [g, a, r] = await Promise.all([
         fetch(asset("data/eu_countries.geojson")).then((x) => x.json()),
@@ -48,15 +140,11 @@ export default function Map() {
 
       if (!alive) return;
 
-      // biztosítsunk ISO2-t minden feature-re (ha CNTR_ID/ISO_A2 van)
       const patched = {
         ...g,
         features: (g.features || []).map((f) => {
           const iso2 = getIso2(f.properties) || f.id || null;
-          return {
-            ...f,
-            properties: { ...(f.properties || {}), ISO2: iso2 },
-          };
+          return { ...f, properties: { ...(f.properties || {}), ISO2: iso2 } };
         }),
       };
 
@@ -70,7 +158,6 @@ export default function Map() {
     };
   }, []);
 
-  // top10 lista (érkezések)
   const top10 = useMemo(() => {
     const m = arrivals?.totalsByCountry || {};
     return Object.entries(m)
@@ -79,7 +166,6 @@ export default function Map() {
       .slice(0, 10);
   }, [arrivals]);
 
-  // min/max érkezés (skálához)
   const arrivalsMinMax = useMemo(() => {
     const m = arrivals?.totalsByCountry || {};
     const vals = Object.values(m).map((x) => Number(x || 0));
@@ -90,14 +176,13 @@ export default function Map() {
     return { min, mid, max };
   }, [arrivals]);
 
-  // Map init (csak egyszer!)
+  // map init
   useEffect(() => {
     if (mapRef.current) return;
     if (!mapDivRef.current) return;
 
     const map = new maplibregl.Map({
       container: mapDivRef.current,
-      // Ingyenes, stabil világos stílus
       style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
       center: [14, 46],
       zoom: 3.6,
@@ -106,7 +191,6 @@ export default function Map() {
     });
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
-
     mapRef.current = map;
 
     return () => {
@@ -115,70 +199,40 @@ export default function Map() {
     };
   }, []);
 
-  // layerek felépítése, amikor megjönnek az adatok
+  // layers
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
     if (!geo || !arrivals || !routes) return;
 
     const onLoad = () => {
-      // COUNTRY source (promoteId: ISO2 -> feature-state-hez)
+      // countries source
       if (!map.getSource("countries")) {
-        map.addSource("countries", {
-          type: "geojson",
-          data: geo,
-          promoteId: "ISO2",
-        });
+        map.addSource("countries", { type: "geojson", data: geo, promoteId: "ISO2" });
       } else {
         map.getSource("countries").setData(geo);
       }
 
-      // ROUTES source (GeoJSON vonalak)
-      const routeFeatures = (routes?.routes || []).map((rt, idx) => ({
-        type: "Feature",
-        id: idx,
-        properties: {
-          from: rt.from,
-          to: rt.to,
-          count: Number(rt.count || 0),
-          path: rt.path || "",
-        },
-        geometry: {
-          type: "LineString",
-          coordinates: rt.coordinates || rt.coords || [], // ha később bővíted koordinátákkal
-        },
-      }));
+      // routes geojson (fallback koordinátákkal!)
+      const feats = (routes?.routes || [])
+        .map((rt, idx) => makeRouteFeature(rt, idx))
+        .filter(Boolean);
 
-      // Ha a routes_2025.json nálad még nem tartalmaz koordinátákat,
-      // akkor is tudunk "egyenes" vonalat rajzolni egy fallback koordináta-táblából a Map.jsx-ben.
-      // Viszont nálad MOST már látszanak a vonalak, tehát van már valami koordináta-fallback.
-      // Itt csak azokat a feature-öket tartjuk meg, ahol van coordinate.
-      const filteredRouteFeatures = routeFeatures.filter(
-        (f) => Array.isArray(f.geometry.coordinates) && f.geometry.coordinates.length >= 2
-      );
-
-      const routesGeojson = {
-        type: "FeatureCollection",
-        features: filteredRouteFeatures,
-      };
+      const routesGeojson = { type: "FeatureCollection", features: feats };
 
       if (!map.getSource("routes")) {
-        map.addSource("routes", {
-          type: "geojson",
-          data: routesGeojson,
-        });
+        map.addSource("routes", { type: "geojson", data: routesGeojson });
       } else {
         map.getSource("routes").setData(routesGeojson);
       }
 
-      // COUNTRY fill (érkezések)
+      // countries fill
       if (!map.getLayer("countries-fill")) {
         map.addLayer({
           id: "countries-fill",
           type: "fill",
           source: "countries",
           paint: {
-            // feature-state.arrivals alapján színezünk (ha nincs, 0)
             "fill-color": [
               "interpolate",
               ["linear"],
@@ -190,44 +244,31 @@ export default function Map() {
               arrivalsMinMax.max,
               "#fb6a4a",
             ],
-            "fill-opacity": [
-              "case",
-              ["==", ["literal", view], "routes"],
-              0.15,
-              0.75,
-            ],
+            "fill-opacity": view === "routes" ? 0.15 : 0.75,
           },
         });
       }
 
-      // COUNTRY border
+      // outline
       if (!map.getLayer("countries-outline")) {
         map.addLayer({
           id: "countries-outline",
           type: "line",
           source: "countries",
-          paint: {
-            "line-color": "#ffffff",
-            "line-width": 1.2,
-            "line-opacity": 0.9,
-          },
+          paint: { "line-color": "#ffffff", "line-width": 1.2, "line-opacity": 0.9 },
         });
       }
 
-      // ROUTE line
+      // routes line
       if (!map.getLayer("routes-line")) {
         map.addLayer({
           id: "routes-line",
           type: "line",
           source: "routes",
-          layout: {
-            "line-cap": "round",
-            "line-join": "round",
-          },
+          layout: { "line-cap": "round", "line-join": "round" },
           paint: {
             "line-color": "#ef4444",
             "line-opacity": 0.85,
-            // vastagság a count alapján
             "line-width": [
               "interpolate",
               ["linear"],
@@ -245,7 +286,7 @@ export default function Map() {
         });
       }
 
-      // "Nyílhegy" finomítás: ismétlődő ► jel a vonalon (automatikusan a vonal irányába fordul)
+      // arrows
       if (!map.getLayer("routes-arrows")) {
         map.addLayer({
           id: "routes-arrows",
@@ -258,43 +299,29 @@ export default function Map() {
             "text-size": 14,
             "text-keep-upright": false,
             "text-rotation-alignment": "map",
-            "text-letter-spacing": 0.1,
           },
-          paint: {
-            "text-color": "#ef4444",
-            "text-opacity": 0.9,
-          },
+          paint: { "text-color": "#ef4444", "text-opacity": 0.9 },
         });
       }
 
-      // VIEW kapcsolás: csak visibility + opacity (NE tűnjön el a térkép!)
+      // view apply
       const applyView = (v) => {
         const isRoutes = v === "routes";
-        if (map.getLayer("routes-line")) {
-          map.setLayoutProperty("routes-line", "visibility", isRoutes ? "visible" : "none");
-        }
-        if (map.getLayer("routes-arrows")) {
-          map.setLayoutProperty("routes-arrows", "visibility", isRoutes ? "visible" : "none");
-        }
-        if (map.getLayer("countries-fill")) {
-          map.setPaintProperty("countries-fill", "fill-opacity", isRoutes ? 0.15 : 0.75);
-        }
+        if (map.getLayer("routes-line")) map.setLayoutProperty("routes-line", "visibility", isRoutes ? "visible" : "none");
+        if (map.getLayer("routes-arrows")) map.setLayoutProperty("routes-arrows", "visibility", isRoutes ? "visible" : "none");
+        if (map.getLayer("countries-fill")) map.setPaintProperty("countries-fill", "fill-opacity", isRoutes ? 0.15 : 0.75);
       };
-
       applyView(view);
 
-      // feature-state beállítás (érkezések)
+      // feature-state arrivals
       const totals = arrivals?.totalsByCountry || {};
       (geo.features || []).forEach((f) => {
         const iso2 = getIso2(f.properties);
         if (!iso2) return;
-        map.setFeatureState(
-          { source: "countries", id: iso2 },
-          { arrivals: Number(totals[iso2] ?? 0) }
-        );
+        map.setFeatureState({ source: "countries", id: iso2 }, { arrivals: Number(totals[iso2] ?? 0) });
       });
 
-      // ország popup click
+      // events
       const onCountryClick = (e) => {
         const feat = e.features?.[0];
         if (!feat) return;
@@ -306,16 +333,10 @@ export default function Map() {
           feat.properties?.CNTR_NAME ||
           "Ismeretlen";
         const value = Number((arrivals?.totalsByCountry || {})[iso2] ?? 0);
-        setCountryPopup({
-          name,
-          iso2: iso2 || "??",
-          value,
-          lngLat: e.lngLat,
-        });
+        setCountryPopup({ name, iso2: iso2 || "??", value });
         setRoutePopup(null);
       };
 
-      // route tooltip hover
       const onRouteMove = (e) => {
         const feat = e.features?.[0];
         if (!feat) return;
@@ -324,18 +345,14 @@ export default function Map() {
           to: feat.properties?.to || "",
           count: Number(feat.properties?.count || 0),
           path: feat.properties?.path || "",
-          lngLat: e.lngLat,
         });
       };
       const onRouteLeave = () => setRoutePopup(null);
 
-      // események felrakása (előtte lekapcsoljuk, hogy ne duplázódjon hot reloadnál)
       if (map.getLayer("countries-fill")) {
         map.off("click", "countries-fill", onCountryClick);
         map.on("click", "countries-fill", onCountryClick);
-        map.off("mouseenter", "countries-fill", () => {});
         map.on("mouseenter", "countries-fill", () => (map.getCanvas().style.cursor = "pointer"));
-        map.off("mouseleave", "countries-fill", () => {});
         map.on("mouseleave", "countries-fill", () => (map.getCanvas().style.cursor = ""));
       }
 
@@ -351,18 +368,15 @@ export default function Map() {
     else map.once("load", onLoad);
   }, [geo, arrivals, routes, view, arrivalsMinMax.min, arrivalsMinMax.mid, arrivalsMinMax.max]);
 
-  // view váltás + URL query frissítés
   const switchView = (v) => {
     setView(v);
     const url = new URL(window.location.href);
     url.searchParams.set("v", v);
     window.history.replaceState({}, "", url.toString());
 
-    // popupok kezelése
     if (v === "routes") setCountryPopup(null);
     if (v === "arrivals") setRoutePopup(null);
 
-    // layerek azonnali állítása (ne várjunk a useEffect-re)
     const map = mapRef.current;
     if (!map) return;
     const isRoutes = v === "routes";
@@ -373,10 +387,9 @@ export default function Map() {
 
   return (
     <div style={{ position: "relative", width: "100vw", height: "100vh", overflow: "hidden" }}>
-      {/* MAP */}
       <div ref={mapDivRef} style={{ position: "absolute", inset: 0 }} />
 
-      {/* BAL FELSŐ: gombok */}
+      {/* bal felső gombok */}
       <div
         style={{
           position: "absolute",
@@ -421,7 +434,7 @@ export default function Map() {
         </button>
       </div>
 
-      {/* JOBB OLDALI PANEL: skála + vonalvastagság + top10 */}
+      {/* jobb panel */}
       <div
         style={{
           position: "absolute",
@@ -441,7 +454,6 @@ export default function Map() {
           {view === "arrivals" ? "Érkezések" : "Érkezések (halványítva)"}
         </div>
 
-        {/* Oldalsó skála (szín) */}
         <div style={{ marginBottom: 14 }}>
           <div
             style={{
@@ -458,7 +470,6 @@ export default function Map() {
           </div>
         </div>
 
-        {/* Vonalvastagság magyarázat */}
         <div style={{ marginBottom: 14 }}>
           <div style={{ fontSize: 18, fontWeight: 900, marginBottom: 8 }}>Vonalvastagság</div>
           {[
@@ -473,7 +484,6 @@ export default function Map() {
           ))}
         </div>
 
-        {/* Top 10 panel */}
         <div style={{ fontSize: 18, fontWeight: 900, marginBottom: 8 }}>Top 10 (érkezések)</div>
         <div style={{ display: "grid", gap: 8 }}>
           {top10.map((x, i) => (
@@ -509,13 +519,9 @@ export default function Map() {
             </div>
           ))}
         </div>
-
-        <div style={{ marginTop: 12, color: "#6b7280", fontSize: 12 }}>
-          Tipp: kattints országra az értékhez (Érkezések), vagy vidd az egeret a vonalak fölé (Útvonalak).
-        </div>
       </div>
 
-      {/* COUNTRY popup (React alapú “buborék”) */}
+      {/* ország buborék */}
       {countryPopup && (
         <div
           style={{
@@ -555,7 +561,7 @@ export default function Map() {
         </div>
       )}
 
-      {/* ROUTE tooltip */}
+      {/* route tooltip */}
       {routePopup && view === "routes" && (
         <div
           style={{
