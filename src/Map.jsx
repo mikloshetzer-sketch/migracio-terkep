@@ -11,7 +11,8 @@ export default function Map() {
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: "https://demotiles.maplibre.org/style.json",
+      // ✅ világos, nem kék alapstílus
+      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
       center: [14, 48],
       zoom: 3.2
     })
@@ -23,39 +24,35 @@ export default function Map() {
       closeOnClick: true
     })
 
-    // Helper: read URL param ?v=routes to show routes view
     const params = new URLSearchParams(window.location.search)
     const view = params.get("v") || "choropleth" // "choropleth" | "routes"
 
-    // Country points (used for routes). You can tweak these later.
+    // Route pontok (finomhangolható később)
     const POINTS = {
-      // EU / neighbors (approx centroids / useful points)
-      GR: [23.7275, 37.9838], // Athens
-      IT: [12.4964, 41.9028], // Rome
-      ES: [-3.7038, 40.4168], // Madrid
-      DE: [13.405, 52.52], // Berlin
+      GR: [23.7275, 37.9838],
+      IT: [12.4964, 41.9028],
+      ES: [-3.7038, 40.4168],
+      DE: [13.405, 52.52],
 
-      // Origins (example)
-      SY: [36.2765, 33.5138], // Syria (approx)
-      TR: [29.0, 41.0], // Turkey (Istanbul area)
-      LY: [13.1913, 32.8872], // Tripoli
-      AF: [66.0, 34.5], // Afghanistan (approx)
-      // ✅ Morocco moved north (Tangier area) so it visually reaches Spain/Gibraltar better
+      SY: [36.2765, 33.5138],
+      TR: [29.0, 41.0],
+      LY: [13.1913, 32.8872],
+      AF: [66.0, 34.5],
+      // ✅ Marokkó északra, hogy “átérjen” Spanyolország felé
       MA: [-5.8, 35.7]
     }
 
-    // --- Load everything once map is ready ---
     map.current.on("load", async () => {
-      // 1) Load countries GeoJSON
+      // --- 1) Countries geojson ---
       const countriesRes = await fetch("./data/eu_countries.geojson")
       const countriesGeo = await countriesRes.json()
 
-      // 2) Load arrivals
+      // --- 2) Arrivals ---
       const arrivalsRes = await fetch("./data/arrivals_2025.json")
       const arrivals = await arrivalsRes.json()
       const totals = arrivals?.totalsByCountry || {}
 
-      // 3) Attach "value" to each country feature using ISO2 (CNTR_ID in your GISCO file)
+      // value hozzácsatolása ISO2 alapján (CNTR_ID)
       const enrichedCountries = {
         ...countriesGeo,
         features: (countriesGeo.features || []).map((f) => {
@@ -71,7 +68,6 @@ export default function Map() {
         })
       }
 
-      // 4) Add countries source
       if (!map.current.getSource("countries")) {
         map.current.addSource("countries", {
           type: "geojson",
@@ -79,42 +75,50 @@ export default function Map() {
         })
       }
 
-      // 5) Choropleth layers
-      // Fill color scale (simple thresholds; adjust later)
-      map.current.addLayer({
-        id: "countries-fill",
-        type: "fill",
-        source: "countries",
-        paint: {
-          "fill-color": [
-            "step",
-            ["get", "value"],
-            "#f2f2f2", // 0
-            1,
-            "#d9f0ff",
-            1000,
-            "#a7d7ff",
-            5000,
-            "#5fb3ff",
-            20000,
-            "#1f7aff"
-          ],
-          "fill-opacity": 0.7
-        }
-      })
+      // --- Choropleth fill ---
+      if (!map.current.getLayer("countries-fill")) {
+        map.current.addLayer({
+          id: "countries-fill",
+          type: "fill",
+          source: "countries",
+          paint: {
+            "fill-color": [
+              "step",
+              ["get", "value"],
+              "#f2f2f2",
+              1,
+              "#d9f0ff",
+              1000,
+              "#a7d7ff",
+              5000,
+              "#5fb3ff",
+              20000,
+              "#1f7aff"
+            ],
+            "fill-opacity": 0.7
+          }
+        })
+      }
 
-      map.current.addLayer({
-        id: "countries-outline",
-        type: "line",
-        source: "countries",
-        paint: {
-          "line-color": "#ffffff",
-          "line-width": 1
-        }
-      })
+      if (!map.current.getLayer("countries-outline")) {
+        map.current.addLayer({
+          id: "countries-outline",
+          type: "line",
+          source: "countries",
+          paint: {
+            // ✅ ne legyen “kék kontúr”
+            "line-color": "#ffffff",
+            "line-width": 1
+          }
+        })
+      }
 
-      // Tooltip hover for countries
+      // Tooltip csak a choropleth nézetben (különben zavaró)
       map.current.on("mousemove", "countries-fill", (e) => {
+        const params2 = new URLSearchParams(window.location.search)
+        const currentView = params2.get("v") || "choropleth"
+        if (currentView === "routes") return
+
         map.current.getCanvas().style.cursor = "pointer"
         const feat = e.features?.[0]
         if (!feat) return
@@ -139,27 +143,24 @@ export default function Map() {
         popup.remove()
       })
 
-      // 6) Routes (only if view is routes OR always load but toggle visibility)
+      // --- 3) Routes ---
       const routesRes = await fetch("./data/routes_2025.json")
       const routesJson = await routesRes.json()
       const routes = routesJson?.routes || []
 
-      // Convert routes to GeoJSON LineString features
       const routesGeo = {
         type: "FeatureCollection",
         features: routes
           .map((r, idx) => {
-            const from = r.from
-            const to = r.to
-            const fromPt = POINTS[from]
-            const toPt = POINTS[to]
+            const fromPt = POINTS[r.from]
+            const toPt = POINTS[r.to]
             if (!fromPt || !toPt) return null
             return {
               type: "Feature",
               id: idx,
               properties: {
-                from,
-                to,
+                from: r.from,
+                to: r.to,
                 count: r.count ?? 0,
                 path: r.path ?? ""
               },
@@ -179,7 +180,6 @@ export default function Map() {
         })
       }
 
-      // Line layer
       if (!map.current.getLayer("routes-line")) {
         map.current.addLayer({
           id: "routes-line",
@@ -205,7 +205,28 @@ export default function Map() {
         })
       }
 
-      // --- Arrow icon (SVG -> image) and symbol layer along the line ---
+      // --- Arrow icon ---
+      const ensureArrows = () => {
+        if (map.current.getLayer("routes-arrows")) return
+        map.current.addLayer({
+          id: "routes-arrows",
+          type: "symbol",
+          source: "routes",
+          layout: {
+            "symbol-placement": "line",
+            "symbol-spacing": 90,
+            "icon-image": "arrow",
+            "icon-size": 0.65,
+            "icon-rotation-alignment": "map",
+            "icon-allow-overlap": true
+          },
+          paint: {
+            "icon-color": "#ff3b3b",
+            "icon-opacity": 0.95
+          }
+        })
+      }
+
       if (!map.current.hasImage("arrow")) {
         const svg = `
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
@@ -214,38 +235,17 @@ export default function Map() {
         `
         const img = new Image()
         img.onload = () => {
-          // sdf true => we can recolor via icon-color
           map.current.addImage("arrow", img, { sdf: true })
-
-          if (!map.current.getLayer("routes-arrows")) {
-            map.current.addLayer({
-              id: "routes-arrows",
-              type: "symbol",
-              source: "routes",
-              layout: {
-                "symbol-placement": "line",
-                "symbol-spacing": 90,
-                "icon-image": "arrow",
-                "icon-size": 0.65,
-                "icon-rotation-alignment": "map",
-                "icon-allow-overlap": true
-              },
-              paint: {
-                "icon-color": "#ff3b3b",
-                "icon-opacity": 0.95
-              }
-            })
-          }
-
-          // Apply initial visibility after arrows exist
+          ensureArrows()
           applyView(view)
         }
         img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg)
       } else {
+        ensureArrows()
         applyView(view)
       }
 
-      // Apply view (routes vs choropleth)
+      // --- View toggle ---
       function applyView(v) {
         const showRoutes = v === "routes"
 
@@ -255,13 +255,35 @@ export default function Map() {
           }
         }
 
-        setVis("countries-fill", !showRoutes)
-        setVis("countries-outline", true) // keep outlines always
+        // ✅ országok kitöltése routes nézetben is maradjon, csak halványan
+        if (map.current.getLayer("countries-fill")) {
+          if (showRoutes) {
+            map.current.setPaintProperty("countries-fill", "fill-color", "#f3f3f3")
+            map.current.setPaintProperty("countries-fill", "fill-opacity", 0.22)
+          } else {
+            map.current.setPaintProperty("countries-fill", "fill-color", [
+              "step",
+              ["get", "value"],
+              "#f2f2f2",
+              1,
+              "#d9f0ff",
+              1000,
+              "#a7d7ff",
+              5000,
+              "#5fb3ff",
+              20000,
+              "#1f7aff"
+            ])
+            map.current.setPaintProperty("countries-fill", "fill-opacity", 0.7)
+          }
+        }
+
+        setVis("countries-fill", true)
+        setVis("countries-outline", true)
         setVis("routes-line", showRoutes)
         setVis("routes-arrows", showRoutes)
 
         if (showRoutes) {
-          // zoom out a bit to see origins too
           map.current.flyTo({ center: [10, 28], zoom: 2.3 })
         } else {
           map.current.flyTo({ center: [14, 48], zoom: 3.2 })
