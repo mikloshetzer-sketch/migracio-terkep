@@ -2,35 +2,10 @@
   "year": 2025,
   "unit": "people",
   "routes": [
-    {
-      "from": "SY",
-      "to": "GR",
-      "count": 120000,
-      "path": "Eastern Mediterranean"
-    },
-    {
-      "from": "TR",
-      "to": "GR",
-      "count": 85000,
-      "path": "Eastern Mediterranean"
-    },
-    {
-      "from": "LY",
-      "to": "IT",
-      "count": 95000,
-      "path": "Central Mediterranean"
-    },
-    {
-      "from": "MA",
-      "to": "ES",
-      "count": 42000,
-      "path": "Western Mediterranean"
-    },
-    {
-      "from": "AF",
-      "to": "DE",
-      "count": 70000,
-      "path": "Balkan Route"
-    }
+    { "from": "SY", "to": "GR", "count": 120000, "path": "Eastern Mediterranean" },
+    { "from": "TR", "to": "GR", "count": 85000, "path": "Eastern Mediterranean" },
+    { "from": "LY", "to": "IT", "count": 90000, "path": "Central Mediterranean" },
+    { "from": "MA", "to": "ES", "count": 25000, "path": "Western Mediterranean" },
+    { "from": "AF", "to": "DE", "count": 40000, "path": "Balkan route (simplified)" }
   ]
 }
