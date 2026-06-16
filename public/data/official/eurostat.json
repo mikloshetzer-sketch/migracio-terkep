@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-06-16T20:00:37.812Z",
+  "status": "ok",
+  "source": "Eurostat",
+  "source_type": "official",
+  "update_frequency": "monthly / quarterly / annual depending on dataset",
+  "datasets": {
+    "asylum_applications_monthly": {
+      "code": "migr_asyappctzm",
+      "description": "Monthly asylum applicants by citizenship, age, sex and reporting country."
+    }
+  },
+  "warning": "Eurostat figures are validated statistical data and may lag behind operational sources such as Frontex or EUAA.",
+  "fetch_results": {
+    "asylum_applications_monthly": {
+      "ok": true,
+      "status": 200,
+      "error": null,
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_asyappctzm?format=JSON&lang=en&freq=M&citizen=TOTAL&sex=T&age=TOTAL&unit=NR&geo=AT&geo=BE&geo=BG&geo=CY&geo=CZ&geo=DE&geo=DK&geo=EE&geo=EL&geo=ES&geo=FI&geo=FR&geo=HR&geo=HU&geo=IE&geo=IT&geo=LT&geo=LU&geo=LV&geo=MT&geo=NL&geo=PL&geo=PT&geo=RO&geo=SE&geo=SI&geo=SK"
+    }
+  },
+  "asylum_applications_monthly": {
+    "latest_period": "2026-05",
+    "totals_by_country": {
+      "AT": 0,
+      "BE": 0,
+      "BG": 0,
+      "CY": 0,
+      "CZ": 0,
+      "DE": 0,
+      "DK": 0,
+      "EE": 0,
+      "GR": 0,
+      "ES": 0,
+      "FI": 0,
+      "FR": 0,
+      "HR": 0,
+      "HU": 0,
+      "IE": 0,
+      "IT": 0,
+      "LT": 0,
+      "LU": 0,
+      "LV": 0,
+      "MT": 0,
+      "NL": 0,
+      "PL": 0,
+      "PT": 0,
+      "RO": 0,
+      "SE": 0,
+      "SI": 0,
+      "SK": 0
+    },
+    "eu_total": 0
+  }
+}
