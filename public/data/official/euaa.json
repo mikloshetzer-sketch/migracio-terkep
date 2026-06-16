@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-06-16T19:52:55.246Z",
+  "status": "ok",
+  "source": "EUAA",
+  "source_type": "official",
+  "update_frequency": "monthly",
+  "data_scope": "EU+ asylum applications, first-instance decisions, recognition rates and pending cases based on EUAA Latest Asylum Trends pages.",
+  "warning": "EUAA trend figures are provisional analytical indicators and may differ from validated Eurostat statistics.",
+  "sources": {
+    "overview": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview",
+    "applications": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview/applications",
+    "recognitionRates": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview/recognition-rates",
+    "pendingCases": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview/pending-cases",
+    "annexes": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview/annexes"
+  },
+  "fetch_results": [
+    {
+      "url": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview/applications",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview/recognition-rates",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview/pending-cases",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview/annexes",
+      "ok": true,
+      "status": 200,
+      "error": null
+    }
+  ],
+  "metrics": {
+    "applications_last_12_months": null,
+    "recognition_rate_pct": 20,
+    "pending_cases": 4,
+    "trend_indicators": {
+      "afghan_applications_pct": null,
+      "syrian_applications_pct": null,
+      "turkish_applications_pct": null,
+      "ukrainian_applications_pct": null
+    }
+  }
+}
