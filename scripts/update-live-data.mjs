@@ -15,7 +15,7 @@ const keywords = [
 ];
 
 const query = encodeURIComponent(
-  'migration refugee asylum border Hungary Balkans'
+  "migration refugee asylum border Hungary Balkans"
 );
 
 function scoreEvent(title = "", domain = "") {
@@ -35,9 +35,49 @@ function normalizeGdeltDate(value) {
   const text = String(value);
   if (text.length < 8) return null;
 
-  return `${text.slice(0, 4)}-${text.slice(4, 6)}-${text.slice(6, 8)}T${
-    text.slice(8, 10) || "00"
-  }:${text.slice(10, 12) || "00"}:${text.slice(12, 14) || "00"}Z`;
+  const year = text.slice(0, 4);
+  const month = text.slice(4, 6);
+  const day = text.slice(6, 8);
+  const hour = text.slice(8, 10) || "00";
+  const minute = text.slice(10, 12) || "00";
+  const second = text.slice(12, 14) || "00";
+
+  return `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
+}
+
+async function writeFallback(status, message) {
+  await fs.mkdir(OUT_DIR, { recursive: true });
+
+  const fallback = {
+    updated_at: new Date().toISOString(),
+    source: "GDELT Project API",
+    status,
+    message,
+    count: 0,
+    reports: []
+  };
+
+  await fs.writeFile(
+    path.join(OUT_DIR, "live-events.json"),
+    JSON.stringify(fallback, null, 2),
+    "utf8"
+  );
+
+  await fs.writeFile(
+    path.join(process.cwd(), "public", "last-update.json"),
+    JSON.stringify(
+      {
+        updated_at: fallback.updated_at,
+        source: fallback.source,
+        status: fallback.status,
+        event_count: fallback.count,
+        message: fallback.message
+      },
+      null,
+      2
+    ),
+    "utf8"
+  );
 }
 
 async function fetchGdeltArticles() {
@@ -97,67 +137,55 @@ async function fetchGdeltArticles() {
 }
 
 async function main() {
-  await fs.mkdir(OUT_DIR, { recursive: true });
+  try {
+    await fs.mkdir(OUT_DIR, { recursive: true });
 
-  const result = await fetchGdeltArticles();
+    const result = await fetchGdeltArticles();
 
-  const payload = {
-    updated_at: new Date().toISOString(),
-    source: "GDELT Project API",
-    status: result.status,
-    message: result.message,
-    count: result.reports.length,
-    reports: result.reports
-  };
+    const payload = {
+      updated_at: new Date().toISOString(),
+      source: "GDELT Project API",
+      status: result.status,
+      message: result.message,
+      count: result.reports.length,
+      reports: result.reports
+    };
 
-  await fs.writeFile(
-    path.join(OUT_DIR, "live-events.json"),
-    JSON.stringify(payload, null, 2),
-    "utf8"
-  );
+    await fs.writeFile(
+      path.join(OUT_DIR, "live-events.json"),
+      JSON.stringify(payload, null, 2),
+      "utf8"
+    );
 
-  await fs.writeFile(
-    path.join(process.cwd(), "public", "last-update.json"),
-    JSON.stringify(
-      {
-        updated_at: payload.updated_at,
-        source: payload.source,
-        status: payload.status,
-        event_count: payload.count,
-        message: payload.message
-      },
-      null,
-      2
-    ),
-    "utf8"
-  );
+    await fs.writeFile(
+      path.join(process.cwd(), "public", "last-update.json"),
+      JSON.stringify(
+        {
+          updated_at: payload.updated_at,
+          source: payload.source,
+          status: payload.status,
+          event_count: payload.count,
+          message: payload.message
+        },
+        null,
+        2
+      ),
+      "utf8"
+    );
 
-  console.log(
-    `Live migration data update completed: ${payload.status}, ${payload.count} articles`
-  );
+    console.log(
+      `Live migration data update completed: ${payload.status}, ${payload.count} articles`
+    );
+  } catch (error) {
+    console.error(error);
+
+    await writeFallback(
+      "script_error",
+      String(error.message || error)
+    );
+
+    process.exit(0);
+  }
 }
 
-main().catch((error) => {
-  console.error(error);
-
-  await fs.mkdir(OUT_DIR, { recursive: true });
-
-  await fs.writeFile(
-    path.join(OUT_DIR, "live-events.json"),
-    JSON.stringify(
-      {
-        updated_at: new Date().toISOString(),
-        source: "GDELT Project API",
-        status: "script_error",
-        message: String(error.message || error),
-        count: 0,
-        reports: []
-      },
-      null,
-      2
-    ),
-    "utf8"
-  );
-
-  process.exit(0);
-});
+main();
