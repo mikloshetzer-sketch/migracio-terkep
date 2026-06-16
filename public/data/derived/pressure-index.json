@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-06-16T19:19:41.648Z",
+  "source": "data/routes_2025.json",
+  "items": [
+    {
+      "path": "Eastern Mediterranean",
+      "from": "SY",
+      "to": "GR",
+      "count": 120000,
+      "pressure": 90,
+      "risk": "critical"
+    },
+    {
+      "path": "Eastern Mediterranean",
+      "from": "TR",
+      "to": "GR",
+      "count": 85000,
+      "pressure": 70,
+      "risk": "high"
+    },
+    {
+      "path": "Central Mediterranean",
+      "from": "LY",
+      "to": "IT",
+      "count": 95000,
+      "pressure": 80,
+      "risk": "high"
+    },
+    {
+      "path": "Western Mediterranean",
+      "from": "MA",
+      "to": "ES",
+      "count": 42000,
+      "pressure": 55,
+      "risk": "elevated"
+    },
+    {
+      "path": "Balkan Route",
+      "from": "AF",
+      "to": "DE",
+      "count": 70000,
+      "pressure": 70,
+      "risk": "high"
+    }
+  ]
+}

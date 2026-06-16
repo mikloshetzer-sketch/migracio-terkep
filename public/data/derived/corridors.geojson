@@ -1,0 +1,127 @@
+{
+  "type": "FeatureCollection",
+  "generated_at": "2026-06-16T19:19:41.647Z",
+  "source": "data/routes_2025.json",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "path": "Eastern Mediterranean",
+        "from": "SY",
+        "to": "GR",
+        "count": 120000,
+        "pressure": 90,
+        "risk": "critical"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            38.9968,
+            34.8021
+          ],
+          [
+            21.8243,
+            39.0742
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "path": "Eastern Mediterranean",
+        "from": "TR",
+        "to": "GR",
+        "count": 85000,
+        "pressure": 70,
+        "risk": "high"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            35.2433,
+            38.9637
+          ],
+          [
+            21.8243,
+            39.0742
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "path": "Central Mediterranean",
+        "from": "LY",
+        "to": "IT",
+        "count": 95000,
+        "pressure": 80,
+        "risk": "high"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            17.2283,
+            26.3351
+          ],
+          [
+            12.5674,
+            41.8719
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "path": "Western Mediterranean",
+        "from": "MA",
+        "to": "ES",
+        "count": 42000,
+        "pressure": 55,
+        "risk": "elevated"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -7.0926,
+            31.7917
+          ],
+          [
+            -3.7492,
+            40.4637
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "path": "Balkan Route",
+        "from": "AF",
+        "to": "DE",
+        "count": 70000,
+        "pressure": 70,
+        "risk": "high"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            67.71,
+            33.94
+          ],
+          [
+            10.4515,
+            51.1657
+          ]
+        ]
+      }
+    }
+  ]
+}
