@@ -13,11 +13,18 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: emic-data
+  cancel-in-progress: false
+
 jobs:
   build-data:
     runs-on: ubuntu-latest
 
+    timeout-minutes: 15
+
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -26,29 +33,47 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build derived data from existing files
+      ##################################################
+      # EXISTING REPOSITORY DATA
+      ##################################################
+
+      - name: Build existing migration data
         run: node scripts/build-existing-data.mjs
 
-      # Később ide jönnek:
-      # - name: Update Frontex data
-      #   run: node scripts/update-frontex.mjs
-      #
+      ##################################################
+      # OFFICIAL SOURCES
+      ##################################################
+
+      - name: Update Frontex data
+        run: node scripts/update-frontex.mjs
+
+      ##################################################
+      # FUTURE SOURCES
+      ##################################################
+
       # - name: Update EUAA data
       #   run: node scripts/update-euaa.mjs
-      #
+
       # - name: Update Eurostat data
       #   run: node scripts/update-eurostat.mjs
-      #
+
       # - name: Update Eurodac data
       #   run: node scripts/update-eurodac.mjs
-      #
-      # - name: Build pressure index
-      #   run: node scripts/build-pressure-index.mjs
 
-      - name: Commit generated data
+      ##################################################
+      # COMMIT GENERATED FILES
+      ##################################################
+
+      - name: Commit generated files
+
         run: |
+
           git config user.name github-actions
+
           git config user.email github-actions@github.com
-          git add public/data/derived
-          git diff --cached --quiet || git commit -m "Build EMIC derived data"
+
+          git add public/data
+
+          git diff --cached --quiet || git commit -m "EMIC data update"
+
           git push
