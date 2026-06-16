@@ -6,6 +6,8 @@ import Layout from "./components/Layout";
 
 import GlobalMap from "./components/GlobalMap";
 
+import LiveStatus from "./components/LiveStatus";
+
 function App() {
 
   return (
@@ -34,11 +36,7 @@ function App() {
 
             </div>
 
-            <div className="live-status">
-
-              ● LIVE
-
-            </div>
+            <LiveStatus />
 
           </div>
 
