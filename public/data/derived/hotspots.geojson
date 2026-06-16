@@ -1,0 +1,187 @@
+{
+  "type": "FeatureCollection",
+  "generated_at": "2026-06-16T19:30:15.097Z",
+  "source": "data/routes_2025.json",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Eastern Mediterranean origin",
+        "path": "Eastern Mediterranean",
+        "country": "SY",
+        "count": 120000,
+        "pressure": 90,
+        "risk": "critical",
+        "level": "Critical",
+        "type": "origin_pressure"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.9968,
+          34.8021
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Eastern Mediterranean origin",
+        "path": "Eastern Mediterranean",
+        "country": "TR",
+        "count": 85000,
+        "pressure": 70,
+        "risk": "high",
+        "level": "High",
+        "type": "origin_pressure"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.2433,
+          38.9637
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Central Mediterranean origin",
+        "path": "Central Mediterranean",
+        "country": "LY",
+        "count": 95000,
+        "pressure": 80,
+        "risk": "high",
+        "level": "High",
+        "type": "origin_pressure"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.2283,
+          26.3351
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Western Mediterranean origin",
+        "path": "Western Mediterranean",
+        "country": "MA",
+        "count": 42000,
+        "pressure": 55,
+        "risk": "elevated",
+        "level": "Elevated",
+        "type": "origin_pressure"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7.0926,
+          31.7917
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Balkan Route origin",
+        "path": "Balkan Route",
+        "country": "AF",
+        "count": 70000,
+        "pressure": 70,
+        "risk": "high",
+        "level": "High",
+        "type": "origin_pressure"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          67.71,
+          33.94
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "GR migration pressure",
+        "path": "Eastern Mediterranean",
+        "country": "GR",
+        "count": 205000,
+        "pressure": 90,
+        "risk": "critical",
+        "level": "Critical",
+        "type": "destination_pressure"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.8243,
+          39.0742
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Central Mediterranean destination",
+        "path": "Central Mediterranean",
+        "country": "IT",
+        "count": 95000,
+        "pressure": 80,
+        "risk": "high",
+        "level": "High",
+        "type": "destination_pressure"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.5674,
+          41.8719
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Western Mediterranean destination",
+        "path": "Western Mediterranean",
+        "country": "ES",
+        "count": 42000,
+        "pressure": 55,
+        "risk": "elevated",
+        "level": "Elevated",
+        "type": "destination_pressure"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7492,
+          40.4637
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Balkan Route destination",
+        "path": "Balkan Route",
+        "country": "DE",
+        "count": 70000,
+        "pressure": 70,
+        "risk": "high",
+        "level": "High",
+        "type": "destination_pressure"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.4515,
+          51.1657
+        ]
+      }
+    }
+  ]
+}

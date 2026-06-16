@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-16T19:26:32.285Z",
+  "generated_at": "2026-06-16T19:30:15.098Z",
   "source": "data/routes_2025.json",
   "items": [
     {
@@ -8,7 +8,8 @@
       "to": "GR",
       "count": 120000,
       "pressure": 90,
-      "risk": "critical"
+      "risk": "critical",
+      "level": "Critical"
     },
     {
       "path": "Eastern Mediterranean",
@@ -16,7 +17,8 @@
       "to": "GR",
       "count": 85000,
       "pressure": 70,
-      "risk": "high"
+      "risk": "high",
+      "level": "High"
     },
     {
       "path": "Central Mediterranean",
@@ -24,7 +26,8 @@
       "to": "IT",
       "count": 95000,
       "pressure": 80,
-      "risk": "high"
+      "risk": "high",
+      "level": "High"
     },
     {
       "path": "Western Mediterranean",
@@ -32,7 +35,8 @@
       "to": "ES",
       "count": 42000,
       "pressure": 55,
-      "risk": "elevated"
+      "risk": "elevated",
+      "level": "Elevated"
     },
     {
       "path": "Balkan Route",
@@ -40,7 +44,8 @@
       "to": "DE",
       "count": 70000,
       "pressure": 70,
-      "risk": "high"
+      "risk": "high",
+      "level": "High"
     }
   ]
 }
