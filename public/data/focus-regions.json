@@ -1,0 +1,47 @@
+[
+  {
+    "id": "sahel",
+    "name": "Sahel",
+    "role": "origin_pressure_zone",
+    "risk_level": "Critical",
+    "score": 88,
+    "countries": ["Mali", "Niger", "Burkina Faso", "Chad", "Sudan"],
+    "description": "Conflict, food insecurity, weak governance and climate pressure create long-term displacement risk."
+  },
+  {
+    "id": "north-africa",
+    "name": "North Africa",
+    "role": "transit_and_departure_zone",
+    "risk_level": "High",
+    "score": 76,
+    "countries": ["Libya", "Tunisia", "Algeria", "Morocco", "Egypt"],
+    "description": "North Africa acts as both a transit space and a maritime departure zone toward Europe."
+  },
+  {
+    "id": "turkiye-eastern-med",
+    "name": "Türkiye and Eastern Mediterranean",
+    "role": "transit_buffer_zone",
+    "risk_level": "High",
+    "score": 72,
+    "countries": ["Türkiye", "Greece", "Cyprus"],
+    "description": "This region connects Middle Eastern displacement pressure with EU border systems."
+  },
+  {
+    "id": "western-balkans",
+    "name": "Western Balkans",
+    "role": "overland_corridor",
+    "risk_level": "Elevated",
+    "score": 65,
+    "countries": ["Serbia", "Bosnia and Herzegovina", "North Macedonia", "Albania", "Montenegro", "Kosovo"],
+    "description": "The Western Balkans remain a key overland corridor toward Hungary, Croatia, Austria and Germany."
+  },
+  {
+    "id": "hungary-central-europe",
+    "name": "Hungary and Central Europe",
+    "role": "eu_border_and_destination_zone",
+    "risk_level": "Moderate",
+    "score": 49,
+    "countries": ["Hungary", "Austria", "Slovakia", "Czechia", "Germany"],
+    "description": "Hungary and Central Europe are important for border pressure, transit monitoring and political impact assessment."
+  }
+]
