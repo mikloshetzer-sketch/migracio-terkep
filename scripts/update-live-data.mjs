@@ -3,9 +3,6 @@ import path from "node:path";
 
 const OUT_DIR = path.join(process.cwd(), "public", "data");
 
-const searchQuery =
-  "(migration OR migrant OR refugee OR asylum OR displacement OR border) AND (Mali OR Niger OR Burkina Faso OR Chad OR Sudan OR Libya OR Tunisia OR Turkey OR Greece OR Serbia OR Bosnia OR Hungary)";
-
 const keywords = [
   "migration",
   "migrant",
@@ -17,8 +14,12 @@ const keywords = [
   "conflict"
 ];
 
-function scoreEvent(title = "", countries = []) {
-  const text = `${title} ${countries.join(" ")}`.toLowerCase();
+const query = encodeURIComponent(
+  '(migration OR migrant OR refugee OR asylum OR displacement OR "border crossing") (Mali OR Niger OR "Burkina Faso" OR Chad OR Sudan OR Libya OR Tunisia OR Turkey OR Greece OR Serbia OR Bosnia OR Hungary)'
+);
+
+function scoreEvent(title = "", domain = "") {
+  const text = `${title} ${domain}`.toLowerCase();
 
   let score = 20;
 
@@ -34,59 +35,59 @@ function scoreEvent(title = "", countries = []) {
   return Math.min(score, 100);
 }
 
-async function fetchReliefWebReports() {
-  const url =
-    "https://api.reliefweb.int/v2/reports?appname=emic-migration-monitor";
+function normalizeGdeltDate(value) {
+  if (!value) return null;
 
-  const body = {
-    limit: 30,
-    preset: "latest",
-    profile: "list",
-    fields: {
-      include: [
-        "title",
-        "url",
-        "date.created",
-        "country.name",
-        "source.name"
-      ]
-    },
-    query: {
-      value: searchQuery,
-      fields: ["title", "body", "country"]
-    }
-  };
+  const text = String(value);
+
+  if (text.length < 8) return null;
+
+  const year = text.slice(0, 4);
+  const month = text.slice(4, 6);
+  const day = text.slice(6, 8);
+  const hour = text.slice(8, 10) || "00";
+  const minute = text.slice(10, 12) || "00";
+  const second = text.slice(12, 14) || "00";
+
+  return `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
+}
+
+async function fetchGdeltArticles() {
+  const url =
+    `https://api.gdeltproject.org/api/v2/doc/doc?query=${query}` +
+    "&mode=ArtList" +
+    "&format=json" +
+    "&maxrecords=30" +
+    "&sort=HybridRel" +
+    "&timespan=7d";
 
   const response = await fetch(url, {
-    method: "POST",
     headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(body)
+      "User-Agent": "EMIC-Migration-Monitor/1.0"
+    }
   });
 
   const text = await response.text();
 
   if (!response.ok) {
-    throw new Error(`ReliefWeb API error: ${response.status} ${text}`);
+    throw new Error(`GDELT API error: ${response.status} ${text}`);
   }
 
   const json = JSON.parse(text);
+  const articles = json.articles || [];
 
-  return json.data.map((item) => {
-    const fields = item.fields || {};
-    const title = fields.title || "Untitled report";
-    const countries = fields.country?.map((c) => c.name) || [];
-    const sources = fields.source?.map((s) => s.name) || [];
+  return articles.map((item, index) => {
+    const title = item.title || "Untitled article";
+    const domain = item.domain || "";
 
     return {
-      id: item.id,
+      id: item.url || `gdelt-${index}`,
       title,
-      url: fields.url || "",
-      date: fields.date?.created || null,
-      countries,
-      sources,
-      score: scoreEvent(title, countries)
+      url: item.url || "",
+      date: normalizeGdeltDate(item.seendate),
+      countries: [],
+      sources: [domain].filter(Boolean),
+      score: scoreEvent(title, domain)
     };
   });
 }
@@ -94,11 +95,11 @@ async function fetchReliefWebReports() {
 async function main() {
   await fs.mkdir(OUT_DIR, { recursive: true });
 
-  const reports = await fetchReliefWebReports();
+  const reports = await fetchGdeltArticles();
 
   const payload = {
     updated_at: new Date().toISOString(),
-    source: "ReliefWeb API",
+    source: "GDELT Project API",
     status: "ok",
     count: reports.length,
     reports
@@ -125,7 +126,7 @@ async function main() {
     "utf8"
   );
 
-  console.log(`Live migration data updated: ${reports.length} reports`);
+  console.log(`Live migration data updated: ${reports.length} articles`);
 }
 
 main().catch((error) => {
