@@ -1,5 +1,33 @@
 import React from "react";
 import "./style.css";
+import Layout from "./components/Layout";
+
+const indicators = [
+  {
+    label: "Global Migration Pressure",
+    value: "High",
+    score: 78,
+    note: "Conflict, economy and climate drivers combined"
+  },
+  {
+    label: "EU Border Pressure",
+    value: "Elevated",
+    score: 64,
+    note: "Mediterranean and Balkan corridors under observation"
+  },
+  {
+    label: "Conflict Push Factor",
+    value: "Critical",
+    score: 88,
+    note: "Sahel, Middle East and North Africa remain key drivers"
+  },
+  {
+    label: "Climate & Food Stress",
+    value: "Rising",
+    score: 59,
+    note: "Weather shocks and food prices increase movement risk"
+  }
+];
 
 const routes = [
   {
@@ -32,33 +60,9 @@ const routes = [
   }
 ];
 
-const indicators = [
-  { label: "Global Migration Pressure", value: "High", score: 78 },
-  { label: "EU Border Pressure", value: "Elevated", score: 64 },
-  { label: "Conflict Push Factor", value: "Critical", score: 88 },
-  { label: "Climate & Food Stress", value: "Rising", score: 59 }
-];
-
 function App() {
   return (
-    <main className="app-shell">
-      <section className="hero">
-        <div>
-          <p className="eyebrow">Migration Intelligence Center</p>
-          <h1>Global Migration Pressure Monitor</h1>
-          <p className="lead">
-            A high-level migration monitoring dashboard for tracking pressure zones,
-            active routes, border risks and early warning signals.
-          </p>
-        </div>
-
-        <div className="status-card">
-          <span>System Status</span>
-          <strong>Operational</strong>
-          <small>Demo data layer active</small>
-        </div>
-      </section>
-
+    <Layout>
       <section className="kpi-grid">
         {indicators.map((item) => (
           <article className="kpi-card" key={item.label}>
@@ -68,6 +72,7 @@ function App() {
               <div style={{ width: `${item.score}%` }} />
             </div>
             <small>{item.score}/100 risk score</small>
+            <p>{item.note}</p>
           </article>
         ))}
       </section>
@@ -86,9 +91,11 @@ function App() {
             <div className="pulse p1" />
             <div className="pulse p2" />
             <div className="pulse p3" />
+
             <div className="route r1" />
             <div className="route r2" />
             <div className="route r3" />
+
             <span className="map-label l1">Central Med</span>
             <span className="map-label l2">Balkans</span>
             <span className="map-label l3">Eastern Med</span>
@@ -98,16 +105,19 @@ function App() {
         <article className="side-panel">
           <p className="eyebrow">Early Warning</p>
           <h2>Next 30 days</h2>
+
           <p>
-            The current model indicates rising pressure on Mediterranean and Balkan
-            corridors. The next development step will connect live data sources and
-            replace this demo layer with automated JSON feeds.
+            The current model indicates rising pressure on Mediterranean and
+            Balkan corridors. The next development step will replace this demo
+            layer with structured migration data and automated JSON feeds.
           </p>
 
           <div className="forecast-box">
             <span>Forecast level</span>
             <strong>Rising pressure</strong>
-            <small>Based on conflict, border, climate and economic indicators.</small>
+            <small>
+              Based on conflict, border, climate and economic indicators.
+            </small>
           </div>
         </article>
       </section>
@@ -129,6 +139,7 @@ function App() {
                   {route.from} → {route.to}
                 </p>
               </div>
+
               <div className="route-score">
                 <strong>{route.pressure}</strong>
                 <span>{route.level}</span>
@@ -137,7 +148,7 @@ function App() {
           ))}
         </div>
       </section>
-    </main>
+    </Layout>
   );
 }
 
