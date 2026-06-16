@@ -1,0 +1,33 @@
+{
+  "app": {
+    "name": "Migration Intelligence Center",
+    "version": "1.0.0",
+    "refresh_minutes": 720
+  },
+
+  "data_sources": {
+    "unhcr": true,
+    "iom": true,
+    "frontex": true,
+    "acled": true,
+    "reliefweb": true
+  },
+
+  "layers": {
+    "migration_pressure": true,
+    "migration_routes": true,
+    "border_pressure": true,
+    "hotspots": true,
+    "forecast": true,
+    "timeline": true
+  },
+
+  "regions": [
+    "North Africa",
+    "Sahel",
+    "Middle East",
+    "Eastern Mediterranean",
+    "Western Balkans",
+    "European Union"
+  ]
+}
