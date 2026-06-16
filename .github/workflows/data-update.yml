@@ -6,11 +6,7 @@ on:
 
   schedule:
 
-    - cron: "0 5 * * *"
-
-    - cron: "0 11 * * *"
-
-    - cron: "0 17 * * *"
+    - cron: "0 */6 * * *"
 
 permissions:
 
@@ -24,7 +20,7 @@ jobs:
 
     steps:
 
-      - name: Checkout
+      - name: Checkout repository
 
         uses: actions/checkout@v4
 
@@ -36,23 +32,11 @@ jobs:
 
           node-version: 20
 
-      - name: Repository status
+      - name: Execute live migration update
 
-        run: |
+        run: node scripts/update-live-data.mjs
 
-          echo "Migration Intelligence Center"
-
-          echo "Data update started"
-
-          date
-
-      - name: Commit placeholder
-
-        run: |
-
-          echo '{"last_update":"'"$(date -u +"%Y-%m-%dT%H:%M:%SZ")"'"}' > public/last-update.json
-
-      - name: Commit changes
+      - name: Commit updated data
 
         run: |
 
@@ -60,8 +44,10 @@ jobs:
 
           git config user.email github-actions@github.com
 
-          git add .
+          git add public/data
 
-          git diff --cached --quiet || git commit -m "Automatic migration update"
+          git add public/last-update.json
+
+          git diff --cached --quiet || git commit -m "Automatic live migration update"
 
           git push
