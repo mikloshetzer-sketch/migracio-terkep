@@ -1,0 +1,107 @@
+{
+  "type": "FeatureCollection",
+
+  "features": [
+
+    {
+      "type": "Feature",
+
+      "properties": {
+
+        "name": "Central Mediterranean Route",
+
+        "pressure": 86
+
+      },
+
+      "geometry": {
+
+        "type": "LineString",
+
+        "coordinates": [
+
+          [13.1,32.8],
+
+          [12.5,35.8],
+
+          [12.4,37.6],
+
+          [14.3,40.8]
+
+        ]
+
+      }
+
+    },
+
+    {
+      "type": "Feature",
+
+      "properties": {
+
+        "name": "Eastern Mediterranean Route",
+
+        "pressure":72
+
+      },
+
+      "geometry": {
+
+        "type":"LineString",
+
+        "coordinates":[
+
+          [35.2,36.7],
+
+          [29.0,38.4],
+
+          [24.9,39.1],
+
+          [22.9,40.6],
+
+          [20.4,44.8],
+
+          [19.0,47.5]
+
+        ]
+
+      }
+
+    },
+
+    {
+      "type":"Feature",
+
+      "properties":{
+
+        "name":"Western Balkan Route",
+
+        "pressure":61
+
+      },
+
+      "geometry":{
+
+        "type":"LineString",
+
+        "coordinates":[
+
+          [21.4,41.9],
+
+          [20.5,44.1],
+
+          [19.8,45.3],
+
+          [19.0,46.1],
+
+          [19.0,47.5]
+
+        ]
+
+      }
+
+    }
+
+  ]
+
+}
