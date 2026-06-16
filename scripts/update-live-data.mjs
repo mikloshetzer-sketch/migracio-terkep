@@ -3,20 +3,8 @@ import path from "node:path";
 
 const OUT_DIR = path.join(process.cwd(), "public", "data");
 
-const watchedCountries = [
-  "Mali",
-  "Niger",
-  "Burkina Faso",
-  "Chad",
-  "Sudan",
-  "Libya",
-  "Tunisia",
-  "Türkiye",
-  "Greece",
-  "Serbia",
-  "Bosnia and Herzegovina",
-  "Hungary"
-];
+const searchQuery =
+  "(migration OR migrant OR refugee OR asylum OR displacement OR border) AND (Mali OR Niger OR Burkina Faso OR Chad OR Sudan OR Libya OR Tunisia OR Türkiye OR Turkey OR Greece OR Serbia OR Bosnia OR Hungary)";
 
 const keywords = [
   "migration",
@@ -29,8 +17,13 @@ const keywords = [
   "conflict"
 ];
 
-function scoreEvent(title = "", body = "") {
-  const text = `${title} ${body}`.toLowerCase();
+function getDateSevenDaysAgo() {
+  const date = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  return date.toISOString().slice(0, 10);
+}
+
+function scoreEvent(title = "", countries = []) {
+  const text = `${title} ${countries.join(" ")}`.toLowerCase();
 
   let score = 20;
 
@@ -47,36 +40,25 @@ function scoreEvent(title = "", body = "") {
 }
 
 async function fetchReliefWebReports() {
-  const url = "https://api.reliefweb.int/v2/reports?appname=emic-migration-monitor";
+  const url =
+    "https://api.reliefweb.int/v2/reports?appname=emic-migration-monitor";
 
   const body = {
     limit: 30,
-    profile: "list",
     preset: "latest",
+    profile: "list",
     fields: {
-      include: [
-        "title",
-        "url",
-        "date.created",
-        "country.name",
-        "source.name"
-      ]
+      include: ["title", "url", "date.created", "country.name", "source.name"]
+    },
+    query: {
+      value: searchQuery,
+      fields: ["title", "body", "country"]
     },
     filter: {
-      operator: "AND",
-      conditions: [
-        {
-          field: "country.name",
-          value: watchedCountries,
-          operator: "OR"
-        },
-        {
-          field: "date.created",
-          value: {
-            from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-          }
-        }
-      ]
+      field: "date.created",
+      value: {
+        from: getDateSevenDaysAgo()
+      }
     }
   };
 
@@ -88,11 +70,13 @@ async function fetchReliefWebReports() {
     body: JSON.stringify(body)
   });
 
+  const text = await response.text();
+
   if (!response.ok) {
-    throw new Error(`ReliefWeb API error: ${response.status}`);
+    throw new Error(`ReliefWeb API error: ${response.status} ${text}`);
   }
 
-  const json = await response.json();
+  const json = JSON.parse(text);
 
   return json.data.map((item) => {
     const fields = item.fields || {};
@@ -107,7 +91,7 @@ async function fetchReliefWebReports() {
       date: fields.date?.created || null,
       countries,
       sources,
-      score: scoreEvent(title, countries.join(" "))
+      score: scoreEvent(title, countries)
     };
   });
 }
