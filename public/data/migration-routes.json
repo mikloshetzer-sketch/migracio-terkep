@@ -1,0 +1,42 @@
+[
+  {
+    "id": "central-med",
+    "name": "Central Mediterranean Route",
+    "from": "Libya / Tunisia",
+    "to": "Italy / Malta",
+    "level": "Critical",
+    "pressure": 86,
+    "trend": "rising",
+    "description": "Key maritime route from North Africa toward Italy and Malta."
+  },
+  {
+    "id": "eastern-med",
+    "name": "Eastern Mediterranean Route",
+    "from": "Türkiye",
+    "to": "Greece / Cyprus / Balkans",
+    "level": "High",
+    "pressure": 72,
+    "trend": "stable-high",
+    "description": "Route connecting Türkiye, Greece, Cyprus and onward Balkan corridors."
+  },
+  {
+    "id": "western-balkan",
+    "name": "Western Balkan Route",
+    "from": "Serbia / Bosnia",
+    "to": "Hungary / Croatia / Austria",
+    "level": "Elevated",
+    "pressure": 61,
+    "trend": "rising",
+    "description": "Overland corridor through the Western Balkans toward Central Europe."
+  },
+  {
+    "id": "western-med",
+    "name": "Western Mediterranean Route",
+    "from": "Morocco / Algeria",
+    "to": "Spain",
+    "level": "Moderate",
+    "pressure": 44,
+    "trend": "stable",
+    "description": "Western North African route toward Spain and the western EU border."
+  }
+]
