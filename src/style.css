@@ -538,3 +538,49 @@ font-size:30px;
 }
 
 }
+
+.global-map{
+
+height:650px;
+
+width:100%;
+
+border-radius:20px;
+
+overflow:hidden;
+
+border:1px solid rgba(255,255,255,0.08);
+
+}
+
+.maplibregl-map{
+
+border-radius:20px;
+
+}
+
+.maplibregl-popup-content{
+
+background:#132336;
+
+color:#ffffff;
+
+border-radius:12px;
+
+padding:12px;
+
+}
+
+.maplibregl-ctrl-group{
+
+background:#132336 !important;
+
+}
+
+.maplibregl-ctrl button{
+
+background:#132336 !important;
+
+color:#ffffff !important;
+
+}
