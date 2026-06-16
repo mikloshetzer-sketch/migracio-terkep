@@ -17,9 +17,9 @@ const keywords = [
   "conflict"
 ];
 
-function getDateSevenDaysAgo() {
+function getSevenDaysAgoIso() {
   const date = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  return date.toISOString().slice(0, 10);
+  return date.toISOString();
 }
 
 function scoreEvent(title = "", countries = []) {
@@ -48,7 +48,13 @@ async function fetchReliefWebReports() {
     preset: "latest",
     profile: "list",
     fields: {
-      include: ["title", "url", "date.created", "country.name", "source.name"]
+      include: [
+        "title",
+        "url",
+        "date.created",
+        "country.name",
+        "source.name"
+      ]
     },
     query: {
       value: searchQuery,
@@ -57,7 +63,7 @@ async function fetchReliefWebReports() {
     filter: {
       field: "date.created",
       value: {
-        from: getDateSevenDaysAgo()
+        from: getSevenDaysAgoIso()
       }
     }
   };
