@@ -15,22 +15,16 @@ const keywords = [
 ];
 
 const query = encodeURIComponent(
-  '(migration OR migrant OR refugee OR asylum OR displacement OR "border crossing") (Mali OR Niger OR "Burkina Faso" OR Chad OR Sudan OR Libya OR Tunisia OR Turkey OR Greece OR Serbia OR Bosnia OR Hungary)'
+  'migration refugee asylum border Hungary Balkans'
 );
 
 function scoreEvent(title = "", domain = "") {
   const text = `${title} ${domain}`.toLowerCase();
-
   let score = 20;
 
   for (const word of keywords) {
     if (text.includes(word)) score += 8;
   }
-
-  if (text.includes("conflict")) score += 10;
-  if (text.includes("border")) score += 8;
-  if (text.includes("displacement")) score += 10;
-  if (text.includes("refugee")) score += 8;
 
   return Math.min(score, 100);
 }
@@ -39,17 +33,11 @@ function normalizeGdeltDate(value) {
   if (!value) return null;
 
   const text = String(value);
-
   if (text.length < 8) return null;
 
-  const year = text.slice(0, 4);
-  const month = text.slice(4, 6);
-  const day = text.slice(6, 8);
-  const hour = text.slice(8, 10) || "00";
-  const minute = text.slice(10, 12) || "00";
-  const second = text.slice(12, 14) || "00";
-
-  return `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
+  return `${text.slice(0, 4)}-${text.slice(4, 6)}-${text.slice(6, 8)}T${
+    text.slice(8, 10) || "00"
+  }:${text.slice(10, 12) || "00"}:${text.slice(12, 14) || "00"}Z`;
 }
 
 async function fetchGdeltArticles() {
@@ -57,9 +45,9 @@ async function fetchGdeltArticles() {
     `https://api.gdeltproject.org/api/v2/doc/doc?query=${query}` +
     "&mode=ArtList" +
     "&format=json" +
-    "&maxrecords=30" +
-    "&sort=HybridRel" +
-    "&timespan=7d";
+    "&maxrecords=10" +
+    "&sort=DateDesc" +
+    "&timespan=1d";
 
   const response = await fetch(url, {
     headers: {
@@ -69,40 +57,57 @@ async function fetchGdeltArticles() {
 
   const text = await response.text();
 
+  if (response.status === 429) {
+    return {
+      status: "rate_limited",
+      reports: [],
+      message: text.trim()
+    };
+  }
+
   if (!response.ok) {
-    throw new Error(`GDELT API error: ${response.status} ${text}`);
+    return {
+      status: "source_error",
+      reports: [],
+      message: `GDELT API error: ${response.status} ${text}`
+    };
   }
 
   const json = JSON.parse(text);
   const articles = json.articles || [];
 
-  return articles.map((item, index) => {
-    const title = item.title || "Untitled article";
-    const domain = item.domain || "";
+  return {
+    status: "ok",
+    reports: articles.map((item, index) => {
+      const title = item.title || "Untitled article";
+      const domain = item.domain || "";
 
-    return {
-      id: item.url || `gdelt-${index}`,
-      title,
-      url: item.url || "",
-      date: normalizeGdeltDate(item.seendate),
-      countries: [],
-      sources: [domain].filter(Boolean),
-      score: scoreEvent(title, domain)
-    };
-  });
+      return {
+        id: item.url || `gdelt-${index}`,
+        title,
+        url: item.url || "",
+        date: normalizeGdeltDate(item.seendate),
+        countries: [],
+        sources: [domain].filter(Boolean),
+        score: scoreEvent(title, domain)
+      };
+    }),
+    message: "ok"
+  };
 }
 
 async function main() {
   await fs.mkdir(OUT_DIR, { recursive: true });
 
-  const reports = await fetchGdeltArticles();
+  const result = await fetchGdeltArticles();
 
   const payload = {
     updated_at: new Date().toISOString(),
     source: "GDELT Project API",
-    status: "ok",
-    count: reports.length,
-    reports
+    status: result.status,
+    message: result.message,
+    count: result.reports.length,
+    reports: result.reports
   };
 
   await fs.writeFile(
@@ -118,7 +123,8 @@ async function main() {
         updated_at: payload.updated_at,
         source: payload.source,
         status: payload.status,
-        event_count: payload.count
+        event_count: payload.count,
+        message: payload.message
       },
       null,
       2
@@ -126,10 +132,32 @@ async function main() {
     "utf8"
   );
 
-  console.log(`Live migration data updated: ${reports.length} articles`);
+  console.log(
+    `Live migration data update completed: ${payload.status}, ${payload.count} articles`
+  );
 }
 
 main().catch((error) => {
   console.error(error);
-  process.exit(1);
+
+  await fs.mkdir(OUT_DIR, { recursive: true });
+
+  await fs.writeFile(
+    path.join(OUT_DIR, "live-events.json"),
+    JSON.stringify(
+      {
+        updated_at: new Date().toISOString(),
+        source: "GDELT Project API",
+        status: "script_error",
+        message: String(error.message || error),
+        count: 0,
+        reports: []
+      },
+      null,
+      2
+    ),
+    "utf8"
+  );
+
+  process.exit(0);
 });
