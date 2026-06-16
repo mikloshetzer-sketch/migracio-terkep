@@ -1,0 +1,57 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Libya / Tunisia",
+        "pressure": 86,
+        "level": "Critical",
+        "type": "departure_zone"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [13.1, 32.8]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Türkiye / Eastern Mediterranean",
+        "pressure": 72,
+        "level": "High",
+        "type": "transit_zone"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.0, 38.4]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Western Balkans",
+        "pressure": 61,
+        "level": "Elevated",
+        "type": "corridor_zone"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [20.5, 44.1]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hungary",
+        "pressure": 49,
+        "level": "Moderate",
+        "type": "border_watch"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [19.0, 47.5]
+      }
+    }
+  ]
+}
