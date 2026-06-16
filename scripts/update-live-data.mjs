@@ -4,7 +4,7 @@ import path from "node:path";
 const OUT_DIR = path.join(process.cwd(), "public", "data");
 
 const searchQuery =
-  "(migration OR migrant OR refugee OR asylum OR displacement OR border) AND (Mali OR Niger OR Burkina Faso OR Chad OR Sudan OR Libya OR Tunisia OR Türkiye OR Turkey OR Greece OR Serbia OR Bosnia OR Hungary)";
+  "(migration OR migrant OR refugee OR asylum OR displacement OR border) AND (Mali OR Niger OR Burkina Faso OR Chad OR Sudan OR Libya OR Tunisia OR Turkey OR Greece OR Serbia OR Bosnia OR Hungary)";
 
 const keywords = [
   "migration",
@@ -16,11 +16,6 @@ const keywords = [
   "humanitarian",
   "conflict"
 ];
-
-function getSevenDaysAgoIso() {
-  const date = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  return date.toISOString();
-}
 
 function scoreEvent(title = "", countries = []) {
   const text = `${title} ${countries.join(" ")}`.toLowerCase();
@@ -59,12 +54,6 @@ async function fetchReliefWebReports() {
     query: {
       value: searchQuery,
       fields: ["title", "body", "country"]
-    },
-    filter: {
-      field: "date.created",
-      value: {
-        from: getSevenDaysAgoIso()
-      }
     }
   };
 
