@@ -1,0 +1,113 @@
+{
+  "generated_at": "2026-06-16T19:38:28.014Z",
+  "status": "ok",
+  "source": "Frontex",
+  "source_type": "official",
+  "update_frequency": "monthly",
+  "unit": "detections",
+  "warning": "Frontex figures are detections of illegal or irregular border-crossings, not the number of unique persons.",
+  "sources": {
+    "migratoryMap": "https://www.frontex.europa.eu/what-we-do/monitoring-and-risk-analysis/migratory-map/",
+    "migratoryRoutes": "https://www.frontex.europa.eu/what-we-do/monitoring-and-risk-analysis/migratory-routes/migratory-routes/",
+    "latestNews": "https://www.frontex.europa.eu/media-centre/news/news-release/frontex-irregular-border-crossings-into-the-eu-down-40-in-the-first-four-months-of-2026-MwZAin"
+  },
+  "fetch_results": [
+    {
+      "url": "https://www.frontex.europa.eu/what-we-do/monitoring-and-risk-analysis/migratory-map/",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://www.frontex.europa.eu/what-we-do/monitoring-and-risk-analysis/migratory-routes/migratory-routes/",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://www.frontex.europa.eu/media-centre/news/news-release/frontex-irregular-border-crossings-into-the-eu-down-40-in-the-first-four-months-of-2026-MwZAin",
+      "ok": true,
+      "status": 200,
+      "error": null
+    }
+  ],
+  "routes": [
+    {
+      "id": "WESTERN_AFRICA",
+      "name": "Western African Route",
+      "corridor_group": "Atlantic / Canary Islands",
+      "priority": 4,
+      "detected_value": null,
+      "change_yoy_pct": -78,
+      "unit": "detections",
+      "source_note": "Frontex data refer to detections of irregular or illegal border crossings, not unique persons.",
+      "total_context_detections": null
+    },
+    {
+      "id": "WESTERN_MEDITERRANEAN",
+      "name": "Western Mediterranean Route",
+      "corridor_group": "North Africa to Spain",
+      "priority": 4,
+      "detected_value": null,
+      "change_yoy_pct": null,
+      "unit": "detections",
+      "source_note": "Frontex data refer to detections of irregular or illegal border crossings, not unique persons.",
+      "total_context_detections": null
+    },
+    {
+      "id": "CENTRAL_MEDITERRANEAN",
+      "name": "Central Mediterranean Route",
+      "corridor_group": "Libya / Tunisia to Italy / Malta",
+      "priority": 5,
+      "detected_value": 8500,
+      "change_yoy_pct": -78,
+      "unit": "detections",
+      "source_note": "Frontex data refer to detections of irregular or illegal border crossings, not unique persons.",
+      "total_context_detections": null
+    },
+    {
+      "id": "EASTERN_MEDITERRANEAN",
+      "name": "Eastern Mediterranean Route",
+      "corridor_group": "Türkiye to Greece / Cyprus / Balkans",
+      "priority": 5,
+      "detected_value": null,
+      "change_yoy_pct": null,
+      "unit": "detections",
+      "source_note": "Frontex data refer to detections of irregular or illegal border crossings, not unique persons.",
+      "total_context_detections": null
+    },
+    {
+      "id": "WESTERN_BALKANS",
+      "name": "Western Balkan Route",
+      "corridor_group": "Serbia / Bosnia / North Macedonia to Hungary / Croatia",
+      "priority": 5,
+      "detected_value": null,
+      "change_yoy_pct": null,
+      "unit": "detections",
+      "source_note": "Frontex data refer to detections of irregular or illegal border crossings, not unique persons.",
+      "total_context_detections": null
+    },
+    {
+      "id": "EASTERN_BORDERS",
+      "name": "Eastern Borders Route",
+      "corridor_group": "Belarus / Russia / Ukraine border pressure",
+      "priority": 4,
+      "detected_value": null,
+      "change_yoy_pct": null,
+      "unit": "detections",
+      "source_note": "Frontex data refer to detections of irregular or illegal border crossings, not unique persons.",
+      "total_context_detections": null
+    },
+    {
+      "id": "ENGLISH_CHANNEL",
+      "name": "English Channel Route",
+      "corridor_group": "France to United Kingdom",
+      "priority": 3,
+      "detected_value": null,
+      "change_yoy_pct": null,
+      "unit": "detections",
+      "source_note": "Frontex data refer to detections of irregular or illegal border crossings, not unique persons.",
+      "total_context_detections": null
+    }
+  ]
+}
