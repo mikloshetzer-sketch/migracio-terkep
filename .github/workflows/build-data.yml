@@ -22,7 +22,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
 
@@ -52,12 +52,12 @@ jobs:
       - name: Update EUAA data
         run: node scripts/update-euaa.mjs
 
+      - name: Update Eurostat data
+        run: node scripts/update-eurostat.mjs
+
       ##################################################
       # FUTURE SOURCES
       ##################################################
-
-      # - name: Update Eurostat data
-      #   run: node scripts/update-eurostat.mjs
 
       # - name: Update Eurodac data
       #   run: node scripts/update-eurodac.mjs
