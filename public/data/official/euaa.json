@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T10:04:40.568Z",
+  "generated_at": "2026-06-18T09:46:31.555Z",
   "status": "ok",
   "source": "EUAA",
   "source_type": "official",
@@ -52,7 +52,7 @@
     "trend_indicators": {
       "afghan_applications_pct": null,
       "syrian_applications_pct": null,
-      "turkish_applications_pct": null,
+      "turkish_applications_pct": -30,
       "ukrainian_applications_pct": null
     }
   }
