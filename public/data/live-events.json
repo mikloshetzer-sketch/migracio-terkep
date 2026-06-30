@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-30T09:22:06.163Z",
+  "updated_at": "2026-06-30T14:03:40.180Z",
   "source": "GDELT Project API",
-  "status": "ok",
-  "message": "ok",
+  "status": "rate_limited",
+  "message": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries.",
   "count": 0,
   "reports": []
 }
