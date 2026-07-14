@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-13T08:27:55.876Z",
-  "status": "ok",
+  "generated_at": "2026-07-14T07:20:41.050Z",
+  "status": "source_error",
   "source": "Frontex",
   "source_type": "official",
   "update_frequency": "monthly",
@@ -14,20 +14,20 @@
   "fetch_results": [
     {
       "url": "https://www.frontex.europa.eu/what-we-do/monitoring-and-risk-analysis/migratory-map/",
-      "ok": true,
-      "status": 200,
+      "ok": false,
+      "status": 403,
       "error": null
     },
     {
       "url": "https://www.frontex.europa.eu/what-we-do/monitoring-and-risk-analysis/migratory-routes/migratory-routes/",
-      "ok": true,
-      "status": 200,
+      "ok": false,
+      "status": 403,
       "error": null
     },
     {
       "url": "https://www.frontex.europa.eu/media-centre/news/news-release/frontex-irregular-border-crossings-into-the-eu-down-40-in-the-first-four-months-of-2026-MwZAin",
-      "ok": true,
-      "status": 200,
+      "ok": false,
+      "status": 403,
       "error": null
     }
   ],
@@ -38,7 +38,7 @@
       "corridor_group": "Atlantic / Canary Islands",
       "priority": 4,
       "detected_value": null,
-      "change_yoy_pct": -78,
+      "change_yoy_pct": null,
       "unit": "detections",
       "source_note": "Frontex data refer to detections of irregular or illegal border crossings, not unique persons.",
       "total_context_detections": null
@@ -59,8 +59,8 @@
       "name": "Central Mediterranean Route",
       "corridor_group": "Libya / Tunisia to Italy / Malta",
       "priority": 5,
-      "detected_value": 8500,
-      "change_yoy_pct": -78,
+      "detected_value": null,
+      "change_yoy_pct": null,
       "unit": "detections",
       "source_note": "Frontex data refer to detections of irregular or illegal border crossings, not unique persons.",
       "total_context_detections": null
