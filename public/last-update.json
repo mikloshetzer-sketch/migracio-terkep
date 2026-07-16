@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-07-15T19:00:00.615Z",
+  "updated_at": "2026-07-16T01:57:51.784Z",
   "source": "GDELT Project API",
-  "status": "ok",
+  "status": "rate_limited",
   "event_count": 0,
-  "message": "ok"
+  "message": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newsletter briefings: https://blog.gdeltproject.org/announcing-our-new-daily-todays-trends-on-capitol-hill-todays-media-trends-newsletter-briefings/."
 }
