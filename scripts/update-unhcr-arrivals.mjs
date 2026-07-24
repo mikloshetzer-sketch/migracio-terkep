@@ -5,16 +5,18 @@ import { fileURLToPath } from "node:url";
 /**
  * ============================================================
  * EU MIGRATION MONITOR
- * UNHCR Europe Arrivals Collector
- * ============================================================
+ * UNHCR ARRIVALS C:contentReference[oaicite:0]{index=0}===================================================
+ *
+ * Forrás:
+ * UNHCR Europe Sea Arrivals
  *
  * Kimenet:
  * public/data/migration/unhcr-arrivals.json
  *
  * FONTOS:
- * - nem becsül heti adatot havi adatokból
- * - a UNHCR population groupokat külön kérdezi le
- * - csak az aktuális év rekordjait engedi be
+ * - havi UNHCR-adatokat használunk
+ * - nem becsülünk 7 napos adatot havi adatokból
+ * - az YTD érték a 2026-os havi rekordok összege
  * ============================================================
  */
 
@@ -37,51 +39,87 @@ const OUTPUT_FILE = path.join(
 
 const CURRENT_YEAR = new Date().getUTCFullYear();
 
-const UNHCR_BASE_URL =
+const UNHCR_API =
   "https://data.unhcr.org/population/get/timeseries";
 
 /**
- * UNHCR population groupok.
+ * ------------------------------------------------------------
+ * UNHCR CONFIG
+ * ------------------------------------------------------------
+ *
+ * Population groups:
+ *
+ * 4797 = Sea arrivals
+ * 4798 = Land arrivals
+ * 5634 = Additional sea-arrival category
+ *
+ * A UNHCR Europe Sea Arrivals főoldala ugyanezt a három
+ * kategóriát használja a teljes arrivals mutatóhoz.
  */
-const POPULATION_GROUPS = [
-  {
-    id: 4797,
-    apiValue: "0;4797",
-    label: "Sea arrivals",
-    arrivalType: "sea"
-  },
-  {
-    id: 4798,
-    apiValue: "0;4798",
-    label: "Land arrivals",
-    arrivalType: "land"
-  },
-  {
-    id: 5634,
-    apiValue: "0;5634",
-    label: "Additional sea arrivals",
-    arrivalType: "sea"
-  }
-];
 
-function buildUrl(group) {
+const POPULATION_GROUPS =
+  "4797,4798,5634";
+
+/**
+ * A havi lekérés már az első verziónál működött:
+ * 7 havi rekordot adott vissza.
+ *
+ * A probléma akkor kizárólag a hónapok értelmezése volt.
+ */
+const MONTHLY_WIDGET_ID =
+  "686750";
+
+/**
+ * A UNHCR jelenlegi Total arrivals in 2026 widgetje.
+ * Ezt kontrollértékként kérjük le.
+ */
+const ANNUAL_WIDGET_ID =
+  "686755";
+
+/**
+ * ------------------------------------------------------------
+ * URL BUILDERS
+ * ------------------------------------------------------------
+ */
+
+function buildMonthlyUrl() {
   const params = new URLSearchParams({
     frequency: "month",
     fromDate: `${CURRENT_YEAR}-01-01`,
-    population_group: group.apiValue,
+    population_group: POPULATION_GROUPS,
     sv_id: "100",
-    geo_id: "0"
+    widget_id: MONTHLY_WIDGET_ID
   });
 
-  return `${UNHCR_BASE_URL}?${params.toString()}`;
+  return `${UNHCR_API}?${params.toString()}`;
 }
 
+function buildAnnualUrl() {
+  const params = new URLSearchParams({
+    frequency: "year",
+    fromDate: `${CURRENT_YEAR}-01-01`,
+    population_group: POPULATION_GROUPS,
+    sv_id: "100",
+    widget_id: ANNUAL_WIDGET_ID
+  });
+
+  return `${UNHCR_API}?${params.toString()}`;
+}
+
+/**
+ * ------------------------------------------------------------
+ * FETCH
+ * ------------------------------------------------------------
+ */
+
 async function fetchJson(url) {
+  console.log(`Lekérés: ${url}`);
+
   const response = await fetch(url, {
     headers: {
       Accept: "application/json",
       "User-Agent":
-        "EU-Migration-Monitor/2.0 (+https://github.com/mikloshetzer-sketch/migracio-terkep)"
+        "EU-Migration-Monitor/3.0 (+https://github.com/mikloshetzer-sketch/migracio-terkep)"
     },
     signal: AbortSignal.timeout(30000)
   });
@@ -95,24 +133,35 @@ async function fetchJson(url) {
   const text = await response.text();
 
   if (!text.trim()) {
-    throw new Error("Az UNHCR üres választ adott.");
+    throw new Error(
+      "Az UNHCR üres választ adott."
+    );
   }
 
   try {
     return JSON.parse(text);
   } catch (error) {
     throw new Error(
-      `Az UNHCR válasza nem érvényes JSON: ${error.message}`
+      `Az UNHCR válasza nem JSON: ${error.message}`
     );
   }
 }
+
+/**
+ * ------------------------------------------------------------
+ * ARRAY FINDER
+ * ------------------------------------------------------------
+ */
 
 function findDataArray(payload) {
   if (Array.isArray(payload)) {
     return payload;
   }
 
-  if (!payload || typeof payload !== "object") {
+  if (
+    !payload ||
+    typeof payload !== "object"
+  ) {
     return [];
   }
 
@@ -132,21 +181,50 @@ function findDataArray(payload) {
     }
   }
 
-  for (const value of Object.values(payload)) {
-    if (value && typeof value === "object") {
-      const result = findDataArray(value);
+  let bestArray = [];
 
-      if (result.length > 0) {
-        return result;
+  for (const value of Object.values(payload)) {
+    if (Array.isArray(value)) {
+      if (value.length > bestArray.length) {
+        bestArray = value;
+      }
+
+      continue;
+    }
+
+    if (
+      value &&
+      typeof value === "object"
+    ) {
+      const nested =
+        findDataArray(value);
+
+      if (
+        nested.length >
+        bestArray.length
+      ) {
+        bestArray = nested;
       }
     }
   }
 
-  return [];
+  return bestArray;
 }
 
-function firstDefined(object, keys) {
-  if (!object || typeof object !== "object") {
+/**
+ * ------------------------------------------------------------
+ * HELPERS
+ * ------------------------------------------------------------
+ */
+
+function firstDefined(
+  object,
+  keys
+) {
+  if (
+    !object ||
+    typeof object !== "object"
+  ) {
     return null;
   }
 
@@ -193,84 +271,130 @@ function parseNumber(value) {
 }
 
 /**
- * A hónapot biztonságosan az aktuális évhez köti.
+ * ------------------------------------------------------------
+ * MONTH PARSER
+ * ------------------------------------------------------------
  *
- * Példák:
- * "01"      -> 2026-01-01
- * "7"       -> 2026-07-01
- * "2026-07" -> 2026-07-01
+ * EZ JAVÍTJA A KORÁBBI 2001-ES HIBÁT.
+ *
+ * Az UNHCR például:
+ *
+ * 01
+ * 02
+ * 03
+ *
+ * formában is visszaadhatja a hónapot.
+ *
+ * Ezeket most:
+ *
+ * 2026-01-01
+ * 2026-02-01
+ * 2026-03-01
+ *
+ * formára alakítjuk.
  */
-function normaliseMonthDate(rawDate, rawYear = null) {
+
+function parseMonth(rawValue) {
   if (
-    rawDate === null ||
-    rawDate === undefined
+    rawValue === null ||
+    rawValue === undefined
   ) {
     return null;
   }
 
-  const value = String(rawDate).trim();
+  const value =
+    String(rawValue).trim();
 
-  const explicitYear =
-    rawYear !== null &&
-    rawYear !== undefined &&
-    rawYear !== ""
-      ? Number(rawYear)
-      : CURRENT_YEAR;
+  /**
+   * 1 / 01 / 12
+   */
 
   if (/^\d{1,2}$/.test(value)) {
-    const month = Number(value);
+    const month =
+      Number(value);
 
     if (
       month >= 1 &&
-      month <= 12 &&
-      explicitYear === CURRENT_YEAR
+      month <= 12
     ) {
-      return `${CURRENT_YEAR}-${String(month).padStart(
-        2,
-        "0"
-      )}-01`;
+      return {
+        year: CURRENT_YEAR,
+        month,
+        date:
+          `${CURRENT_YEAR}-${String(
+            month
+          ).padStart(2, "0")}-01`
+      };
     }
   }
 
-  const yearMonthMatch =
-    value.match(/^(\d{4})-(\d{1,2})$/);
+  /**
+   * 2026-01
+   */
 
-  if (yearMonthMatch) {
-    const year = Number(yearMonthMatch[1]);
-    const month = Number(yearMonthMatch[2]);
+  let match =
+    value.match(
+      /^(\d{4})-(\d{1,2})$/
+    );
+
+  if (match) {
+    const year =
+      Number(match[1]);
+
+    const month =
+      Number(match[2]);
 
     if (
       year === CURRENT_YEAR &&
       month >= 1 &&
       month <= 12
     ) {
-      return `${year}-${String(month).padStart(
-        2,
-        "0"
-      )}-01`;
+      return {
+        year,
+        month,
+        date:
+          `${year}-${String(
+            month
+          ).padStart(2, "0")}-01`
+      };
     }
   }
 
-  const fullDateMatch =
+  /**
+   * 2026-01-01
+   */
+
+  match =
     value.match(
       /^(\d{4})-(\d{1,2})-(\d{1,2})/
     );
 
-  if (fullDateMatch) {
-    const year = Number(fullDateMatch[1]);
-    const month = Number(fullDateMatch[2]);
+  if (match) {
+    const year =
+      Number(match[1]);
+
+    const month =
+      Number(match[2]);
 
     if (
       year === CURRENT_YEAR &&
       month >= 1 &&
       month <= 12
     ) {
-      return `${year}-${String(month).padStart(
-        2,
-        "0"
-      )}-01`;
+      return {
+        year,
+        month,
+        date:
+          `${year}-${String(
+            month
+          ).padStart(2, "0")}-01`
+      };
     }
   }
+
+  /**
+   * Hónapnevek
+   */
 
   const monthNames = {
     january: 1,
@@ -284,39 +408,58 @@ function normaliseMonthDate(rawDate, rawYear = null) {
     september: 9,
     october: 10,
     november: 11,
-    december: 12
+    december: 12,
+
+    jan: 1,
+    feb: 2,
+    mar: 3,
+    apr: 4,
+    jun: 6,
+    jul: 7,
+    aug: 8,
+    sep: 9,
+    oct: 10,
+    nov: 11,
+    dec: 12
   };
 
-  const lowerValue = value.toLowerCase();
+  const lower =
+    value.toLowerCase();
 
-  if (
-    monthNames[lowerValue] &&
-    explicitYear === CURRENT_YEAR
-  ) {
-    const month = monthNames[lowerValue];
+  if (monthNames[lower]) {
+    const month =
+      monthNames[lower];
 
-    return `${CURRENT_YEAR}-${String(month).padStart(
-      2,
-      "0"
-    )}-01`;
+    return {
+      year: CURRENT_YEAR,
+      month,
+      date:
+        `${CURRENT_YEAR}-${String(
+          month
+        ).padStart(2, "0")}-01`
+    };
   }
 
   return null;
 }
 
-function normaliseRecord(record, group) {
-  if (!record || typeof record !== "object") {
+/**
+ * ------------------------------------------------------------
+ * MONTHLY RECORD NORMALISATION
+ * ------------------------------------------------------------
+ */
+
+function normaliseMonthlyRecord(
+  record
+) {
+  if (
+    !record ||
+    typeof record !== "object"
+  ) {
     return null;
   }
 
-  const rawYear =
-    firstDefined(record, [
-      "year",
-      "Year",
-      "YEAR"
-    ]);
-
-  const rawDate =
+  const rawPeriod =
     firstDefined(record, [
       "month",
       "Month",
@@ -330,7 +473,7 @@ function normaliseRecord(record, group) {
       "category"
     ]);
 
-  const rawPeople =
+  const rawValue =
     firstDefined(record, [
       "value",
       "Value",
@@ -345,7 +488,15 @@ function normaliseRecord(record, group) {
       "y"
     ]);
 
-  const people = parseNumber(rawPeople);
+  const parsedDate =
+    parseMonth(rawPeriod);
+
+  const people =
+    parseNumber(rawValue);
+
+  if (!parsedDate) {
+    return null;
+  }
 
   if (
     people === null ||
@@ -354,146 +505,150 @@ function normaliseRecord(record, group) {
     return null;
   }
 
-  const date =
-    normaliseMonthDate(
-      rawDate,
-      rawYear
-    );
-
-  if (!date) {
-    return null;
-  }
-
-  const recordYear =
-    Number(date.slice(0, 4));
-
-  const recordMonth =
-    Number(date.slice(5, 7));
-
-  if (recordYear !== CURRENT_YEAR) {
-    return null;
-  }
-
   return {
-    date,
-    year: recordYear,
-    month: recordMonth,
-    granularity: "monthly",
+    date:
+      parsedDate.date,
+
+    year:
+      parsedDate.year,
+
+    month:
+      parsedDate.month,
+
     people,
 
-    arrival_country: null,
-    arrival_country_code: null,
+    granularity:
+      "monthly",
 
-    population_group: group.id,
-    population_group_name: group.label,
+    data_type:
+      "arrival",
 
-    arrival_type: group.arrivalType,
-    data_type: "arrival",
+    arrival_type:
+      "sea_and_land",
 
-    source: "UNHCR",
+    source:
+      "UNHCR",
+
     source_dataset:
       "Europe Sea Arrivals"
   };
 }
 
-function normaliseGroupPayload(
-  payload,
-  group
+/**
+ * ------------------------------------------------------------
+ * ANNUAL RECORD PARSER
+ * ------------------------------------------------------------
+ */
+
+function normaliseAnnualRecord(
+  record
 ) {
-  const records =
-    findDataArray(payload);
-
-  return records
-    .map((record) =>
-      normaliseRecord(record, group)
-    )
-    .filter(Boolean);
-}
-
-function aggregateMonthly(records) {
-  const months = new Map();
-
-  for (const record of records) {
-    const key = record.date;
-
-    if (!months.has(key)) {
-      months.set(key, {
-        date: key,
-        year: record.year,
-        month: record.month,
-        granularity: "monthly",
-
-        people: 0,
-        sea_arrivals: 0,
-        land_arrivals: 0,
-
-        data_type: "arrival",
-        source: "UNHCR",
-        source_dataset:
-          "Europe Sea Arrivals"
-      });
-    }
-
-    const month =
-      months.get(key);
-
-    month.people +=
-      record.people;
-
-    if (
-      record.arrival_type === "sea"
-    ) {
-      month.sea_arrivals +=
-        record.people;
-    }
-
-    if (
-      record.arrival_type === "land"
-    ) {
-      month.land_arrivals +=
-        record.people;
-    }
+  if (
+    !record ||
+    typeof record !== "object"
+  ) {
+    return null;
   }
 
-  return [...months.values()]
+  const rawValue =
+    firstDefined(record, [
+      "value",
+      "Value",
+      "VALUE",
+      "total",
+      "Total",
+      "population",
+      "Population",
+      "individuals",
+      "people",
+      "count",
+      "y"
+    ]);
+
+  const people =
+    parseNumber(rawValue);
+
+  if (
+    people === null ||
+    people < 0
+  ) {
+    return null;
+  }
+
+  return {
+    year: CURRENT_YEAR,
+    people
+  };
+}
+
+/**
+ * ------------------------------------------------------------
+ * DEDUPLICATION
+ * ------------------------------------------------------------
+ */
+
+function deduplicateMonthly(
+  records
+) {
+  const map =
+    new Map();
+
+  for (const record of records) {
+    /**
+     * Egy hónaphoz egy aggregált érték kell.
+     */
+
+    map.set(
+      record.date,
+      record
+    );
+  }
+
+  return [...map.values()]
     .sort(
       (a, b) =>
-        a.date.localeCompare(b.date)
+        a.date.localeCompare(
+          b.date
+        )
     );
 }
 
-function sumField(records, field) {
-  return records.reduce(
-    (sum, record) => {
-      const value =
-        Number(record[field]);
+/**
+ * ------------------------------------------------------------
+ * SUM
+ * ------------------------------------------------------------
+ */
 
-      return sum +
-        (Number.isFinite(value)
-          ? value
-          : 0);
-    },
+function sumPeople(records) {
+  return records.reduce(
+    (sum, record) =>
+      sum + record.people,
     0
   );
 }
 
-function latestAvailableDate(records) {
+/**
+ * ------------------------------------------------------------
+ * VALIDATION
+ * ------------------------------------------------------------
+ */
+
+function validateMonthly(
+  records
+) {
   if (!records.length) {
-    return null;
+    throw new Error(
+      "Nem érkezett feldolgozható havi UNHCR adat."
+    );
   }
 
-  return records
-    .map((record) => record.date)
-    .filter(Boolean)
-    .sort()
-    .at(-1);
-}
-
-function validateMonthlyRecords(records) {
   for (const record of records) {
-    if (record.year !== CURRENT_YEAR) {
+    if (
+      record.year !==
+      CURRENT_YEAR
+    ) {
       throw new Error(
-        `Érvénytelen év az UNHCR adatban: ${record.year}`
+        `Hibás év: ${record.year}`
       );
     }
 
@@ -502,20 +657,38 @@ function validateMonthlyRecords(records) {
       record.month > 12
     ) {
       throw new Error(
-        `Érvénytelen hónap az UNHCR adatban: ${record.month}`
+        `Hibás hónap: ${record.month}`
       );
     }
 
     if (
-      !Number.isFinite(record.people) ||
+      !record.date.startsWith(
+        String(CURRENT_YEAR)
+      )
+    ) {
+      throw new Error(
+        `Hibás dátum: ${record.date}`
+      );
+    }
+
+    if (
+      !Number.isFinite(
+        record.people
+      ) ||
       record.people < 0
     ) {
       throw new Error(
-        `Érvénytelen érkezésszám: ${record.people}`
+        `Hibás érkezésszám: ${record.people}`
       );
     }
   }
 }
+
+/**
+ * ------------------------------------------------------------
+ * MAIN
+ * ------------------------------------------------------------
+ */
 
 async function main() {
   console.log(
@@ -527,7 +700,7 @@ async function main() {
   );
 
   console.log(
-    "UNHCR arrivals update v2"
+    "UNHCR arrivals update v3"
   );
 
   console.log(
@@ -535,7 +708,7 @@ async function main() {
   );
 
   console.log(
-    `Aktuális év: ${CURRENT_YEAR}`
+    `Év: ${CURRENT_YEAR}`
   );
 
   await fs.mkdir(
@@ -545,112 +718,143 @@ async function main() {
     }
   );
 
-  const allDetailedRecords = [];
-  const groupDiagnostics = [];
+  /**
+   * ==========================================================
+   * MONTHLY DATA
+   * ==========================================================
+   */
 
-  for (const group of POPULATION_GROUPS) {
+  console.log("");
+  console.log(
+    "Havi UNHCR adatok lekérése..."
+  );
+
+  const monthlyRaw =
+    await fetchJson(
+      buildMonthlyUrl()
+    );
+
+  const monthlyRawArray =
+    findDataArray(
+      monthlyRaw
+    );
+
+  console.log(
+    `Nyers havi rekordok: ${monthlyRawArray.length}`
+  );
+
+  if (
+    monthlyRawArray.length > 0
+  ) {
     console.log("");
     console.log(
-      `${group.label} lekérése...`
+      "Első nyers havi rekord:"
     );
-
-    const url =
-      buildUrl(group);
-
-    const raw =
-      await fetchJson(url);
-
-    const rawArray =
-      findDataArray(raw);
 
     console.log(
-      `API nyers rekordok: ${rawArray.length}`
+      JSON.stringify(
+        monthlyRawArray[0],
+        null,
+        2
+      )
+    );
+  }
+
+  const monthlyRecords =
+    deduplicateMonthly(
+      monthlyRawArray
+        .map(
+          normaliseMonthlyRecord
+        )
+        .filter(Boolean)
     );
 
-    if (rawArray.length > 0) {
+  validateMonthly(
+    monthlyRecords
+  );
+
+  /**
+   * ==========================================================
+   * YTD FROM MONTHS
+   * ==========================================================
+   */
+
+  const arrivalsYtd =
+    sumPeople(
+      monthlyRecords
+    );
+
+  const latestRecord =
+    monthlyRecords.at(-1);
+
+  /**
+   * ==========================================================
+   * ANNUAL CONTROL VALUE
+   * ==========================================================
+   */
+
+  console.log("");
+  console.log(
+    "Éves UNHCR kontrolladat lekérése..."
+  );
+
+  let annualControl = null;
+
+  try {
+    const annualRaw =
+      await fetchJson(
+        buildAnnualUrl()
+      );
+
+    const annualArray =
+      findDataArray(
+        annualRaw
+      );
+
+    console.log(
+      `Nyers éves rekordok: ${annualArray.length}`
+    );
+
+    if (
+      annualArray.length > 0
+    ) {
+      console.log("");
       console.log(
-        "Első nyers rekord:"
+        "Első nyers éves rekord:"
       );
 
       console.log(
         JSON.stringify(
-          rawArray[0],
+          annualArray[0],
           null,
           2
         )
       );
+
+      annualControl =
+        normaliseAnnualRecord(
+          annualArray[0]
+        );
     }
+  } catch (error) {
+    /**
+     * A havi adatok ettől még használhatók.
+     */
 
-    const records =
-      normaliseGroupPayload(
-        raw,
-        group
-      );
-
-    console.log(
-      `${group.label}: ${records.length} érvényes havi rekord`
+    console.warn(
+      "Az éves kontrollérték nem volt lekérhető:"
     );
 
-    allDetailedRecords.push(
-      ...records
+    console.warn(
+      error.message
     );
-
-    groupDiagnostics.push({
-      population_group:
-        group.id,
-
-      label:
-        group.label,
-
-      raw_records:
-        rawArray.length,
-
-      valid_records:
-        records.length,
-
-      total:
-        sumField(
-          records,
-          "people"
-        )
-    });
   }
 
-  validateMonthlyRecords(
-    allDetailedRecords
-  );
-
-  const monthlyRecords =
-    aggregateMonthly(
-      allDetailedRecords
-    );
-
-  validateMonthlyRecords(
-    monthlyRecords
-  );
-
-  const arrivalsYtd =
-    sumField(
-      monthlyRecords,
-      "people"
-    );
-
-  const seaArrivalsYtd =
-    sumField(
-      monthlyRecords,
-      "sea_arrivals"
-    );
-
-  const landArrivalsYtd =
-    sumField(
-      monthlyRecords,
-      "land_arrivals"
-    );
-
-  const latestDate =
-    latestAvailableDate(
-      monthlyRecords
-    );
+  /**
+   * ==========================================================
+   * OUTPUT
+   * ==========================================================
+   */
 
   const output = {
     metadata: {
@@ -680,14 +884,20 @@ async function main() {
         "Spain"
       ],
 
+      population_groups: [
+        4797,
+        4798,
+        5634
+      ],
+
       definition:
         "Registered sea and land arrivals reported in the UNHCR Europe Sea Arrivals dataset.",
 
       important_note:
-        "These data do not represent all migration into the European Union and must not be combined with asylum applications or Frontex detections as if they were identical measures.",
+        "The dataset covers UNHCR Mediterranean and related arrival reporting and is not equivalent to all migration into the European Union.",
 
       methodology:
-        "UNHCR arrival population groups are downloaded separately and aggregated by calendar month."
+        "The year-to-date value is calculated as the sum of the available monthly UNHCR arrival records. Weekly values are not estimated from monthly data."
     },
 
     summary: {
@@ -697,20 +907,26 @@ async function main() {
       arrivals_ytd:
         arrivalsYtd,
 
-      sea_arrivals_ytd:
-        seaArrivalsYtd,
+      latest_available_month:
+        latestRecord?.date ??
+        null,
 
-      land_arrivals_ytd:
-        landArrivalsYtd,
-
-      latest_available_date:
-        latestDate,
+      latest_month_arrivals:
+        latestRecord?.people ??
+        null,
 
       monthly_records:
         monthlyRecords.length,
 
-      detailed_records:
-        allDetailedRecords.length,
+      annual_control_value:
+        annualControl?.people ??
+        null,
+
+      annual_control_difference:
+        annualControl
+          ? arrivalsYtd -
+            annualControl.people
+          : null,
 
       seven_day_arrivals:
         null,
@@ -719,21 +935,27 @@ async function main() {
         null,
 
       seven_day_status:
-        "not_available_from_monthly_data",
+        "requires_daily_or_event_level_data",
 
       thirty_day_status:
-        "not_calculated_from_monthly_data"
+        "requires_daily_or_event_level_data"
     },
 
     monthly:
       monthlyRecords,
 
-    detailed_records:
-      allDetailedRecords,
-
     diagnostics: {
-      population_groups:
-        groupDiagnostics
+      monthly_raw_records:
+        monthlyRawArray.length,
+
+      annual_control_available:
+        annualControl !== null,
+
+      monthly_widget_id:
+        MONTHLY_WIDGET_ID,
+
+      annual_widget_id:
+        ANNUAL_WIDGET_ID
     }
   };
 
@@ -747,25 +969,27 @@ async function main() {
     "utf8"
   );
 
+  /**
+   * ==========================================================
+   * CONSOLE RESULT
+   * ==========================================================
+   */
+
   console.log("");
   console.log(
-    "------------------------------------------"
+    "=========================================="
   );
 
   console.log(
-    `UNHCR YTD összesen: ${arrivalsYtd.toLocaleString(
-      "hu-HU"
-    )} fő`
+    "EREDMÉNY"
   );
 
   console.log(
-    `Tengeri érkezések: ${seaArrivalsYtd.toLocaleString(
-      "hu-HU"
-    )} fő`
+    "=========================================="
   );
 
   console.log(
-    `Szárazföldi érkezések: ${landArrivalsYtd.toLocaleString(
+    `2026 YTD: ${arrivalsYtd.toLocaleString(
       "hu-HU"
     )} fő`
   );
@@ -775,28 +999,43 @@ async function main() {
   );
 
   console.log(
-    `Legfrissebb hónap: ${latestDate ?? "nincs adat"}`
+    `Legfrissebb hónap: ${latestRecord?.date ?? "nincs"}`
   );
+
+  console.log(
+    `Legfrissebb havi érték: ${
+      latestRecord
+        ? latestRecord.people.toLocaleString(
+            "hu-HU"
+          )
+        : "nincs"
+    } fő`
+  );
+
+  if (annualControl) {
+    console.log(
+      `Éves UNHCR kontrollérték: ${annualControl.people.toLocaleString(
+        "hu-HU"
+      )} fő`
+    );
+
+    console.log(
+      `Eltérés: ${(
+        arrivalsYtd -
+        annualControl.people
+      ).toLocaleString(
+        "hu-HU"
+      )} fő`
+    );
+  }
 
   console.log(
     `Kimenet: ${OUTPUT_FILE}`
   );
 
   console.log(
-    "------------------------------------------"
+    "=========================================="
   );
-
-  if (monthlyRecords.length === 0) {
-    throw new Error(
-      "Az UNHCR API-ból nem sikerült érvényes havi adatot előállítani."
-    );
-  }
-
-  if (arrivalsYtd === 0) {
-    throw new Error(
-      "Az UNHCR YTD összesítés 0 lett."
-    );
-  }
 
   console.log(
     "UNHCR frissítés sikeresen befejezve."
