@@ -1,0 +1,74 @@
+{
+  "metadata": {
+    "dataset": "EU Migration Monitor - Arrival Snapshot History",
+    "source": "UNHCR",
+    "source_dataset": "Europe Sea Arrivals",
+    "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
+    "updated_at": "2026-07-24T19:39:08.730Z",
+    "methodology": "Daily snapshots of the cumulative UNHCR year-to-date arrival figure.",
+    "interpretation": "Period changes represent arrivals newly reported by UNHCR between snapshots, not necessarily arrivals that physically occurred during the exact same period."
+  },
+  "summary": {
+    "year": 2026,
+    "current_date": "2026-07-24",
+    "arrivals_ytd": 48550,
+    "sea_arrivals_ytd": 40643,
+    "land_arrivals_ytd": 7907,
+    "snapshot_count": 1,
+    "latest_reported_change": null,
+    "latest_change_days": null,
+    "seven_day_reported_arrivals": null,
+    "seven_day_available": false,
+    "seven_day_actual_days": null,
+    "thirty_day_reported_arrivals": null,
+    "thirty_day_available": false,
+    "thirty_day_actual_days": null
+  },
+  "periods": {
+    "latest": {
+      "available": false,
+      "reported_arrivals": null,
+      "previous_date": null,
+      "current_date": "2026-07-24",
+      "actual_days": null,
+      "previous_ytd": null,
+      "current_ytd": 48550,
+      "status": "no_previous_snapshot"
+    },
+    "seven_day": {
+      "available": false,
+      "target_days": 7,
+      "reported_arrivals": null,
+      "reference_date": null,
+      "current_date": "2026-07-24",
+      "actual_days": null,
+      "start_ytd": null,
+      "end_ytd": 48550,
+      "status": "insufficient_history"
+    },
+    "thirty_day": {
+      "available": false,
+      "target_days": 30,
+      "reported_arrivals": null,
+      "reference_date": null,
+      "current_date": "2026-07-24",
+      "actual_days": null,
+      "start_ytd": null,
+      "end_ytd": 48550,
+      "status": "insufficient_history"
+    }
+  },
+  "snapshots": [
+    {
+      "date": "2026-07-24",
+      "captured_at": "2026-07-24T19:39:08.716Z",
+      "year": 2026,
+      "arrivals_ytd": 48550,
+      "sea_arrivals_ytd": 40643,
+      "land_arrivals_ytd": 7907,
+      "latest_available_month": "2026-07-01",
+      "latest_month_arrivals": 5235,
+      "source": "UNHCR"
+    }
+  ]
+}
