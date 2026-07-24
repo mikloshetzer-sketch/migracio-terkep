@@ -85,19 +85,34 @@ function calculateShare(
   );
 }
 
-function getPreviousMonth(
-  monthly
-) {
+function getCurrentUtcYearMonth() {
+  const now = new Date();
+
+  return {
+    year:
+      now.getUTCFullYear(),
+
+    month:
+      now.getUTCMonth() + 1
+  };
+}
+
+function isCurrentMonth(record) {
   if (
-    !Array.isArray(monthly) ||
-    monthly.length < 2
+    !record ||
+    !Number.isInteger(record.year) ||
+    !Number.isInteger(record.month)
   ) {
-    return null;
+    return false;
   }
 
-  return monthly[
-    monthly.length - 2
-  ];
+  const current =
+    getCurrentUtcYearMonth();
+
+  return (
+    record.year === current.year &&
+    record.month === current.month
+  );
 }
 
 function getLatestMonth(
@@ -112,6 +127,63 @@ function getLatestMonth(
 
   return monthly[
     monthly.length - 1
+  ];
+}
+
+function getLatestCompleteMonth(
+  monthly
+) {
+  if (
+    !Array.isArray(monthly) ||
+    monthly.length === 0
+  ) {
+    return null;
+  }
+
+  const completeMonths =
+    monthly.filter(
+      (record) =>
+        !isCurrentMonth(record)
+    );
+
+  if (
+    completeMonths.length === 0
+  ) {
+    return null;
+  }
+
+  return completeMonths[
+    completeMonths.length - 1
+  ];
+}
+
+function getPreviousCompleteMonth(
+  monthly,
+  latestCompleteMonth
+) {
+  if (
+    !Array.isArray(monthly) ||
+    !latestCompleteMonth
+  ) {
+    return null;
+  }
+
+  const completeMonths =
+    monthly.filter(
+      (record) =>
+        !isCurrentMonth(record) &&
+        record.date <
+          latestCompleteMonth.date
+    );
+
+  if (
+    completeMonths.length === 0
+  ) {
+    return null;
+  }
+
+  return completeMonths[
+    completeMonths.length - 1
   ];
 }
 
@@ -237,7 +309,7 @@ async function main() {
   );
 
   console.log(
-    "Migration summary build v1"
+    "Migration summary build v1.1"
   );
 
   console.log(
@@ -270,24 +342,37 @@ async function main() {
       unhcr.monthly
     );
 
-  const previousMonth =
-    getPreviousMonth(
+  const latestMonthIsPartial =
+    latestMonth
+      ? isCurrentMonth(
+          latestMonth
+        )
+      : false;
+
+  const latestCompleteMonth =
+    getLatestCompleteMonth(
       unhcr.monthly
     );
 
-  const latestMonthChange =
-    latestMonth &&
-    previousMonth
-      ? latestMonth.people -
-        previousMonth.people
+  const previousCompleteMonth =
+    getPreviousCompleteMonth(
+      unhcr.monthly,
+      latestCompleteMonth
+    );
+
+  const completeMonthChange =
+    latestCompleteMonth &&
+    previousCompleteMonth
+      ? latestCompleteMonth.people -
+        previousCompleteMonth.people
       : null;
 
-  const latestMonthChangePercent =
-    latestMonth &&
-    previousMonth
+  const completeMonthChangePercent =
+    latestCompleteMonth &&
+    previousCompleteMonth
       ? calculatePercentChange(
-          latestMonth.people,
-          previousMonth.people
+          latestCompleteMonth.people,
+          previousCompleteMonth.people
         )
       : null;
 
@@ -339,7 +424,7 @@ async function main() {
         "https://data.unhcr.org/en/situations/europe-sea-arrivals",
 
       interpretation:
-        "Seven-day and thirty-day values represent changes in cumulative UNHCR reporting between stored snapshots. They should be interpreted as newly reported arrivals, not exact event-date arrivals."
+        "Seven-day and thirty-day values represent changes in cumulative UNHCR reporting between stored snapshots. Current-month arrival values are treated as partial and are not compared directly with a completed previous month."
     },
 
     headline: {
@@ -393,23 +478,92 @@ async function main() {
           latestMonth?.land_arrivals
         ),
 
-      previous_month_date:
-        previousMonth?.date ??
-        null,
+      month_status:
+        latestMonth
+          ? (
+              latestMonthIsPartial
+                ? "partial"
+                : "complete"
+            )
+          : "not_available",
 
-      previous_month_arrivals:
-        numberOrNull(
-          previousMonth?.people
+      month_complete:
+        latestMonth
+          ? !latestMonthIsPartial
+          : false,
+
+      change:
+        latestMonthIsPartial
+          ? null
+          : numberOrNull(
+              completeMonthChange
+            ),
+
+      change_percent:
+        latestMonthIsPartial
+          ? null
+          : numberOrNull(
+              completeMonthChangePercent
+            )
+    },
+
+    complete_month_comparison: {
+      available:
+        Boolean(
+          latestCompleteMonth &&
+          previousCompleteMonth
         ),
+
+      latest_complete_month: {
+        date:
+          latestCompleteMonth?.date ??
+          null,
+
+        arrivals:
+          numberOrNull(
+            latestCompleteMonth?.people
+          ),
+
+        sea_arrivals:
+          numberOrNull(
+            latestCompleteMonth?.sea_arrivals
+          ),
+
+        land_arrivals:
+          numberOrNull(
+            latestCompleteMonth?.land_arrivals
+          )
+      },
+
+      previous_complete_month: {
+        date:
+          previousCompleteMonth?.date ??
+          null,
+
+        arrivals:
+          numberOrNull(
+            previousCompleteMonth?.people
+          ),
+
+        sea_arrivals:
+          numberOrNull(
+            previousCompleteMonth?.sea_arrivals
+          ),
+
+        land_arrivals:
+          numberOrNull(
+            previousCompleteMonth?.land_arrivals
+          )
+      },
 
       change:
         numberOrNull(
-          latestMonthChange
+          completeMonthChange
         ),
 
       change_percent:
         numberOrNull(
-          latestMonthChangePercent
+          completeMonthChangePercent
         )
     },
 
@@ -426,6 +580,9 @@ async function main() {
       latest_available_month:
         unhcrSummary.latest_available_month ??
         null,
+
+      latest_month_partial:
+        latestMonthIsPartial,
 
       source_arithmetic_check:
         unhcr.diagnostics
@@ -521,14 +678,42 @@ async function main() {
         "hu-HU"
       )} fő`
     );
+
+    console.log(
+      `Aktuális hónap státusza: ${
+        latestMonthIsPartial
+          ? "részleges"
+          : "lezárt"
+      }`
+    );
   }
 
   if (
-    latestMonthChangePercent !==
-    null
+    latestCompleteMonth &&
+    previousCompleteMonth
   ) {
     console.log(
-      `Havi változás: ${latestMonthChangePercent}%`
+      `Utolsó lezárt hónap: ${latestCompleteMonth.date}`
+    );
+
+    console.log(
+      `Utolsó lezárt havi érték: ${latestCompleteMonth.people.toLocaleString(
+        "hu-HU"
+      )} fő`
+    );
+
+    console.log(
+      `Előző lezárt hónap: ${previousCompleteMonth.date}`
+    );
+
+    console.log(
+      `Lezárt havi változás: ${completeMonthChange.toLocaleString(
+        "hu-HU"
+      )} fő`
+    );
+
+    console.log(
+      `Lezárt havi változás: ${completeMonthChangePercent}%`
     );
   }
 
