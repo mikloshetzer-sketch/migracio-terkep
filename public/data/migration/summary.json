@@ -1,11 +1,11 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Dashboard Summary",
-    "generated_at": "2026-07-24T19:45:32.916Z",
+    "generated_at": "2026-07-24T20:00:41.523Z",
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
-    "interpretation": "Seven-day and thirty-day values represent changes in cumulative UNHCR reporting between stored snapshots. They should be interpreted as newly reported arrivals, not exact event-date arrivals."
+    "interpretation": "Seven-day and thirty-day values represent changes in cumulative UNHCR reporting between stored snapshots. Current-month arrival values are treated as partial and are not compared directly with a completed previous month."
   },
   "headline": {
     "year": 2026,
@@ -49,16 +49,34 @@
     "arrivals": 5235,
     "sea_arrivals": 4260,
     "land_arrivals": 975,
-    "previous_month_date": "2026-06-01",
-    "previous_month_arrivals": 9350,
-    "change": -4115,
-    "change_percent": -44.01
+    "month_status": "partial",
+    "month_complete": false,
+    "change": null,
+    "change_percent": null
+  },
+  "complete_month_comparison": {
+    "available": true,
+    "latest_complete_month": {
+      "date": "2026-06-01",
+      "arrivals": 9350,
+      "sea_arrivals": 8132,
+      "land_arrivals": 1218
+    },
+    "previous_complete_month": {
+      "date": "2026-05-01",
+      "arrivals": 9229,
+      "sea_arrivals": 8245,
+      "land_arrivals": 984
+    },
+    "change": 121,
+    "change_percent": 1.31
   },
   "data_status": {
     "snapshot_count": 1,
     "seven_day_available": false,
     "thirty_day_available": false,
     "latest_available_month": "2026-07-01",
+    "latest_month_partial": true,
     "source_arithmetic_check": "ok"
   }
 }
