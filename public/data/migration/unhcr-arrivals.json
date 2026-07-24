@@ -4,7 +4,7 @@
     "source": "UNHCR",
     "source_name": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
-    "generated_at": "2026-07-24T18:56:16.211Z",
+    "generated_at": "2026-07-24T19:13:02.475Z",
     "year": 2026,
     "coverage": [
       "Italy",
@@ -13,23 +13,22 @@
       "Greece",
       "Spain"
     ],
-    "population_groups": [
-      4797,
-      4798,
-      5634
-    ],
     "definition": "Registered sea and land arrivals reported in the UNHCR Europe Sea Arrivals dataset.",
-    "important_note": "The dataset covers UNHCR Mediterranean and related arrival reporting and is not equivalent to all migration into the European Union.",
-    "methodology": "The year-to-date value is calculated as the sum of the available monthly UNHCR arrival records. Weekly values are not estimated from monthly data."
+    "methodology": "Total, sea and land arrivals are downloaded separately from the official UNHCR monthly datasets and cross-checked.",
+    "important_note": "These figures describe the UNHCR Europe Sea Arrivals reporting area and must not be interpreted as all migration into the European Union."
   },
   "summary": {
     "year": 2026,
     "arrivals_ytd": 48550,
+    "sea_arrivals_ytd": 40643,
+    "land_arrivals_ytd": 7907,
+    "calculated_ytd": 48550,
+    "ytd_difference": 0,
     "latest_available_month": "2026-07-01",
     "latest_month_arrivals": 5235,
+    "latest_month_sea_arrivals": 4260,
+    "latest_month_land_arrivals": 975,
     "monthly_records": 7,
-    "annual_control_value": 6419,
-    "annual_control_difference": 42131,
     "seven_day_arrivals": null,
     "thirty_day_arrivals": null,
     "seven_day_status": "requires_daily_or_event_level_data",
@@ -41,9 +40,11 @@
       "year": 2026,
       "month": 1,
       "people": 5807,
+      "sea_arrivals": 4533,
+      "land_arrivals": 1274,
+      "calculation_difference": 0,
       "granularity": "monthly",
       "data_type": "arrival",
-      "arrival_type": "sea_and_land",
       "source": "UNHCR",
       "source_dataset": "Europe Sea Arrivals"
     },
@@ -52,9 +53,11 @@
       "year": 2026,
       "month": 2,
       "people": 6443,
+      "sea_arrivals": 4863,
+      "land_arrivals": 1580,
+      "calculation_difference": 0,
       "granularity": "monthly",
       "data_type": "arrival",
-      "arrival_type": "sea_and_land",
       "source": "UNHCR",
       "source_dataset": "Europe Sea Arrivals"
     },
@@ -63,9 +66,11 @@
       "year": 2026,
       "month": 3,
       "people": 6434,
+      "sea_arrivals": 5420,
+      "land_arrivals": 1014,
+      "calculation_difference": 0,
       "granularity": "monthly",
       "data_type": "arrival",
-      "arrival_type": "sea_and_land",
       "source": "UNHCR",
       "source_dataset": "Europe Sea Arrivals"
     },
@@ -74,9 +79,11 @@
       "year": 2026,
       "month": 4,
       "people": 6052,
+      "sea_arrivals": 5190,
+      "land_arrivals": 862,
+      "calculation_difference": 0,
       "granularity": "monthly",
       "data_type": "arrival",
-      "arrival_type": "sea_and_land",
       "source": "UNHCR",
       "source_dataset": "Europe Sea Arrivals"
     },
@@ -85,9 +92,11 @@
       "year": 2026,
       "month": 5,
       "people": 9229,
+      "sea_arrivals": 8245,
+      "land_arrivals": 984,
+      "calculation_difference": 0,
       "granularity": "monthly",
       "data_type": "arrival",
-      "arrival_type": "sea_and_land",
       "source": "UNHCR",
       "source_dataset": "Europe Sea Arrivals"
     },
@@ -96,9 +105,11 @@
       "year": 2026,
       "month": 6,
       "people": 9350,
+      "sea_arrivals": 8132,
+      "land_arrivals": 1218,
+      "calculation_difference": 0,
       "granularity": "monthly",
       "data_type": "arrival",
-      "arrival_type": "sea_and_land",
       "source": "UNHCR",
       "source_dataset": "Europe Sea Arrivals"
     },
@@ -107,17 +118,36 @@
       "year": 2026,
       "month": 7,
       "people": 5235,
+      "sea_arrivals": 4260,
+      "land_arrivals": 975,
+      "calculation_difference": 0,
       "granularity": "monthly",
       "data_type": "arrival",
-      "arrival_type": "sea_and_land",
       "source": "UNHCR",
       "source_dataset": "Europe Sea Arrivals"
     }
   ],
   "diagnostics": {
-    "monthly_raw_records": 7,
-    "annual_control_available": true,
-    "monthly_widget_id": "686750",
-    "annual_widget_id": "686755"
+    "total": {
+      "widget_id": "686750",
+      "raw_records": 7,
+      "valid_2026_records": 7
+    },
+    "sea": {
+      "widget_id": "686751",
+      "raw_records": 7,
+      "valid_2026_records": 7
+    },
+    "land": {
+      "widget_id": "686752",
+      "raw_records": 7,
+      "valid_2026_records": 7
+    },
+    "arithmetic_check": {
+      "total_ytd": 48550,
+      "sea_plus_land_ytd": 48550,
+      "difference": 0,
+      "status": "ok"
+    }
   }
 }
