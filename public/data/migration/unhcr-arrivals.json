@@ -1,0 +1,132 @@
+{
+  "metadata": {
+    "dataset": "EU Migration Monitor - UNHCR arrivals",
+    "source": "UNHCR",
+    "source_name": "Europe Sea Arrivals",
+    "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
+    "generated_at": "2026-07-24T17:53:10.836Z",
+    "year": 2026,
+    "coverage": [
+      "Italy",
+      "Malta",
+      "Cyprus",
+      "Greece",
+      "Spain"
+    ],
+    "definition": "Registered sea and land arrivals reported in the UNHCR Europe Sea Arrivals dataset.",
+    "important_note": "These data do not represent all migration into the European Union and must not be combined with asylum applications or Frontex detections as if they were identical measures."
+  },
+  "summary": {
+    "year": 2026,
+    "arrivals_ytd": 6419,
+    "latest_available_date": "2001-07-01",
+    "yearly_records": 1,
+    "monthly_records": 7,
+    "seven_day_arrivals": null,
+    "thirty_day_arrivals": null,
+    "seven_day_status": "not_available_from_monthly_data",
+    "thirty_day_status": "not_calculated_yet"
+  },
+  "records": [
+    {
+      "date": null,
+      "year": "2026",
+      "granularity": "yearly",
+      "people": 6419,
+      "arrival_country": null,
+      "arrival_country_code": null,
+      "arrival_type": "arrival",
+      "data_type": "arrival",
+      "source": "UNHCR",
+      "source_dataset": "Europe Sea Arrivals"
+    },
+    {
+      "date": "2001-01-01",
+      "year": "2001",
+      "granularity": "monthly",
+      "people": 5807,
+      "arrival_country": null,
+      "arrival_country_code": null,
+      "arrival_type": "arrival",
+      "data_type": "arrival",
+      "source": "UNHCR",
+      "source_dataset": "Europe Sea Arrivals"
+    },
+    {
+      "date": "2001-02-01",
+      "year": "2001",
+      "granularity": "monthly",
+      "people": 6443,
+      "arrival_country": null,
+      "arrival_country_code": null,
+      "arrival_type": "arrival",
+      "data_type": "arrival",
+      "source": "UNHCR",
+      "source_dataset": "Europe Sea Arrivals"
+    },
+    {
+      "date": "2001-03-01",
+      "year": "2001",
+      "granularity": "monthly",
+      "people": 6434,
+      "arrival_country": null,
+      "arrival_country_code": null,
+      "arrival_type": "arrival",
+      "data_type": "arrival",
+      "source": "UNHCR",
+      "source_dataset": "Europe Sea Arrivals"
+    },
+    {
+      "date": "2001-04-01",
+      "year": "2001",
+      "granularity": "monthly",
+      "people": 6052,
+      "arrival_country": null,
+      "arrival_country_code": null,
+      "arrival_type": "arrival",
+      "data_type": "arrival",
+      "source": "UNHCR",
+      "source_dataset": "Europe Sea Arrivals"
+    },
+    {
+      "date": "2001-05-01",
+      "year": "2001",
+      "granularity": "monthly",
+      "people": 9229,
+      "arrival_country": null,
+      "arrival_country_code": null,
+      "arrival_type": "arrival",
+      "data_type": "arrival",
+      "source": "UNHCR",
+      "source_dataset": "Europe Sea Arrivals"
+    },
+    {
+      "date": "2001-06-01",
+      "year": "2001",
+      "granularity": "monthly",
+      "people": 9350,
+      "arrival_country": null,
+      "arrival_country_code": null,
+      "arrival_type": "arrival",
+      "data_type": "arrival",
+      "source": "UNHCR",
+      "source_dataset": "Europe Sea Arrivals"
+    },
+    {
+      "date": "2001-07-01",
+      "year": "2001",
+      "granularity": "monthly",
+      "people": 5235,
+      "arrival_country": null,
+      "arrival_country_code": null,
+      "arrival_type": "arrival",
+      "data_type": "arrival",
+      "source": "UNHCR",
+      "source_dataset": "Europe Sea Arrivals"
+    }
+  ],
+  "raw_debug": {
+    "yearly_response_type": "object",
+    "monthly_response_type": "object"
+  }
+}
