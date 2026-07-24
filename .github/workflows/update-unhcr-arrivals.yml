@@ -28,6 +28,9 @@ jobs:
       - name: Update arrival snapshot history
         run: node scripts/update-arrival-snapshots.mjs
 
+      - name: Build migration summary
+        run: node scripts/build-migration-summary.mjs
+
       - name: Check generated files
         run: |
           echo "Generated migration data:"
@@ -41,6 +44,10 @@ jobs:
           echo "Arrival snapshots preview:"
           head -n 60 public/data/migration/arrival-snapshots.json
 
+          echo ""
+          echo "Migration summary preview:"
+          head -n 80 public/data/migration/summary.json
+
       - name: Commit updated migration data
         run: |
           git config user.name "github-actions[bot]"
@@ -48,11 +55,12 @@ jobs:
 
           git add public/data/migration/unhcr-arrivals.json
           git add public/data/migration/arrival-snapshots.json
+          git add public/data/migration/summary.json
 
           if git diff --cached --quiet; then
             echo "No migration data changes to commit."
             exit 0
           fi
 
-          git commit -m "Update UNHCR arrivals and snapshot history"
+          git commit -m "Update UNHCR migration data"
           git push
