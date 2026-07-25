@@ -33,7 +33,8 @@ const COUNTRIES = [
     route: "Central Mediterranean",
     geo_id: "656",
     population_group: "4797",
-    widget_id: "690058"
+    widget_id: "690058",
+    use_adm_root_level_data: false
   },
   {
     key: "greece",
@@ -43,17 +44,20 @@ const COUNTRIES = [
     route: "Eastern Mediterranean",
     geo_id: "24489",
     population_group: "4797,4798",
-    widget_id: "688679"
+    widget_id: "688675",
+    use_adm_root_level_data: true
   },
   {
     key: "spain",
     name: "Spain",
     name_hu: "Spanyolország",
     code: "ES",
-    route: "Western Mediterranean / West African Atlantic",
+    route:
+      "Western Mediterranean / West African Atlantic",
     geo_id: "729",
     population_group: "4797,4798,5634",
-    widget_id: "687069"
+    widget_id: "687069",
+    use_adm_root_level_data: false
   },
   {
     key: "cyprus",
@@ -63,7 +67,8 @@ const COUNTRIES = [
     route: "Eastern Mediterranean",
     geo_id: "24473",
     population_group: "4797,4798",
-    widget_id: "663857"
+    widget_id: "663857",
+    use_adm_root_level_data: true
   }
 ];
 
@@ -72,23 +77,39 @@ function buildUrl(country) {
     frequency: "month",
     fromDate: `${CURRENT_YEAR}-01-01`,
     geo_id: country.geo_id,
-    population_group: country.population_group,
+    population_group:
+      country.population_group,
     sv_id: "100",
     widget_id: country.widget_id
   });
+
+  if (
+    country.use_adm_root_level_data
+  ) {
+    params.set(
+      "useAdmRootLevelData",
+      "1"
+    );
+  }
 
   return `${UNHCR_API}?${params.toString()}`;
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/json",
-      "User-Agent":
-        "EU-Migration-Monitor/1.0 (+https://github.com/mikloshetzer-sketch/migracio-terkep)"
-    },
-    signal: AbortSignal.timeout(30000)
-  });
+  const response = await fetch(
+    url,
+    {
+      headers: {
+        Accept: "application/json",
+        "User-Agent":
+          "EU-Migration-Monitor/1.1"
+      },
+      signal:
+        AbortSignal.timeout(
+          30000
+        )
+    }
+  );
 
   if (!response.ok) {
     throw new Error(
@@ -96,7 +117,8 @@ async function fetchJson(url) {
     );
   }
 
-  const text = await response.text();
+  const text =
+    await response.text();
 
   if (!text.trim()) {
     throw new Error(
@@ -122,11 +144,19 @@ function findTimeseries(payload) {
     return payload.data.timeseries;
   }
 
-  if (Array.isArray(payload?.timeseries)) {
+  if (
+    Array.isArray(
+      payload?.timeseries
+    )
+  ) {
     return payload.timeseries;
   }
 
-  if (Array.isArray(payload?.data)) {
+  if (
+    Array.isArray(
+      payload?.data
+    )
+  ) {
     return payload.data;
   }
 
@@ -191,7 +221,9 @@ function normaliseRecord(record) {
 
   return {
     date:
-      `${year}-${String(month).padStart(
+      `${year}-${String(
+        month
+      ).padStart(
         2,
         "0"
       )}-01`,
@@ -209,9 +241,14 @@ function normaliseRecords(payload) {
   const map =
     new Map();
 
-  for (const rawRecord of rawRecords) {
+  for (
+    const rawRecord
+    of rawRecords
+  ) {
     const record =
-      normaliseRecord(rawRecord);
+      normaliseRecord(
+        rawRecord
+      );
 
     if (!record) {
       continue;
@@ -223,7 +260,9 @@ function normaliseRecords(payload) {
     );
   }
 
-  return [...map.values()].sort(
+  return [
+    ...map.values()
+  ].sort(
     (a, b) =>
       a.date.localeCompare(
         b.date
@@ -234,7 +273,8 @@ function normaliseRecords(payload) {
 function sumPeople(records) {
   return records.reduce(
     (sum, record) =>
-      sum + record.people,
+      sum +
+      record.people,
     0
   );
 }
@@ -277,9 +317,12 @@ async function loadRegionalTotal() {
       JSON.parse(text);
 
     const total =
-      data?.summary?.arrivals_ytd;
+      data?.summary
+        ?.arrivals_ytd;
 
-    return Number.isFinite(total)
+    return Number.isFinite(
+      total
+    )
       ? total
       : null;
   } catch {
@@ -287,7 +330,9 @@ async function loadRegionalTotal() {
   }
 }
 
-async function downloadCountry(country) {
+async function downloadCountry(
+  country
+) {
   console.log("");
   console.log(
     `${country.name_hu} lekérése...`
@@ -297,23 +342,46 @@ async function downloadCountry(country) {
     buildUrl(country);
 
   console.log(
+    `Widget: ${country.widget_id}`
+  );
+
+  console.log(
+    `Geo ID: ${country.geo_id}`
+  );
+
+  console.log(
     `URL: ${url}`
   );
 
   const payload =
     await fetchJson(url);
 
-  const records =
-    normaliseRecords(payload);
+  const rawRecords =
+    findTimeseries(
+      payload
+    );
 
-  if (records.length === 0) {
+  console.log(
+    `Nyers rekordok: ${rawRecords.length}`
+  );
+
+  const records =
+    normaliseRecords(
+      payload
+    );
+
+  if (
+    records.length === 0
+  ) {
     console.warn(
-      `${country.name_hu}: nem érkezett feldolgozható 2026-os havi adat.`
+      `${country.name_hu}: nem érkezett feldolgozható ${CURRENT_YEAR}-os havi adat.`
     );
 
     return {
       country,
       url,
+      raw_records:
+        rawRecords.length,
       records: [],
       arrivals_ytd: null,
       latest_month: null,
@@ -340,6 +408,8 @@ async function downloadCountry(country) {
   return {
     country,
     url,
+    raw_records:
+      rawRecords.length,
     records,
     arrivals_ytd:
       arrivalsYtd,
@@ -359,7 +429,7 @@ async function main() {
   );
 
   console.log(
-    "Country arrivals update v1"
+    "Country arrivals update v1.1"
   );
 
   console.log(
@@ -378,7 +448,10 @@ async function main() {
 
   const results = [];
 
-  for (const country of COUNTRIES) {
+  for (
+    const country
+    of COUNTRIES
+  ) {
     const result =
       await downloadCountry(
         country
@@ -405,47 +478,55 @@ async function main() {
 
   const countries =
     results
-      .map((item) => ({
-        country:
-          item.country.name,
+      .map(
+        (item) => ({
+          country:
+            item.country.name,
 
-        country_hu:
-          item.country.name_hu,
+          country_hu:
+            item.country.name_hu,
 
-        country_code:
-          item.country.code,
+          country_code:
+            item.country.code,
 
-        route:
-          item.country.route,
+          route:
+            item.country.route,
 
-        arrivals_ytd:
-          item.arrivals_ytd,
-
-        share_of_regional_total_percent:
-          calculateShare(
+          arrivals_ytd:
             item.arrivals_ytd,
-            regionalTotal
-          ),
 
-        latest_month:
-          item.latest_month,
+          share_of_regional_total_percent:
+            calculateShare(
+              item.arrivals_ytd,
+              regionalTotal
+            ),
 
-        monthly:
-          item.records,
+          latest_month:
+            item.latest_month,
 
-        status:
-          item.status,
+          monthly:
+            item.records,
 
-        source:
-          "UNHCR",
+          status:
+            item.status,
 
-        source_url:
-          item.url
-      }))
+          source:
+            "UNHCR",
+
+          source_url:
+            item.url
+        })
+      )
       .sort(
         (a, b) =>
-          (b.arrivals_ytd ?? -1) -
-          (a.arrivals_ytd ?? -1)
+          (
+            b.arrivals_ytd ??
+            -1
+          ) -
+          (
+            a.arrivals_ytd ??
+            -1
+          )
       );
 
   const topCountry =
@@ -455,6 +536,31 @@ async function main() {
           item.arrivals_ytd
         )
     ) ?? null;
+
+  const missingCountries =
+    countries
+      .filter(
+        (item) =>
+          item.status !== "ok"
+      )
+      .map(
+        (item) =>
+          item.country
+      );
+
+  const coveragePercent =
+    Number.isFinite(
+      regionalTotal
+    ) &&
+    regionalTotal > 0
+      ? Number(
+          (
+            countriesTotal /
+            regionalTotal *
+            100
+          ).toFixed(2)
+        )
+      : null;
 
   const output = {
     metadata: {
@@ -488,7 +594,7 @@ async function main() {
       ],
 
       important_note:
-        "Malta is included in the regional UNHCR total but is not estimated as a residual in this country breakdown. Country datasets may also have different reporting cut-off dates."
+        "Malta is included in the regional UNHCR total but is not estimated as a residual. Country datasets may have different reporting cut-off dates."
     },
 
     summary: {
@@ -498,10 +604,20 @@ async function main() {
       country_breakdown_total:
         countriesTotal,
 
+      country_breakdown_coverage_percent:
+        coveragePercent,
+
       covered_countries:
         validCountries.length,
 
       configured_countries:
+        COUNTRIES.length,
+
+      missing_countries:
+        missingCountries,
+
+      complete_country_download:
+        validCountries.length ===
         COUNTRIES.length,
 
       top_arrival_country:
@@ -509,15 +625,18 @@ async function main() {
         null,
 
       top_arrival_country_hu:
-        topCountry?.country_hu ??
+        topCountry
+          ?.country_hu ??
         null,
 
       top_arrival_country_code:
-        topCountry?.country_code ??
+        topCountry
+          ?.country_code ??
         null,
 
       top_arrival_country_arrivals:
-        topCountry?.arrivals_ytd ??
+        topCountry
+          ?.arrivals_ytd ??
         null,
 
       top_arrival_country_share_percent:
@@ -570,9 +689,35 @@ async function main() {
     )} fő`
   );
 
+  if (
+    Number.isFinite(
+      coveragePercent
+    )
+  ) {
+    console.log(
+      `Lefedettség: ${coveragePercent.toLocaleString(
+        "hu-HU"
+      )}%`
+    );
+  }
+
   console.log(
     `Sikeresen betöltött országok: ${validCountries.length}/${COUNTRIES.length}`
   );
+
+  if (
+    missingCountries.length > 0
+  ) {
+    console.log(
+      `Hiányzó országok: ${missingCountries.join(
+        ", "
+      )}`
+    );
+  } else {
+    console.log(
+      "Minden konfigurált ország sikeresen betöltve."
+    );
+  }
 
   if (topCountry) {
     console.log(
@@ -591,13 +736,18 @@ async function main() {
   );
 }
 
-main().catch((error) => {
-  console.error("");
-  console.error(
-    "Country arrivals adatfrissítési hiba:"
-  );
+main().catch(
+  (error) => {
+    console.error("");
 
-  console.error(error);
+    console.error(
+      "Country arrivals adatfrissítési hiba:"
+    );
 
-  process.exitCode = 1;
-});
+    console.error(
+      error
+    );
+
+    process.exitCode = 1;
+  }
+);
