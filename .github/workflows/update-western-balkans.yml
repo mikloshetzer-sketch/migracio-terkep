@@ -1,0 +1,45 @@
+name: Update Western Balkans Migration Data
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-western-balkans:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run Western Balkans migration update
+        run: node scripts/update-western-balkans.mjs
+
+      - name: Check generated file
+        run: |
+          echo "Checking Western Balkans output..."
+          test -f public/data/migration/western-balkans.json
+          echo "western-balkans.json found."
+          echo ""
+          cat public/data/migration/western-balkans.json
+
+      - name: Commit updated Western Balkans data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add public/data/migration/western-balkans.json
+
+          if git diff --cached --quiet; then
+            echo "No Western Balkans data changes to commit."
+          else
+            git commit -m "Update Western Balkans migration data"
+            git push
+          fi
