@@ -43,6 +43,25 @@ function formatMonth(value) {
   });
 }
 
+function formatDate(value) {
+  if (!value) {
+    return "—";
+  }
+
+  const date = new Date(`${value}T00:00:00Z`);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleDateString("hu-HU", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "UTC"
+  });
+}
+
 const COUNTRY_COLORS = {
   GR: "#16a34a",
   IT: "#1680c1",
@@ -50,10 +69,19 @@ const COUNTRY_COLORS = {
   CY: "#7c3aed"
 };
 
+const ORIGIN_COLORS = [
+  "#1680c1",
+  "#16a34a",
+  "#e89a1c",
+  "#7c3aed",
+  "#dc5a5a"
+];
+
 function App() {
   const [summary, setSummary] = useState(null);
   const [arrivals, setArrivals] = useState(null);
   const [countries, setCountries] = useState(null);
+  const [origins, setOrigins] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -69,7 +97,8 @@ function App() {
         const [
           summaryResponse,
           arrivalsResponse,
-          countriesResponse
+          countriesResponse,
+          originsResponse
         ] = await Promise.all([
           fetch("./data/migration/summary.json", {
             cache: "no-store"
@@ -80,6 +109,10 @@ function App() {
           }),
 
           fetch("./data/migration/country-arrivals.json", {
+            cache: "no-store"
+          }),
+
+          fetch("./data/migration/origin-countries.json", {
             cache: "no-store"
           })
         ]);
@@ -102,14 +135,22 @@ function App() {
           );
         }
 
+        if (!originsResponse.ok) {
+          throw new Error(
+            `origin-countries.json HTTP ${originsResponse.status}`
+          );
+        }
+
         const [
           summaryData,
           arrivalsData,
-          countriesData
+          countriesData,
+          originsData
         ] = await Promise.all([
           summaryResponse.json(),
           arrivalsResponse.json(),
-          countriesResponse.json()
+          countriesResponse.json(),
+          originsResponse.json()
         ]);
 
         if (!active) {
@@ -119,6 +160,7 @@ function App() {
         setSummary(summaryData);
         setArrivals(arrivalsData);
         setCountries(countriesData);
+        setOrigins(originsData);
       } catch (loadError) {
         if (!active) {
           return;
@@ -162,6 +204,20 @@ function App() {
     );
   }, [countries]);
 
+  const topOrigins = useMemo(() => {
+    if (!Array.isArray(origins?.origin_totals)) {
+      return [];
+    }
+
+    return origins.origin_totals
+      .filter(
+        (item) =>
+          item.is_aggregate_origin !== true &&
+          Number.isFinite(item.people)
+      )
+      .slice(0, 5);
+  }, [origins]);
+
   const maxMonthlyValue = useMemo(() => {
     if (monthly.length === 0) {
       return 1;
@@ -176,6 +232,21 @@ function App() {
       1
     );
   }, [monthly]);
+
+  const maxOriginValue = useMemo(() => {
+    if (topOrigins.length === 0) {
+      return 1;
+    }
+
+    return Math.max(
+      ...topOrigins.map((item) =>
+        Number.isFinite(item.people)
+          ? item.people
+          : 0
+      ),
+      1
+    );
+  }, [topOrigins]);
 
   const countryDonutBackground = useMemo(() => {
     if (countryRows.length === 0) {
@@ -286,6 +357,12 @@ function App() {
 
   const countrySummary =
     countries?.summary ?? {};
+
+  const originSummary =
+    origins?.summary ?? {};
+
+  const strongestMovement =
+    originSummary.strongest_observed_movement ?? null;
 
   return (
     <Layout>
@@ -689,7 +766,9 @@ function App() {
                         <span>
                           Adatdátum{" "}
                           <strong>
-                            {country.latest_data_date}
+                            {formatDate(
+                              country.latest_data_date
+                            )}
                           </strong>
                         </span>
                       )}
@@ -730,6 +809,224 @@ function App() {
             <small>
               a regionális UNHCR összesítéshez viszonyítva
             </small>
+          </div>
+        </section>
+
+        <section className="migration-panel origin-intelligence-panel">
+          <div className="migration-panel-header">
+            <div>
+              <p className="panel-eyebrow">
+                Származási országok
+              </p>
+
+              <h2>
+                Honnan érkeznek?
+              </h2>
+            </div>
+
+            <div className="origin-summary-highlight">
+              <span>
+                Legnagyobb megfigyelt származási ország
+              </span>
+
+              <strong>
+                {originSummary.top_origin_country ??
+                  "—"}
+              </strong>
+
+              <small>
+                {formatNumber(
+                  originSummary.top_origin_observed_people
+                )}{" "}
+                fő
+              </small>
+            </div>
+          </div>
+
+          <div className="origin-intelligence-layout">
+            <div className="origin-ranking-block">
+              <div className="origin-section-title">
+                Top 5 származási ország
+              </div>
+
+              <div className="origin-ranking-list">
+                {topOrigins.map((origin, index) => {
+                  const width =
+                    Math.max(
+                      (
+                        origin.people /
+                        maxOriginValue
+                      ) *
+                        100,
+                      3
+                    );
+
+                  const color =
+                    ORIGIN_COLORS[
+                      index %
+                        ORIGIN_COLORS.length
+                    ];
+
+                  return (
+                    <article
+                      className="origin-ranking-row"
+                      key={
+                        origin.origin_country_code ??
+                        origin.origin_country
+                      }
+                    >
+                      <div className="origin-ranking-heading">
+                        <div className="origin-ranking-name">
+                          <span
+                            className="origin-rank-dot"
+                            style={{
+                              background:
+                                color
+                            }}
+                          />
+
+                          <strong>
+                            {index + 1}.{" "}
+                            {origin.origin_country}
+                          </strong>
+                        </div>
+
+                        <div className="origin-ranking-value">
+                          <strong>
+                            {formatNumber(
+                              origin.people
+                            )}
+                          </strong>
+
+                          <span>
+                            {formatNumber(
+                              origin.destination_count
+                            )}{" "}
+                            célország
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="origin-progress">
+                        <span
+                          style={{
+                            width: `${width}%`,
+                            background:
+                              color
+                          }}
+                        />
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="movement-intelligence-block">
+              <div className="origin-section-title">
+                Legerősebb megfigyelt kapcsolat
+              </div>
+
+              {strongestMovement ? (
+                <div className="movement-card">
+                  <div className="movement-flow">
+                    <div className="movement-country">
+                      <span>
+                        Honnan
+                      </span>
+
+                      <strong>
+                        {strongestMovement.origin_country}
+                      </strong>
+                    </div>
+
+                    <div className="movement-arrow">
+                      →
+                    </div>
+
+                    <div className="movement-country">
+                      <span>
+                        Hová
+                      </span>
+
+                      <strong>
+                        {strongestMovement.destination_country_hu}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div className="movement-primary-value">
+                    <strong>
+                      {formatNumber(
+                        strongestMovement.people
+                      )}
+                    </strong>
+
+                    <span>
+                      fő
+                    </span>
+                  </div>
+
+                  <div className="movement-details">
+                    <div>
+                      <span>
+                        Útvonal
+                      </span>
+
+                      <strong>
+                        {strongestMovement.route}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>
+                        Adatdátum
+                      </span>
+
+                      <strong>
+                        {formatDate(
+                          strongestMovement.data_date
+                        )}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>
+                        Adatkör
+                      </span>
+
+                      <strong>
+                        {strongestMovement.scope ===
+                        "sea_arrivals"
+                          ? "Tengeri érkezések"
+                          : strongestMovement.scope ===
+                            "sea_and_land_arrivals"
+                          ? "Tengeri és szárazföldi"
+                          : "Érkezések"}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <p className="panel-empty">
+                  Nincs elérhető mozgási adat.
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="origin-methodology-note">
+            <strong>
+              Adatértelmezés:
+            </strong>
+
+            <span>
+              A származási adatok országonként eltérő
+              frissítési dátummal és részben eltérő
+              módszertannal jelennek meg. Az összesített
+              származási rangsor elemzői összegzés, nem
+              hivatalos EU-s UNHCR összesítés.
+            </span>
           </div>
         </section>
 
@@ -851,17 +1148,17 @@ function App() {
 
           <div>
             <span>
-              Országos lefedettség
+              Origin célországok
             </span>
 
             <strong>
-              {Number.isFinite(
-                countrySummary.country_breakdown_coverage_percent
-              )
-                ? `${countrySummary.country_breakdown_coverage_percent.toLocaleString(
-                    "hu-HU"
-                  )}%`
-                : "—"}
+              {formatNumber(
+                originSummary.successful_destinations
+              )}
+              /
+              {formatNumber(
+                originSummary.configured_destinations
+              )}
             </strong>
           </div>
         </section>
