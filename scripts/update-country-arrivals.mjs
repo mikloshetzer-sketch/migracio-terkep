@@ -32,10 +32,10 @@ const COUNTRIES = [
     code: "IT",
     route: "Central Mediterranean",
     geo_id: "656",
-    mode: "combined",
     population_groups: ["4797"],
     widget_id: "690058",
-    use_adm_root_level_data: false
+    use_adm_root_level_data: false,
+    special_population_format: false
   },
   {
     key: "greece",
@@ -44,20 +44,13 @@ const COUNTRIES = [
     code: "GR",
     route: "Eastern Mediterranean",
     geo_id: "24489",
-    mode: "separate",
-    use_adm_root_level_data: false,
-    datasets: [
-      {
-        type: "sea",
-        population_groups: ["4797"],
-        widget_id: "688684"
-      },
-      {
-        type: "land",
-        population_groups: ["4798"],
-        widget_id: "688685"
-      }
-    ]
+    population_groups: [
+      "0;4797",
+      "0;4798"
+    ],
+    widget_id: "688675",
+    use_adm_root_level_data: true,
+    special_population_format: true
   },
   {
     key: "spain",
@@ -67,14 +60,14 @@ const COUNTRIES = [
     route:
       "Western Mediterranean / West African Atlantic",
     geo_id: "729",
-    mode: "combined",
     population_groups: [
       "4797",
       "4798",
       "5634"
     ],
     widget_id: "687069",
-    use_adm_root_level_data: false
+    use_adm_root_level_data: false,
+    special_population_format: false
   },
   {
     key: "cyprus",
@@ -83,40 +76,66 @@ const COUNTRIES = [
     code: "CY",
     route: "Eastern Mediterranean",
     geo_id: "24473",
-    mode: "separate",
-    use_adm_root_level_data: false,
-    datasets: [
-      {
-        type: "sea",
-        population_groups: ["4797"],
-        widget_id: "663865"
-      },
-      {
-        type: "land",
-        population_groups: ["4798"],
-        widget_id: "663866"
-      }
-    ]
+    population_groups: [
+      "0;4797",
+      "0;4798"
+    ],
+    widget_id: "663857",
+    use_adm_root_level_data: true,
+    special_population_format: true
   }
 ];
 
-function buildUrl({
-  geo_id,
-  population_groups,
-  widget_id,
-  use_adm_root_level_data = false
-}) {
-  const params = new URLSearchParams({
-    frequency: "month",
-    fromDate: `${CURRENT_YEAR}-01-01`,
-    geo_id,
-    population_group:
-      population_groups.join(","),
-    sv_id: "100",
-    widget_id
-  });
+function buildUrl(country) {
+  const params = new URLSearchParams();
 
-  if (use_adm_root_level_data) {
+  params.set(
+    "frequency",
+    "month"
+  );
+
+  params.set(
+    "fromDate",
+    `${CURRENT_YEAR}-01-01`
+  );
+
+  params.set(
+    "geo_id",
+    country.geo_id
+  );
+
+  if (
+    country.special_population_format
+  ) {
+    for (
+      const populationGroup
+      of country.population_groups
+    ) {
+      params.append(
+        "population_group[]",
+        populationGroup
+      );
+    }
+  } else {
+    params.set(
+      "population_group",
+      country.population_groups.join(",")
+    );
+  }
+
+  params.set(
+    "sv_id",
+    "100"
+  );
+
+  params.set(
+    "widget_id",
+    country.widget_id
+  );
+
+  if (
+    country.use_adm_root_level_data
+  ) {
     params.set(
       "useAdmRootLevelData",
       "1"
@@ -133,7 +152,7 @@ async function fetchJson(url) {
       headers: {
         Accept: "application/json",
         "User-Agent":
-          "EU-Migration-Monitor/1.2"
+          "EU-Migration-Monitor/1.3"
       },
       signal:
         AbortSignal.timeout(
@@ -166,7 +185,34 @@ async function fetchJson(url) {
   }
 }
 
-function findTimeseries(payload) {
+function findDataArray(payload) {
+  if (Array.isArray(payload)) {
+    return payload;
+  }
+
+  if (
+    !payload ||
+    typeof payload !== "object"
+  ) {
+    return [];
+  }
+
+  const preferredKeys = [
+    "data",
+    "results",
+    "result",
+    "timeseries",
+    "series",
+    "population",
+    "chartData"
+  ];
+
+  for (const key of preferredKeys) {
+    if (Array.isArray(payload[key])) {
+      return payload[key];
+    }
+  }
+
   if (
     Array.isArray(
       payload?.data?.timeseries
@@ -175,27 +221,67 @@ function findTimeseries(payload) {
     return payload.data.timeseries;
   }
 
-  if (
-    Array.isArray(
-      payload?.timeseries
-    )
+  let bestArray = [];
+
+  for (
+    const value
+    of Object.values(payload)
   ) {
-    return payload.timeseries;
+    if (Array.isArray(value)) {
+      if (
+        value.length >
+        bestArray.length
+      ) {
+        bestArray = value;
+      }
+
+      continue;
+    }
+
+    if (
+      value &&
+      typeof value === "object"
+    ) {
+      const nested =
+        findDataArray(value);
+
+      if (
+        nested.length >
+        bestArray.length
+      ) {
+        bestArray = nested;
+      }
+    }
   }
 
+  return bestArray;
+}
+
+function firstDefined(
+  object,
+  keys
+) {
   if (
-    Array.isArray(
-      payload?.data
-    )
+    !object ||
+    typeof object !== "object"
   ) {
-    return payload.data;
+    return null;
   }
 
-  if (Array.isArray(payload)) {
-    return payload;
+  for (const key of keys) {
+    const value =
+      object[key];
+
+    if (
+      value !== undefined &&
+      value !== null &&
+      value !== ""
+    ) {
+      return value;
+    }
   }
 
-  return [];
+  return null;
 }
 
 function parseNumber(value) {
@@ -207,18 +293,189 @@ function parseNumber(value) {
     return null;
   }
 
-  const number = Number(
+  if (typeof value === "number") {
+    return Number.isFinite(value)
+      ? Math.round(value)
+      : null;
+  }
+
+  const cleaned =
     String(value)
       .replace(/\s/g, "")
       .replace(/,/g, "")
-  );
+      .trim();
+
+  const number =
+    Number(cleaned);
 
   return Number.isFinite(number)
     ? Math.round(number)
     : null;
 }
 
-function normaliseRecord(record) {
+function parseMonth(
+  rawValue,
+  rawYear = null
+) {
+  if (
+    rawValue === null ||
+    rawValue === undefined
+  ) {
+    return null;
+  }
+
+  const value =
+    String(rawValue).trim();
+
+  const explicitYear =
+    Number(rawYear);
+
+  if (/^\d{1,2}$/.test(value)) {
+    const month =
+      Number(value);
+
+    const year =
+      Number.isFinite(
+        explicitYear
+      ) &&
+      explicitYear >= 2000
+        ? explicitYear
+        : CURRENT_YEAR;
+
+    if (
+      year === CURRENT_YEAR &&
+      month >= 1 &&
+      month <= 12
+    ) {
+      return {
+        year,
+        month,
+        date:
+          `${year}-${String(
+            month
+          ).padStart(
+            2,
+            "0"
+          )}-01`
+      };
+    }
+  }
+
+  let match =
+    value.match(
+      /^(\d{4})-(\d{1,2})$/
+    );
+
+  if (match) {
+    const year =
+      Number(match[1]);
+
+    const month =
+      Number(match[2]);
+
+    if (
+      year === CURRENT_YEAR &&
+      month >= 1 &&
+      month <= 12
+    ) {
+      return {
+        year,
+        month,
+        date:
+          `${year}-${String(
+            month
+          ).padStart(
+            2,
+            "0"
+          )}-01`
+      };
+    }
+  }
+
+  match =
+    value.match(
+      /^(\d{4})-(\d{1,2})-(\d{1,2})/
+    );
+
+  if (match) {
+    const year =
+      Number(match[1]);
+
+    const month =
+      Number(match[2]);
+
+    if (
+      year === CURRENT_YEAR &&
+      month >= 1 &&
+      month <= 12
+    ) {
+      return {
+        year,
+        month,
+        date:
+          `${year}-${String(
+            month
+          ).padStart(
+            2,
+            "0"
+          )}-01`
+      };
+    }
+  }
+
+  const monthNames = {
+    january: 1,
+    february: 2,
+    march: 3,
+    april: 4,
+    may: 5,
+    june: 6,
+    july: 7,
+    august: 8,
+    september: 9,
+    october: 10,
+    november: 11,
+    december: 12,
+
+    jan: 1,
+    feb: 2,
+    mar: 3,
+    apr: 4,
+    jun: 6,
+    jul: 7,
+    aug: 8,
+    sep: 9,
+    oct: 10,
+    nov: 11,
+    dec: 12
+  };
+
+  const lower =
+    value.toLowerCase();
+
+  if (monthNames[lower]) {
+    const month =
+      monthNames[lower];
+
+    return {
+      year: CURRENT_YEAR,
+      month,
+      date:
+        `${CURRENT_YEAR}-${String(
+          month
+        ).padStart(
+          2,
+          "0"
+        )}-01`
+    };
+  }
+
+  return null;
+}
+
+function normaliseRecord(
+  record
+) {
   if (
     !record ||
     typeof record !== "object"
@@ -226,24 +483,67 @@ function normaliseRecord(record) {
     return null;
   }
 
-  const year =
-    Number(record.year);
+  const rawYear =
+    firstDefined(
+      record,
+      [
+        "year",
+        "Year",
+        "YEAR"
+      ]
+    );
 
-  const month =
-    Number(record.month);
+  const rawPeriod =
+    firstDefined(
+      record,
+      [
+        "month",
+        "Month",
+        "MONTH",
+        "date",
+        "Date",
+        "period",
+        "Period",
+        "x",
+        "name",
+        "category"
+      ]
+    );
+
+  const rawPeople =
+    firstDefined(
+      record,
+      [
+        "individuals",
+        "people",
+        "value",
+        "Value",
+        "VALUE",
+        "total",
+        "Total",
+        "population",
+        "Population",
+        "count",
+        "y"
+      ]
+    );
+
+  const parsedDate =
+    parseMonth(
+      rawPeriod,
+      rawYear
+    );
 
   const people =
     parseNumber(
-      record.individuals ??
-      record.people ??
-      record.value ??
-      record.total
+      rawPeople
     );
 
+  if (!parsedDate) {
+    return null;
+  }
+
   if (
-    year !== CURRENT_YEAR ||
-    month < 1 ||
-    month > 12 ||
     people === null ||
     people < 0
   ) {
@@ -252,15 +552,14 @@ function normaliseRecord(record) {
 
   return {
     date:
-      `${year}-${String(
-        month
-      ).padStart(
-        2,
-        "0"
-      )}-01`,
+      parsedDate.date,
 
-    year,
-    month,
+    year:
+      parsedDate.year,
+
+    month:
+      parsedDate.month,
+
     people
   };
 }
@@ -269,7 +568,9 @@ function normaliseRecords(
   payload
 ) {
   const rawRecords =
-    findTimeseries(payload);
+    findDataArray(
+      payload
+    );
 
   const map =
     new Map();
@@ -363,328 +664,6 @@ async function loadRegionalTotal() {
   }
 }
 
-function mergeSeparateRecords(
-  seaRecords,
-  landRecords
-) {
-  const months =
-    new Map();
-
-  for (
-    const record
-    of seaRecords
-  ) {
-    months.set(
-      record.date,
-      {
-        date:
-          record.date,
-
-        year:
-          record.year,
-
-        month:
-          record.month,
-
-        people:
-          record.people,
-
-        sea_arrivals:
-          record.people,
-
-        land_arrivals:
-          0
-      }
-    );
-  }
-
-  for (
-    const record
-    of landRecords
-  ) {
-    if (
-      !months.has(
-        record.date
-      )
-    ) {
-      months.set(
-        record.date,
-        {
-          date:
-            record.date,
-
-          year:
-            record.year,
-
-          month:
-            record.month,
-
-          people:
-            record.people,
-
-          sea_arrivals:
-            0,
-
-          land_arrivals:
-            record.people
-        }
-      );
-
-      continue;
-    }
-
-    const month =
-      months.get(
-        record.date
-      );
-
-    month.land_arrivals =
-      record.people;
-
-    month.people =
-      month.sea_arrivals +
-      month.land_arrivals;
-  }
-
-  return [
-    ...months.values()
-  ].sort(
-    (a, b) =>
-      a.date.localeCompare(
-        b.date
-      )
-  );
-}
-
-async function downloadDataset({
-  country,
-  type,
-  population_groups,
-  widget_id,
-  use_adm_root_level_data
-}) {
-  const url =
-    buildUrl({
-      geo_id:
-        country.geo_id,
-
-      population_groups,
-
-      widget_id,
-
-      use_adm_root_level_data
-    });
-
-  console.log(
-    `${country.name_hu} / ${type}`
-  );
-
-  console.log(
-    `Widget: ${widget_id}`
-  );
-
-  console.log(
-    `Population groups: ${population_groups.join(
-      ","
-    )}`
-  );
-
-  console.log(
-    `URL: ${url}`
-  );
-
-  const payload =
-    await fetchJson(url);
-
-  const rawRecords =
-    findTimeseries(
-      payload
-    );
-
-  const records =
-    normaliseRecords(
-      payload
-    );
-
-  console.log(
-    `Nyers rekordok: ${rawRecords.length}`
-  );
-
-  console.log(
-    `Érvényes 2026-os rekordok: ${records.length}`
-  );
-
-  return {
-    type,
-    url,
-    raw_records:
-      rawRecords.length,
-    records
-  };
-}
-
-async function downloadCombinedCountry(
-  country
-) {
-  const dataset =
-    await downloadDataset({
-      country,
-      type: "combined",
-      population_groups:
-        country.population_groups,
-      widget_id:
-        country.widget_id,
-      use_adm_root_level_data:
-        country.use_adm_root_level_data
-    });
-
-  if (
-    dataset.records.length === 0
-  ) {
-    return {
-      country,
-      records: [],
-      arrivals_ytd: null,
-      sea_arrivals_ytd: null,
-      land_arrivals_ytd: null,
-      latest_month: null,
-      status: "no_data",
-      sources: [
-        dataset
-      ]
-    };
-  }
-
-  const arrivalsYtd =
-    sumPeople(
-      dataset.records
-    );
-
-  return {
-    country,
-    records:
-      dataset.records,
-    arrivals_ytd:
-      arrivalsYtd,
-    sea_arrivals_ytd: null,
-    land_arrivals_ytd: null,
-    latest_month:
-      dataset.records.at(-1),
-    status: "ok",
-    sources: [
-      dataset
-    ]
-  };
-}
-
-async function downloadSeparateCountry(
-  country
-) {
-  const seaConfig =
-    country.datasets.find(
-      (item) =>
-        item.type === "sea"
-    );
-
-  const landConfig =
-    country.datasets.find(
-      (item) =>
-        item.type === "land"
-    );
-
-  const sea =
-    await downloadDataset({
-      country,
-      type: "sea",
-      population_groups:
-        seaConfig.population_groups,
-      widget_id:
-        seaConfig.widget_id,
-      use_adm_root_level_data:
-        country.use_adm_root_level_data
-    });
-
-  const land =
-    await downloadDataset({
-      country,
-      type: "land",
-      population_groups:
-        landConfig.population_groups,
-      widget_id:
-        landConfig.widget_id,
-      use_adm_root_level_data:
-        country.use_adm_root_level_data
-    });
-
-  if (
-    sea.records.length === 0 &&
-    land.records.length === 0
-  ) {
-    return {
-      country,
-      records: [],
-      arrivals_ytd: null,
-      sea_arrivals_ytd: null,
-      land_arrivals_ytd: null,
-      latest_month: null,
-      status: "no_data",
-      sources: [
-        sea,
-        land
-      ]
-    };
-  }
-
-  const merged =
-    mergeSeparateRecords(
-      sea.records,
-      land.records
-    );
-
-  const seaYtd =
-    sumPeople(
-      sea.records
-    );
-
-  const landYtd =
-    sumPeople(
-      land.records
-    );
-
-  const arrivalsYtd =
-    seaYtd +
-    landYtd;
-
-  return {
-    country,
-    records:
-      merged,
-
-    arrivals_ytd:
-      arrivalsYtd,
-
-    sea_arrivals_ytd:
-      seaYtd,
-
-    land_arrivals_ytd:
-      landYtd,
-
-    latest_month:
-      merged.at(-1) ??
-      null,
-
-    status:
-      merged.length > 0
-        ? "ok"
-        : "no_data",
-
-    sources: [
-      sea,
-      land
-    ]
-  };
-}
-
 async function downloadCountry(
   country
 ) {
@@ -701,18 +680,117 @@ async function downloadCountry(
     "------------------------------------------"
   );
 
-  if (
-    country.mode ===
-    "separate"
-  ) {
-    return downloadSeparateCountry(
+  const url =
+    buildUrl(
       country
+    );
+
+  console.log(
+    `Widget: ${country.widget_id}`
+  );
+
+  console.log(
+    `Geo ID: ${country.geo_id}`
+  );
+
+  console.log(
+    `Population groups: ${country.population_groups.join(
+      " | "
+    )}`
+  );
+
+  console.log(
+    `useAdmRootLevelData: ${
+      country.use_adm_root_level_data
+        ? "1"
+        : "0"
+    }`
+  );
+
+  console.log(
+    `URL: ${url}`
+  );
+
+  const payload =
+    await fetchJson(
+      url
+    );
+
+  const rawRecords =
+    findDataArray(
+      payload
+    );
+
+  console.log(
+    `Nyers rekordok: ${rawRecords.length}`
+  );
+
+  if (
+    rawRecords.length > 0
+  ) {
+    console.log(
+      "Első nyers rekord:"
+    );
+
+    console.log(
+      JSON.stringify(
+        rawRecords[0],
+        null,
+        2
+      )
     );
   }
 
-  return downloadCombinedCountry(
-    country
+  const records =
+    normaliseRecords(
+      payload
+    );
+
+  console.log(
+    `Érvényes ${CURRENT_YEAR}-os rekordok: ${records.length}`
   );
+
+  if (
+    records.length === 0
+  ) {
+    return {
+      country,
+      url,
+      raw_records:
+        rawRecords.length,
+      records: [],
+      arrivals_ytd: null,
+      latest_month: null,
+      status: "no_data"
+    };
+  }
+
+  const arrivalsYtd =
+    sumPeople(
+      records
+    );
+
+  const latestMonth =
+    records.at(-1);
+
+  console.log(
+    `${country.name_hu} YTD: ${arrivalsYtd.toLocaleString(
+      "hu-HU"
+    )} fő`
+  );
+
+  return {
+    country,
+    url,
+    raw_records:
+      rawRecords.length,
+    records,
+    arrivals_ytd:
+      arrivalsYtd,
+    latest_month:
+      latestMonth,
+    status: "ok"
+  };
 }
 
 async function main() {
@@ -725,7 +803,7 @@ async function main() {
   );
 
   console.log(
-    "Country arrivals update v1.2"
+    "Country arrivals update v1.3"
   );
 
   console.log(
@@ -756,22 +834,6 @@ async function main() {
     results.push(
       result
     );
-
-    if (
-      Number.isFinite(
-        result.arrivals_ytd
-      )
-    ) {
-      console.log(
-        `${country.name_hu} YTD: ${result.arrivals_ytd.toLocaleString(
-          "hu-HU"
-        )} fő`
-      );
-    } else {
-      console.log(
-        `${country.name_hu}: nincs adat`
-      );
-    }
   }
 
   const validCountries =
@@ -809,12 +871,6 @@ async function main() {
           arrivals_ytd:
             item.arrivals_ytd,
 
-          sea_arrivals_ytd:
-            item.sea_arrivals_ytd,
-
-          land_arrivals_ytd:
-            item.land_arrivals_ytd,
-
           share_of_regional_total_percent:
             calculateShare(
               item.arrivals_ytd,
@@ -833,22 +889,29 @@ async function main() {
           source:
             "UNHCR",
 
-          sources:
-            item.sources.map(
-              (source) => ({
-                type:
-                  source.type,
+          source_url:
+            item.url,
 
-                url:
-                  source.url,
+          diagnostics: {
+            widget_id:
+              item.country.widget_id,
 
-                raw_records:
-                  source.raw_records,
+            geo_id:
+              item.country.geo_id,
 
-                valid_records:
-                  source.records.length
-              })
-            )
+            population_groups:
+              item.country.population_groups,
+
+            use_adm_root_level_data:
+              item.country
+                .use_adm_root_level_data,
+
+            raw_records:
+              item.raw_records,
+
+            valid_records:
+              item.records.length
+          }
         })
       )
       .sort(
@@ -929,7 +992,7 @@ async function main() {
       ],
 
       important_note:
-        "Greece and Cyprus are calculated from separate official UNHCR sea and land monthly datasets. Malta remains excluded until a stable country-level dataset is added."
+        "Greece and Cyprus use the UNHCR combined monthly sea-and-land widgets with root-level administrative data and the population-group format used by the UNHCR widget configuration. Malta remains excluded until a stable country-level dataset is added."
     },
 
     summary: {
@@ -960,15 +1023,18 @@ async function main() {
         null,
 
       top_arrival_country_hu:
-        topCountry?.country_hu ??
+        topCountry
+          ?.country_hu ??
         null,
 
       top_arrival_country_code:
-        topCountry?.country_code ??
+        topCountry
+          ?.country_code ??
         null,
 
       top_arrival_country_arrivals:
-        topCountry?.arrivals_ytd ??
+        topCountry
+          ?.arrivals_ytd ??
         null,
 
       top_arrival_country_share_percent:
