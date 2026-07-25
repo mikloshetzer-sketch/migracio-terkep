@@ -66,6 +66,8 @@ function formatMonth(value) {
 function App() {
   const [summary, setSummary] = useState(null);
   const [arrivals, setArrivals] = useState(null);
+  const [countries, setCountries] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -77,15 +79,23 @@ function App() {
         setLoading(true);
         setError(null);
 
-        const [summaryResponse, arrivalsResponse] =
-          await Promise.all([
-            fetch("./data/migration/summary.json", {
-              cache: "no-store"
-            }),
-            fetch("./data/migration/unhcr-arrivals.json", {
-              cache: "no-store"
-            })
-          ]);
+        const [
+          summaryResponse,
+          arrivalsResponse,
+          countriesResponse
+        ] = await Promise.all([
+          fetch("./data/migration/summary.json", {
+            cache: "no-store"
+          }),
+
+          fetch("./data/migration/unhcr-arrivals.json", {
+            cache: "no-store"
+          }),
+
+          fetch("./data/migration/country-arrivals.json", {
+            cache: "no-store"
+          })
+        ]);
 
         if (!summaryResponse.ok) {
           throw new Error(
@@ -99,11 +109,21 @@ function App() {
           );
         }
 
-        const [summaryData, arrivalsData] =
-          await Promise.all([
-            summaryResponse.json(),
-            arrivalsResponse.json()
-          ]);
+        if (!countriesResponse.ok) {
+          throw new Error(
+            `country-arrivals.json HTTP ${countriesResponse.status}`
+          );
+        }
+
+        const [
+          summaryData,
+          arrivalsData,
+          countriesData
+        ] = await Promise.all([
+          summaryResponse.json(),
+          arrivalsResponse.json(),
+          countriesResponse.json()
+        ]);
 
         if (!active) {
           return;
@@ -111,6 +131,7 @@ function App() {
 
         setSummary(summaryData);
         setArrivals(arrivalsData);
+        setCountries(countriesData);
       } catch (loadError) {
         if (!active) {
           return;
@@ -143,6 +164,17 @@ function App() {
     return arrivals.monthly;
   }, [arrivals]);
 
+  const countryRows = useMemo(() => {
+    if (!Array.isArray(countries?.countries)) {
+      return [];
+    }
+
+    return countries.countries.filter(
+      (item) =>
+        Number.isFinite(item.arrivals_ytd)
+    );
+  }, [countries]);
+
   const maxMonthlyValue = useMemo(() => {
     if (monthly.length === 0) {
       return 1;
@@ -157,6 +189,21 @@ function App() {
       1
     );
   }, [monthly]);
+
+  const maxCountryValue = useMemo(() => {
+    if (countryRows.length === 0) {
+      return 1;
+    }
+
+    return Math.max(
+      ...countryRows.map((item) =>
+        Number.isFinite(item.arrivals_ytd)
+          ? item.arrivals_ytd
+          : 0
+      ),
+      1
+    );
+  }, [countryRows]);
 
   if (loading) {
     return (
@@ -224,13 +271,16 @@ function App() {
   const thirtyDay =
     periods.last_30_days ?? {};
 
+  const countrySummary =
+    countries?.summary ?? {};
+
   return (
     <Layout>
       <main className="migration-dashboard">
         <section className="migration-hero">
           <div className="migration-hero-copy">
             <p className="eyebrow">
-              European Migration Intelligence Center
+              Operational Intelligence Overview
             </p>
 
             <h1>
@@ -238,9 +288,10 @@ function App() {
             </h1>
 
             <p className="migration-lead">
-              Az Európába irányuló regisztrált
-              migrációs érkezések adatvezérelt
-              követése.
+              Regisztrált migrációs érkezések,
+              fő belépési országok és útvonalak
+              adatvezérelt követése az UNHCR
+              hivatalos adatai alapján.
             </p>
           </div>
 
@@ -527,6 +578,170 @@ function App() {
           </article>
         </section>
 
+        <section className="migration-panel country-arrivals-panel">
+          <div className="migration-panel-header">
+            <div>
+              <p className="panel-eyebrow">
+                Belépési országok
+              </p>
+
+              <h2>
+                Regisztrált érkezések országonként
+              </h2>
+            </div>
+
+            <div className="country-summary-highlight">
+              <span>
+                Legaktívabb ország
+              </span>
+
+              <strong>
+                {countrySummary.top_arrival_country_hu ??
+                  "—"}
+              </strong>
+
+              <small>
+                {formatNumber(
+                  countrySummary.top_arrival_country_arrivals
+                )}{" "}
+                fő
+              </small>
+            </div>
+          </div>
+
+          <div className="country-arrivals-list">
+            {countryRows.map((country, index) => {
+              const width =
+                Math.max(
+                  (country.arrivals_ytd /
+                    maxCountryValue) *
+                    100,
+                  3
+                );
+
+              return (
+                <article
+                  className="country-arrival-row"
+                  key={country.country_code}
+                >
+                  <div className="country-rank">
+                    {index + 1}
+                  </div>
+
+                  <div className="country-arrival-main">
+                    <div className="country-arrival-heading">
+                      <div>
+                        <strong>
+                          {country.country_hu}
+                        </strong>
+
+                        <span>
+                          {country.route}
+                        </span>
+                      </div>
+
+                      <div className="country-arrival-value">
+                        <strong>
+                          {formatNumber(
+                            country.arrivals_ytd
+                          )}
+                        </strong>
+
+                        <span>
+                          {Number.isFinite(
+                            country.share_of_regional_total_percent
+                          )
+                            ? `${country.share_of_regional_total_percent.toLocaleString(
+                                "hu-HU"
+                              )}%`
+                            : "—"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="country-arrival-progress">
+                      <span
+                        style={{
+                          width: `${width}%`
+                        }}
+                      />
+                    </div>
+
+                    <div className="country-arrival-meta">
+                      {Number.isFinite(
+                        country.sea_arrivals_ytd
+                      ) && (
+                        <span>
+                          Tengeri:{" "}
+                          <strong>
+                            {formatNumber(
+                              country.sea_arrivals_ytd
+                            )}
+                          </strong>
+                        </span>
+                      )}
+
+                      {Number.isFinite(
+                        country.land_arrivals_ytd
+                      ) && (
+                        <span>
+                          Szárazföldi:{" "}
+                          <strong>
+                            {formatNumber(
+                              country.land_arrivals_ytd
+                            )}
+                          </strong>
+                        </span>
+                      )}
+
+                      {country.latest_data_date && (
+                        <span>
+                          Adatdátum:{" "}
+                          <strong>
+                            {country.latest_data_date}
+                          </strong>
+                        </span>
+                      )}
+
+                      {country.latest_month?.date && (
+                        <span>
+                          Aktuális havi adat:{" "}
+                          <strong>
+                            {formatNumber(
+                              country.latest_month.people
+                            )}
+                          </strong>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="country-coverage-note">
+            <span>
+              Országos bontás lefedettsége
+            </span>
+
+            <strong>
+              {Number.isFinite(
+                countrySummary.country_breakdown_coverage_percent
+              )
+                ? `${countrySummary.country_breakdown_coverage_percent.toLocaleString(
+                    "hu-HU"
+                  )}%`
+                : "—"}
+            </strong>
+
+            <small>
+              A regionális UNHCR összesítéshez
+              viszonyítva.
+            </small>
+          </div>
+        </section>
+
         <section className="migration-panel migration-trend-panel">
           <div className="migration-panel-header">
             <div>
@@ -645,11 +860,17 @@ function App() {
 
           <div>
             <span>
-              Lefedettség
+              Országos lefedettség
             </span>
 
             <strong>
-              Olaszország · Görögország · Spanyolország · Ciprus · Málta
+              {Number.isFinite(
+                countrySummary.country_breakdown_coverage_percent
+              )
+                ? `${countrySummary.country_breakdown_coverage_percent.toLocaleString(
+                    "hu-HU"
+                  )}%`
+                : "—"}
             </strong>
           </div>
         </section>
