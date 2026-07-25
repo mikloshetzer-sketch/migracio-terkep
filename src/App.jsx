@@ -63,6 +63,13 @@ function formatMonth(value) {
   });
 }
 
+const COUNTRY_COLORS = {
+  GR: "#16a34a",
+  IT: "#1680c1",
+  ES: "#e89a1c",
+  CY: "#7c3aed"
+};
+
 function App() {
   const [summary, setSummary] = useState(null);
   const [arrivals, setArrivals] = useState(null);
@@ -190,19 +197,45 @@ function App() {
     );
   }, [monthly]);
 
-  const maxCountryValue = useMemo(() => {
+  const countryDonutBackground = useMemo(() => {
     if (countryRows.length === 0) {
-      return 1;
+      return "conic-gradient(#dfe7ed 0deg 360deg)";
     }
 
-    return Math.max(
-      ...countryRows.map((item) =>
-        Number.isFinite(item.arrivals_ytd)
-          ? item.arrivals_ytd
-          : 0
-      ),
-      1
-    );
+    const total =
+      countryRows.reduce(
+        (sum, item) =>
+          sum + item.arrivals_ytd,
+        0
+      );
+
+    if (!Number.isFinite(total) || total <= 0) {
+      return "conic-gradient(#dfe7ed 0deg 360deg)";
+    }
+
+    let cursor = 0;
+
+    const segments =
+      countryRows.map((item) => {
+        const share =
+          item.arrivals_ytd / total;
+
+        const start =
+          cursor * 360;
+
+        cursor += share;
+
+        const end =
+          cursor * 360;
+
+        const color =
+          COUNTRY_COLORS[item.country_code] ??
+          "#64748b";
+
+        return `${color} ${start}deg ${end}deg`;
+      });
+
+    return `conic-gradient(${segments.join(", ")})`;
   }, [countryRows]);
 
   if (loading) {
@@ -609,38 +642,59 @@ function App() {
             </div>
           </div>
 
-          <div className="country-arrivals-list">
-            {countryRows.map((country, index) => {
-              const width =
-                Math.max(
-                  (country.arrivals_ytd /
-                    maxCountryValue) *
-                    100,
-                  3
-                );
+          <div className="country-distribution-layout">
+            <div className="country-donut-area">
+              <div
+                className="country-donut"
+                style={{
+                  background:
+                    countryDonutBackground
+                }}
+              >
+                <div className="country-donut-center">
+                  <strong>
+                    {formatNumber(
+                      countrySummary.country_breakdown_total
+                    )}
+                  </strong>
 
-              return (
-                <article
-                  className="country-arrival-row"
-                  key={country.country_code}
-                >
-                  <div className="country-rank">
-                    {index + 1}
-                  </div>
+                  <span>
+                    országos bontás
+                  </span>
+                </div>
+              </div>
+            </div>
 
-                  <div className="country-arrival-main">
-                    <div className="country-arrival-heading">
-                      <div>
+            <div className="country-distribution-list">
+              {countryRows.map((country) => {
+                const color =
+                  COUNTRY_COLORS[country.country_code] ??
+                  "#64748b";
+
+                return (
+                  <article
+                    className="country-distribution-row"
+                    key={country.country_code}
+                  >
+                    <div className="country-distribution-main">
+                      <div className="country-name-line">
+                        <span
+                          className="country-color-dot"
+                          style={{
+                            background: color
+                          }}
+                        />
+
                         <strong>
                           {country.country_hu}
                         </strong>
 
-                        <span>
+                        <span className="country-route">
                           {country.route}
                         </span>
                       </div>
 
-                      <div className="country-arrival-value">
+                      <div className="country-distribution-values">
                         <strong>
                           {formatNumber(
                             country.arrivals_ytd
@@ -659,20 +713,12 @@ function App() {
                       </div>
                     </div>
 
-                    <div className="country-arrival-progress">
-                      <span
-                        style={{
-                          width: `${width}%`
-                        }}
-                      />
-                    </div>
-
-                    <div className="country-arrival-meta">
+                    <div className="country-distribution-meta">
                       {Number.isFinite(
                         country.sea_arrivals_ytd
                       ) && (
                         <span>
-                          Tengeri:{" "}
+                          Tengeri{" "}
                           <strong>
                             {formatNumber(
                               country.sea_arrivals_ytd
@@ -685,7 +731,7 @@ function App() {
                         country.land_arrivals_ytd
                       ) && (
                         <span>
-                          Szárazföldi:{" "}
+                          Szárazföldi{" "}
                           <strong>
                             {formatNumber(
                               country.land_arrivals_ytd
@@ -696,28 +742,29 @@ function App() {
 
                       {country.latest_data_date && (
                         <span>
-                          Adatdátum:{" "}
+                          Adatdátum{" "}
                           <strong>
                             {country.latest_data_date}
                           </strong>
                         </span>
                       )}
 
-                      {country.latest_month?.date && (
-                        <span>
-                          Aktuális havi adat:{" "}
-                          <strong>
-                            {formatNumber(
-                              country.latest_month.people
-                            )}
-                          </strong>
-                        </span>
-                      )}
+                      {country.latest_month?.people &&
+                        !country.latest_data_date && (
+                          <span>
+                            Aktuális havi adat{" "}
+                            <strong>
+                              {formatNumber(
+                                country.latest_month.people
+                              )}
+                            </strong>
+                          </span>
+                        )}
                     </div>
-                  </div>
-                </article>
-              );
-            })}
+                  </article>
+                );
+              })}
+            </div>
           </div>
 
           <div className="country-coverage-note">
@@ -736,8 +783,7 @@ function App() {
             </strong>
 
             <small>
-              A regionális UNHCR összesítéshez
-              viszonyítva.
+              a regionális UNHCR összesítéshez viszonyítva
             </small>
           </div>
         </section>
