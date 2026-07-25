@@ -77,11 +77,21 @@ const ORIGIN_COLORS = [
   "#dc5a5a"
 ];
 
+const BALKAN_COUNTRY_COLORS = {
+  AL: "#1680c1",
+  BA: "#16a34a",
+  ME: "#e89a1c",
+  MK: "#7c3aed",
+  RS: "#dc5a5a",
+  XK: "#64748b"
+};
+
 function App() {
   const [summary, setSummary] = useState(null);
   const [arrivals, setArrivals] = useState(null);
   const [countries, setCountries] = useState(null);
   const [origins, setOrigins] = useState(null);
+  const [westernBalkans, setWesternBalkans] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -98,7 +108,8 @@ function App() {
           summaryResponse,
           arrivalsResponse,
           countriesResponse,
-          originsResponse
+          originsResponse,
+          westernBalkansResponse
         ] = await Promise.all([
           fetch("./data/migration/summary.json", {
             cache: "no-store"
@@ -113,6 +124,10 @@ function App() {
           }),
 
           fetch("./data/migration/origin-countries.json", {
+            cache: "no-store"
+          }),
+
+          fetch("./data/migration/western-balkans.json", {
             cache: "no-store"
           })
         ]);
@@ -141,16 +156,24 @@ function App() {
           );
         }
 
+        if (!westernBalkansResponse.ok) {
+          throw new Error(
+            `western-balkans.json HTTP ${westernBalkansResponse.status}`
+          );
+        }
+
         const [
           summaryData,
           arrivalsData,
           countriesData,
-          originsData
+          originsData,
+          westernBalkansData
         ] = await Promise.all([
           summaryResponse.json(),
           arrivalsResponse.json(),
           countriesResponse.json(),
-          originsResponse.json()
+          originsResponse.json(),
+          westernBalkansResponse.json()
         ]);
 
         if (!active) {
@@ -161,6 +184,7 @@ function App() {
         setArrivals(arrivalsData);
         setCountries(countriesData);
         setOrigins(originsData);
+        setWesternBalkans(westernBalkansData);
       } catch (loadError) {
         if (!active) {
           return;
@@ -289,6 +313,103 @@ function App() {
     return `conic-gradient(${segments.join(", ")})`;
   }, [countryRows]);
 
+  const balkanCountries = useMemo(() => {
+    if (!Array.isArray(westernBalkans?.countries)) {
+      return [];
+    }
+
+    return westernBalkans.countries;
+  }, [westernBalkans]);
+
+  const balkanIntentionCountries = useMemo(() => {
+    return balkanCountries
+      .filter(
+        (item) =>
+          Number.isFinite(
+            item.asylum_intentions_ytd
+          )
+      )
+      .sort(
+        (a, b) =>
+          b.asylum_intentions_ytd -
+          a.asylum_intentions_ytd
+      );
+  }, [balkanCountries]);
+
+  const balkanIntentions = useMemo(() => {
+    if (
+      !Array.isArray(
+        westernBalkans?.nationalities
+          ?.asylum_intentions
+      )
+    ) {
+      return [];
+    }
+
+    return westernBalkans
+      .nationalities
+      .asylum_intentions;
+  }, [westernBalkans]);
+
+  const balkanApplications = useMemo(() => {
+    if (
+      !Array.isArray(
+        westernBalkans?.nationalities
+          ?.asylum_applications
+      )
+    ) {
+      return [];
+    }
+
+    return westernBalkans
+      .nationalities
+      .asylum_applications;
+  }, [westernBalkans]);
+
+  const balkanDonutBackground = useMemo(() => {
+    if (balkanIntentionCountries.length === 0) {
+      return "conic-gradient(#dfe7ed 0deg 360deg)";
+    }
+
+    const total =
+      balkanIntentionCountries.reduce(
+        (sum, item) =>
+          sum +
+          item.asylum_intentions_ytd,
+        0
+      );
+
+    if (!Number.isFinite(total) || total <= 0) {
+      return "conic-gradient(#dfe7ed 0deg 360deg)";
+    }
+
+    let cursor = 0;
+
+    const segments =
+      balkanIntentionCountries.map((item) => {
+        const share =
+          item.asylum_intentions_ytd /
+          total;
+
+        const start =
+          cursor * 360;
+
+        cursor += share;
+
+        const end =
+          cursor * 360;
+
+        const color =
+          BALKAN_COUNTRY_COLORS[
+            item.country_code
+          ] ?? "#64748b";
+
+        return `${color} ${start}deg ${end}deg`;
+      });
+
+    return `conic-gradient(${segments.join(", ")})`;
+  }, [balkanIntentionCountries]);
+
   if (loading) {
     return (
       <Layout>
@@ -311,7 +432,11 @@ function App() {
     );
   }
 
-  if (error || !summary) {
+  if (
+    error ||
+    !summary ||
+    !westernBalkans
+  ) {
     return (
       <Layout>
         <main className="migration-dashboard">
@@ -362,7 +487,31 @@ function App() {
     origins?.summary ?? {};
 
   const strongestMovement =
-    originSummary.strongest_observed_movement ?? null;
+    originSummary.strongest_observed_movement ??
+    null;
+
+  const balkanSummary =
+    westernBalkans.summary ?? {};
+
+  const rpms =
+    westernBalkans
+      ?.route_intelligence
+      ?.rpms ?? {};
+
+  const refugeeOrigins =
+    Array.isArray(
+      rpms.refugee_producing_origins
+    )
+      ? rpms.refugee_producing_origins
+      : [];
+
+  const refugeeDestinations =
+    Array.isArray(
+      rpms.intended_destinations_refugee_producing
+    )
+      ? rpms
+          .intended_destinations_refugee_producing
+      : [];
 
   return (
     <Layout>
@@ -690,8 +839,9 @@ function App() {
             <div className="country-distribution-list">
               {countryRows.map((country) => {
                 const color =
-                  COUNTRY_COLORS[country.country_code] ??
-                  "#64748b";
+                  COUNTRY_COLORS[
+                    country.country_code
+                  ] ?? "#64748b";
 
                 return (
                   <article
@@ -772,43 +922,11 @@ function App() {
                           </strong>
                         </span>
                       )}
-
-                      {country.latest_month?.people &&
-                        !country.latest_data_date && (
-                          <span>
-                            Aktuális havi adat{" "}
-                            <strong>
-                              {formatNumber(
-                                country.latest_month.people
-                              )}
-                            </strong>
-                          </span>
-                        )}
                     </div>
                   </article>
                 );
               })}
             </div>
-          </div>
-
-          <div className="country-coverage-note">
-            <span>
-              Országos bontás lefedettsége
-            </span>
-
-            <strong>
-              {Number.isFinite(
-                countrySummary.country_breakdown_coverage_percent
-              )
-                ? `${countrySummary.country_breakdown_coverage_percent.toLocaleString(
-                    "hu-HU"
-                  )}%`
-                : "—"}
-            </strong>
-
-            <small>
-              a regionális UNHCR összesítéshez viszonyítva
-            </small>
           </div>
         </section>
 
@@ -1014,20 +1132,6 @@ function App() {
               )}
             </div>
           </div>
-
-          <div className="origin-methodology-note">
-            <strong>
-              Adatértelmezés:
-            </strong>
-
-            <span>
-              A származási adatok országonként eltérő
-              frissítési dátummal és részben eltérő
-              módszertannal jelennek meg. Az összesített
-              származási rangsor elemzői összegzés, nem
-              hivatalos EU-s UNHCR összesítés.
-            </span>
-          </div>
         </section>
 
         <section className="migration-panel migration-trend-panel">
@@ -1110,10 +1214,432 @@ function App() {
           </div>
         </section>
 
+        <section className="route-section-divider">
+          <p>
+            Western Balkans Route
+          </p>
+
+          <h2>
+            Nyugat-balkáni migrációs folyosó
+          </h2>
+
+          <span>
+            A következő adatok a nyugat-balkáni
+            menedékjogi és útvonal-adatokat mutatják.
+            Ezek nem adhatók hozzá közvetlenül a
+            mediterrán érkezési adatokhoz.
+          </span>
+        </section>
+
+        <section className="balkan-kpi-grid">
+          <article className="balkan-kpi balkan-kpi-primary">
+            <span>
+              2026 YTD
+            </span>
+
+            <strong>
+              {formatNumber(
+                balkanSummary.asylum_intentions_ytd
+              )}
+            </strong>
+
+            <small>
+              menedékkérési szándék
+            </small>
+          </article>
+
+          <article className="balkan-kpi">
+            <span>
+              Aktuális hónap
+            </span>
+
+            <strong>
+              {formatNumber(
+                balkanSummary.asylum_intentions_latest_month
+              )}
+            </strong>
+
+            <small>
+              2026. április
+            </small>
+          </article>
+
+          <article className="balkan-kpi">
+            <span>
+              Menedékkérelmek YTD
+            </span>
+
+            <strong>
+              {formatNumber(
+                balkanSummary.asylum_applications_ytd
+              )}
+            </strong>
+
+            <small>
+              tényleges kérelem
+            </small>
+          </article>
+
+          <article className="balkan-kpi">
+            <span>
+              Függő ügyek
+            </span>
+
+            <strong>
+              {formatNumber(
+                balkanSummary.pending_cases
+              )}
+            </strong>
+
+            <small>
+              regionális összesítés
+            </small>
+          </article>
+        </section>
+
+        <section className="migration-panel balkan-country-panel">
+          <div className="migration-panel-header">
+            <div>
+              <p className="panel-eyebrow">
+                Western Balkans
+              </p>
+
+              <h2>
+                Menedékkérési szándékok országonként
+              </h2>
+            </div>
+
+            <div className="country-summary-highlight">
+              <span>
+                Legaktívabb ország
+              </span>
+
+              <strong>
+                {balkanSummary
+                  .top_intention_country
+                  ?.country_hu ?? "—"}
+              </strong>
+
+              <small>
+                {formatNumber(
+                  balkanSummary
+                    .top_intention_country
+                    ?.intentions
+                )}
+              </small>
+            </div>
+          </div>
+
+          <div className="country-distribution-layout">
+            <div className="country-donut-area">
+              <div
+                className="country-donut"
+                style={{
+                  background:
+                    balkanDonutBackground
+                }}
+              >
+                <div className="country-donut-center">
+                  <strong>
+                    {formatNumber(
+                      balkanSummary.asylum_intentions_ytd
+                    )}
+                  </strong>
+
+                  <span>
+                    regisztrált szándék
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="country-distribution-list">
+              {balkanIntentionCountries.map(
+                (country) => {
+                  const color =
+                    BALKAN_COUNTRY_COLORS[
+                      country.country_code
+                    ] ?? "#64748b";
+
+                  return (
+                    <article
+                      className="country-distribution-row"
+                      key={country.country_code}
+                    >
+                      <div className="country-distribution-main">
+                        <div className="country-name-line">
+                          <span
+                            className="country-color-dot"
+                            style={{
+                              background:
+                                color
+                            }}
+                          />
+
+                          <strong>
+                            {country.country_hu}
+                          </strong>
+                        </div>
+
+                        <div className="country-distribution-values">
+                          <strong>
+                            {formatNumber(
+                              country.asylum_intentions_ytd
+                            )}
+                          </strong>
+
+                          <span>
+                            {Number.isFinite(
+                              country.asylum_intentions_share_percent
+                            )
+                              ? `${country.asylum_intentions_share_percent.toLocaleString(
+                                  "hu-HU"
+                                )}%`
+                              : "—"}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="country-distribution-meta">
+                        <span>
+                          Kérelmek{" "}
+                          <strong>
+                            {formatNumber(
+                              country.asylum_applications_ytd
+                            )}
+                          </strong>
+                        </span>
+
+                        <span>
+                          Függő ügyek{" "}
+                          <strong>
+                            {formatNumber(
+                              country.pending_cases
+                            )}
+                          </strong>
+                        </span>
+
+                        <span>
+                          Elismerési arány{" "}
+                          <strong>
+                            {formatNumber(
+                              country.recognition_rate_percent
+                            )}
+                            %
+                          </strong>
+                        </span>
+                      </div>
+                    </article>
+                  );
+                }
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section className="migration-panel balkan-origin-panel">
+          <div className="migration-panel-header">
+            <div>
+              <p className="panel-eyebrow">
+                Származási profil
+              </p>
+
+              <h2>
+                Honnan érkeznek a nyugat-balkáni útvonalon?
+              </h2>
+            </div>
+
+            <div className="origin-summary-highlight">
+              <span>
+                Legnagyobb nationality
+              </span>
+
+              <strong>
+                {balkanSummary
+                  .top_intention_nationality
+                  ?.origin_country_hu ?? "—"}
+              </strong>
+
+              <small>
+                {formatNumber(
+                  balkanSummary
+                    .top_intention_nationality
+                    ?.share_percent
+                )}
+                %
+              </small>
+            </div>
+          </div>
+
+          <div className="balkan-origin-grid">
+            <div className="balkan-origin-column">
+              <div className="origin-section-title">
+                Menedékkérési szándékok
+              </div>
+
+              {balkanIntentions.map(
+                (origin, index) => (
+                  <article
+                    className="balkan-origin-row"
+                    key={
+                      origin.origin_country_code ??
+                      origin.origin_country
+                    }
+                  >
+                    <span>
+                      {index + 1}.
+                    </span>
+
+                    <strong>
+                      {origin.origin_country_hu}
+                    </strong>
+
+                    <em>
+                      {origin.share_percent}%
+                    </em>
+                  </article>
+                )
+              )}
+            </div>
+
+            <div className="balkan-origin-column">
+              <div className="origin-section-title">
+                Tényleges menedékkérelmek
+              </div>
+
+              {balkanApplications.map(
+                (origin, index) => (
+                  <article
+                    className="balkan-origin-row"
+                    key={
+                      origin.origin_country_code ??
+                      origin.origin_country
+                    }
+                  >
+                    <span>
+                      {index + 1}.
+                    </span>
+
+                    <strong>
+                      {origin.origin_country_hu}
+                    </strong>
+
+                    <em>
+                      {origin.share_percent}%
+                    </em>
+                  </article>
+                )
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section className="migration-panel balkan-route-panel">
+          <div className="migration-panel-header">
+            <div>
+              <p className="panel-eyebrow">
+                Route Intelligence
+              </p>
+
+              <h2>
+                Menekülttermelő országok és tervezett célországok
+              </h2>
+            </div>
+
+            <span className="panel-note">
+              RPMS minta:{" "}
+              {formatNumber(
+                rpms.sample_size
+              )} interjú
+            </span>
+          </div>
+
+          <div className="balkan-route-intelligence">
+            <div className="balkan-route-box">
+              <span>
+                Fő származási országok
+              </span>
+
+              {refugeeOrigins
+                .slice(0, 5)
+                .map(
+                  (origin) => (
+                    <div
+                      className="balkan-route-row"
+                      key={
+                        origin.origin_country
+                      }
+                    >
+                      <strong>
+                        {origin.origin_country_hu}
+                      </strong>
+
+                      <em>
+                        {origin.percent}%
+                      </em>
+                    </div>
+                  )
+                )}
+            </div>
+
+            <div className="balkan-route-flow">
+              <span>
+                Nyugat-Balkán
+              </span>
+
+              <strong>
+                →
+              </strong>
+            </div>
+
+            <div className="balkan-route-box">
+              <span>
+                Tervezett célországok
+              </span>
+
+              {refugeeDestinations
+                .slice(0, 3)
+                .map(
+                  (destination) => (
+                    <div
+                      className="balkan-route-row"
+                      key={
+                        destination.country
+                      }
+                    >
+                      <strong>
+                        {destination.country_hu}
+                      </strong>
+
+                      <em>
+                        {destination.percent}%
+                      </em>
+                    </div>
+                  )
+                )}
+            </div>
+          </div>
+
+          <div className="origin-methodology-note">
+            <strong>
+              Adatértelmezés:
+            </strong>
+
+            <span>
+              A menedékkérési szándékok nem egyedi
+              személyszámok. Ugyanaz a személy több
+              nyugat-balkáni országban is regisztrálhat
+              szándékot. Észak-Macedónia és Koszovó
+              esetében a hiányzó intention-adat nem nulla
+              migrációs aktivitást jelent.
+            </span>
+          </div>
+        </section>
+
         <section className="migration-footer-status">
           <div>
             <span>
-              Adatforrás
+              Mediterranean forrás
             </span>
 
             <strong>
@@ -1123,20 +1649,17 @@ function App() {
 
           <div>
             <span>
-              Forrásellenőrzés
+              Western Balkans forrás
             </span>
 
             <strong>
-              {status.source_arithmetic_check ===
-              "ok"
-                ? "Rendben"
-                : "Ellenőrzendő"}
+              UNHCR Route-Based Approach
             </strong>
           </div>
 
           <div>
             <span>
-              Snapshotok
+              Mediterranean snapshot
             </span>
 
             <strong>
@@ -1148,17 +1671,11 @@ function App() {
 
           <div>
             <span>
-              Origin célországok
+              Western Balkans időszak
             </span>
 
             <strong>
-              {formatNumber(
-                originSummary.successful_destinations
-              )}
-              /
-              {formatNumber(
-                originSummary.configured_destinations
-              )}
+              2026.01.01–2026.04.30
             </strong>
           </div>
         </section>
