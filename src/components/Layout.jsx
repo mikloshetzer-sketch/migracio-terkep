@@ -8,10 +8,6 @@ function Layout({ children }) {
 
         <div className="blog-dashboard-brand">
 
-          <div className="brand-mark">
-            ME
-          </div>
-
           <div className="brand-copy">
 
             <p className="brand-site">
@@ -25,8 +21,8 @@ function Layout({ children }) {
             <p className="brand-lead">
               Elemzés. Tények. Kontextus. ·
               Az európai migrációs érkezések,
-              útvonalak és trendek adatvezérelt
-              követése.
+              származási országok, belépési pontok
+              és útvonalak adatvezérelt követése.
             </p>
 
           </div>
