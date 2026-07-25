@@ -4,7 +4,7 @@
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
-    "updated_at": "2026-07-25T06:27:03.719Z",
+    "updated_at": "2026-07-25T06:33:13.102Z",
     "methodology": "Daily snapshots of the cumulative UNHCR year-to-date arrival figure.",
     "interpretation": "Period changes represent arrivals newly reported by UNHCR between snapshots, not necessarily arrivals that physically occurred during the exact same period."
   },
@@ -72,7 +72,7 @@
     },
     {
       "date": "2026-07-25",
-      "captured_at": "2026-07-25T06:27:03.704Z",
+      "captured_at": "2026-07-25T06:33:13.088Z",
       "year": 2026,
       "arrivals_ytd": 48550,
       "sea_arrivals_ytd": 40643,
