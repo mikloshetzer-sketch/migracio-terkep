@@ -25,26 +25,6 @@ function formatPercent(value) {
   })}%`;
 }
 
-function formatDateTime(value) {
-  if (!value) {
-    return "—";
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "—";
-  }
-
-  return date.toLocaleString("hu-HU", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-}
-
 function formatMonth(value) {
   if (!value) {
     return "—";
@@ -244,7 +224,7 @@ function App() {
         <main className="migration-dashboard">
           <section className="migration-state-card">
             <p className="eyebrow">
-              EU Migration Monitor
+              EU Migration Intelligence
             </p>
 
             <h1>
@@ -266,7 +246,7 @@ function App() {
         <main className="migration-dashboard">
           <section className="migration-state-card">
             <p className="eyebrow">
-              EU Migration Monitor
+              EU Migration Intelligence
             </p>
 
             <h1>
@@ -310,41 +290,6 @@ function App() {
   return (
     <Layout>
       <main className="migration-dashboard">
-        <section className="migration-hero">
-          <div className="migration-hero-copy">
-            <p className="eyebrow">
-              Operational Intelligence Overview
-            </p>
-
-            <h1>
-              EU Migration Monitor
-            </h1>
-
-            <p className="migration-lead">
-              Regisztrált migrációs érkezések,
-              fő belépési országok és útvonalak
-              adatvezérelt követése az UNHCR
-              hivatalos adatai alapján.
-            </p>
-          </div>
-
-          <div className="migration-source-status">
-            <span className="status-dot" />
-
-            <div>
-              <strong>
-                UNHCR adatkapcsolat
-              </strong>
-
-              <span>
-                Frissítve:{" "}
-                {formatDateTime(
-                  summary.metadata?.generated_at
-                )}
-              </span>
-            </div>
-          </div>
-        </section>
 
         <section className="migration-kpi-grid">
           <article className="migration-kpi migration-kpi-primary">
@@ -920,6 +865,7 @@ function App() {
             </strong>
           </div>
         </section>
+
       </main>
     </Layout>
   );
