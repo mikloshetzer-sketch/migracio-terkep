@@ -4,35 +4,55 @@ function Layout({ children }) {
   return (
     <div className="app-shell">
 
-      <header className="hero">
+      <header className="blog-dashboard-header">
 
-        <div>
+        <div className="blog-dashboard-brand">
 
-          <p className="eyebrow">
-            Migration Intelligence Center
-          </p>
+          <div className="brand-mark">
+            ME
+          </div>
 
-          <h1>
-            Global Migration Pressure Monitor
-          </h1>
+          <div className="brand-copy">
 
-          <p className="lead">
+            <p className="brand-site">
+              TÖRÉSVONALAK.BLOG
+            </p>
 
-            High-level monitoring of migration pressure,
-            geopolitical events, border risks and future
-            movement trends.
+            <h1 className="brand-title">
+              EU Migration Intelligence Dashboard
+            </h1>
 
-          </p>
+            <p className="brand-lead">
+              Elemzés. Tények. Kontextus. ·
+              Az európai migrációs érkezések,
+              útvonalak és trendek adatvezérelt
+              követése.
+            </p>
+
+          </div>
 
         </div>
 
-        <div className="status-card">
+        <div className="blog-dashboard-actions">
 
-          <span>System Status</span>
+          <button
+            type="button"
+            className="dashboard-action dashboard-action-secondary"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Adatok frissítése
+          </button>
 
-          <strong>Operational</strong>
-
-          <small>Awaiting live data connection</small>
+          <a
+            className="dashboard-action dashboard-action-primary"
+            href="https://toresvonalak.blog/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Törésvonalak.blog
+          </a>
 
         </div>
 
