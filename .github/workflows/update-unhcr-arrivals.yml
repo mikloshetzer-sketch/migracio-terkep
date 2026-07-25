@@ -25,6 +25,9 @@ jobs:
       - name: Update UNHCR arrivals data
         run: node scripts/update-unhcr-arrivals.mjs
 
+      - name: Update country arrivals data
+        run: node scripts/update-country-arrivals.mjs
+
       - name: Update arrival snapshot history
         run: node scripts/update-arrival-snapshots.mjs
 
@@ -41,6 +44,10 @@ jobs:
           head -n 40 public/data/migration/unhcr-arrivals.json
 
           echo ""
+          echo "Country arrivals preview:"
+          head -n 80 public/data/migration/country-arrivals.json
+
+          echo ""
           echo "Arrival snapshots preview:"
           head -n 60 public/data/migration/arrival-snapshots.json
 
@@ -54,6 +61,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add public/data/migration/unhcr-arrivals.json
+          git add public/data/migration/country-arrivals.json
           git add public/data/migration/arrival-snapshots.json
           git add public/data/migration/summary.json
 
