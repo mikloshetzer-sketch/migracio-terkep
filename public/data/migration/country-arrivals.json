@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-07-25T06:14:30.364Z",
+    "generated_at": "2026-07-25T06:19:20.174Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -15,13 +15,19 @@
     "excluded_from_country_breakdown": [
       "Malta"
     ],
-    "important_note": "Malta is included in the regional UNHCR total but is not estimated as a residual in this country breakdown. Country datasets may also have different reporting cut-off dates."
+    "important_note": "Malta is included in the regional UNHCR total but is not estimated as a residual. Country datasets may have different reporting cut-off dates."
   },
   "summary": {
     "regional_arrivals_ytd": 48550,
     "country_breakdown_total": 29891,
+    "country_breakdown_coverage_percent": 61.57,
     "covered_countries": 2,
     "configured_countries": 4,
+    "missing_countries": [
+      "Greece",
+      "Cyprus"
+    ],
+    "complete_country_download": false,
     "top_arrival_country": "Italy",
     "top_arrival_country_hu": "Olaszország",
     "top_arrival_country_code": "IT",
@@ -162,7 +168,7 @@
       "monthly": [],
       "status": "no_data",
       "source": "UNHCR",
-      "source_url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24489&population_group=4797%2C4798&sv_id=100&widget_id=688679"
+      "source_url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24489&population_group=4797%2C4798&sv_id=100&widget_id=688675&useAdmRootLevelData=1"
     },
     {
       "country": "Cyprus",
@@ -175,7 +181,7 @@
       "monthly": [],
       "status": "no_data",
       "source": "UNHCR",
-      "source_url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24473&population_group=4797%2C4798&sv_id=100&widget_id=663857"
+      "source_url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24473&population_group=4797%2C4798&sv_id=100&widget_id=663857&useAdmRootLevelData=1"
     }
   ]
 }
