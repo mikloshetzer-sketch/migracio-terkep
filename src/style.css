@@ -18,6 +18,11 @@
   --red: #ca4c45;
   --purple: #7c3aed;
 
+  --balkan-dark: #315565;
+  --balkan-mid: #4f7484;
+  --balkan-light: #6f94a4;
+  --balkan-soft: #eef4f6;
+
   --text: #17364a;
   --muted: #6d8292;
   --muted-light: #91a2ae;
@@ -343,7 +348,8 @@ a {
    KPI GRID
    ========================================================= */
 
-.migration-kpi-grid {
+.migration-kpi-grid,
+.balkan-kpi-grid {
   display: grid;
 
   grid-template-columns:
@@ -367,7 +373,8 @@ a {
   box-shadow: var(--shadow);
 }
 
-.migration-kpi {
+.migration-kpi,
+.balkan-kpi {
   position: relative;
 
   min-width: 0;
@@ -386,11 +393,13 @@ a {
     var(--border);
 }
 
-.migration-kpi:last-child {
+.migration-kpi:last-child,
+.balkan-kpi:last-child {
   border-right: 0;
 }
 
-.migration-kpi-primary::before {
+.migration-kpi-primary::before,
+.balkan-kpi-primary::before {
   content: "";
 
   position: absolute;
@@ -410,6 +419,10 @@ a {
   background: var(--blue);
 }
 
+.balkan-kpi-primary::before {
+  background: var(--balkan-mid);
+}
+
 .migration-kpi-heading {
   display: flex;
   align-items: center;
@@ -418,7 +431,8 @@ a {
   gap: 8px;
 }
 
-.migration-kpi-label {
+.migration-kpi-label,
+.balkan-kpi > span {
   margin-bottom: 8px;
 
   color: var(--muted);
@@ -431,7 +445,8 @@ a {
   text-transform: uppercase;
 }
 
-.migration-kpi-value {
+.migration-kpi-value,
+.balkan-kpi > strong {
   color: #0f4263;
 
   font-size:
@@ -446,7 +461,12 @@ a {
   font-weight: 850;
 }
 
-.migration-kpi-unit {
+.balkan-kpi > strong {
+  color: var(--balkan-dark);
+}
+
+.migration-kpi-unit,
+.balkan-kpi > small {
   margin-top: 9px;
 
   color: var(--muted);
@@ -1086,51 +1106,6 @@ a {
   font-weight: 800;
 }
 
-.country-coverage-note {
-  margin-top: 20px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 10px;
-
-  padding:
-    11px
-    14px;
-
-  border:
-    1px solid
-    #d8e5ed;
-
-  border-radius: 11px;
-
-  background:
-    #f5f9fb;
-}
-
-.country-coverage-note span {
-  color: var(--muted);
-
-  font-size: 9px;
-  font-weight: 800;
-
-  letter-spacing: 0.6px;
-
-  text-transform: uppercase;
-}
-
-.country-coverage-note strong {
-  color: var(--navy);
-
-  font-size: 14px;
-}
-
-.country-coverage-note small {
-  color: var(--muted);
-
-  font-size: 9px;
-}
-
 /* =========================================================
    ORIGIN INTELLIGENCE
    ========================================================= */
@@ -1704,6 +1679,407 @@ a {
 }
 
 /* =========================================================
+   WESTERN BALKANS SECTION DIVIDER
+   ========================================================= */
+
+.route-section-divider {
+  position: relative;
+
+  margin:
+    34px
+    0
+    20px;
+
+  padding:
+    28px
+    32px;
+
+  overflow: hidden;
+
+  border-radius: var(--radius);
+
+  color: #ffffff;
+
+  background:
+    radial-gradient(
+      circle at 88% 20%,
+      rgba(255, 255, 255, 0.12),
+      transparent 30%
+    ),
+    linear-gradient(
+      110deg,
+      #294b5b,
+      #456c7d 58%,
+      #668d9e
+    );
+
+  box-shadow:
+    0 10px 26px rgba(39, 77, 95, 0.15);
+}
+
+.route-section-divider::after {
+  content: "";
+
+  position: absolute;
+
+  width: 330px;
+  height: 330px;
+
+  right: -80px;
+  top: -170px;
+
+  border-radius: 50%;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+}
+
+.route-section-divider p {
+  position: relative;
+  z-index: 1;
+
+  margin:
+    0
+    0
+    7px;
+
+  color: #d8ebf2;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+}
+
+.route-section-divider h2 {
+  position: relative;
+  z-index: 1;
+
+  margin:
+    0
+    0
+    10px;
+
+  color: #ffffff;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(
+      28px,
+      3vw,
+      40px
+    );
+
+  line-height: 1;
+}
+
+.route-section-divider span {
+  position: relative;
+  z-index: 1;
+
+  display: block;
+
+  max-width: 950px;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.78
+    );
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   WESTERN BALKANS PANELS
+   ========================================================= */
+
+.balkan-country-panel,
+.balkan-origin-panel,
+.balkan-route-panel {
+  margin-bottom: 18px;
+}
+
+.balkan-country-panel {
+  border-top:
+    4px solid
+    var(--balkan-mid);
+}
+
+.balkan-origin-panel {
+  border-top:
+    4px solid
+    #77649d;
+}
+
+.balkan-route-panel {
+  border-top:
+    4px solid
+    #b1773d;
+}
+
+.balkan-origin-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 24px;
+}
+
+.balkan-origin-column {
+  min-width: 0;
+
+  padding:
+    18px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fafcfd,
+      #f4f8fa
+    );
+}
+
+.balkan-origin-row {
+  display: grid;
+
+  grid-template-columns:
+    28px
+    minmax(0, 1fr)
+    auto;
+
+  gap: 10px;
+
+  align-items: center;
+
+  min-height: 44px;
+
+  padding:
+    8px
+    4px;
+
+  border-bottom:
+    1px solid
+    #e4ebef;
+}
+
+.balkan-origin-row:last-child {
+  border-bottom: 0;
+}
+
+.balkan-origin-row > span {
+  color: var(--muted-light);
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.balkan-origin-row > strong {
+  color: #173f58;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.balkan-origin-row > em {
+  min-width: 48px;
+
+  padding:
+    5px
+    9px;
+
+  border-radius: 999px;
+
+  text-align: center;
+
+  color: #405f70;
+
+  background:
+    #eaf1f4;
+
+  font-size: 10px;
+  font-weight: 850;
+
+  font-style: normal;
+}
+
+/* =========================================================
+   WESTERN BALKANS ROUTE INTELLIGENCE
+   ========================================================= */
+
+.balkan-route-intelligence {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    90px
+    minmax(0, 1fr);
+
+  gap: 18px;
+
+  align-items: stretch;
+}
+
+.balkan-route-box {
+  padding:
+    18px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fbfcfd,
+      #f4f8fa
+    );
+}
+
+.balkan-route-box > span {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: var(--muted);
+
+  font-size: 9px;
+  font-weight: 900;
+
+  letter-spacing: 0.8px;
+
+  text-transform: uppercase;
+}
+
+.balkan-route-row {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  min-height: 42px;
+
+  padding:
+    8px
+    0;
+
+  border-bottom:
+    1px solid
+    #e3eaee;
+}
+
+.balkan-route-row:last-child {
+  border-bottom: 0;
+}
+
+.balkan-route-row strong {
+  color: #173f58;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.balkan-route-row em {
+  min-width: 52px;
+
+  padding:
+    5px
+    9px;
+
+  border-radius: 999px;
+
+  text-align: center;
+
+  color: #ffffff;
+
+  background:
+    var(--balkan-mid);
+
+  font-size: 10px;
+  font-weight: 850;
+
+  font-style: normal;
+}
+
+.balkan-route-flow {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  text-align: center;
+}
+
+.balkan-route-flow span {
+  color: var(--muted);
+
+  font-size: 9px;
+  font-weight: 900;
+
+  letter-spacing: 0.7px;
+
+  text-transform: uppercase;
+}
+
+.balkan-route-flow strong {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--balkan-dark),
+      var(--balkan-light)
+    );
+
+  box-shadow:
+    0 5px 14px
+    rgba(
+      49,
+      85,
+      101,
+      0.22
+    );
+
+  font-size: 22px;
+}
+
+/* =========================================================
    FOOTER STATUS
    ========================================================= */
 
@@ -1713,7 +2089,7 @@ a {
   grid-template-columns:
     1fr
     1fr
-    0.65fr
+    0.7fr
     1fr;
 
   overflow: hidden;
@@ -1889,7 +2265,8 @@ a {
     min-width: 170px;
   }
 
-  .migration-kpi-grid {
+  .migration-kpi-grid,
+  .balkan-kpi-grid {
     grid-template-columns:
       repeat(
         2,
@@ -1897,11 +2274,13 @@ a {
       );
   }
 
-  .migration-kpi:nth-child(2) {
+  .migration-kpi:nth-child(2),
+  .balkan-kpi:nth-child(2) {
     border-right: 0;
   }
 
-  .migration-kpi:nth-child(-n + 2) {
+  .migration-kpi:nth-child(-n + 2),
+  .balkan-kpi:nth-child(-n + 2) {
     border-bottom:
       1px solid
       var(--border);
@@ -1925,6 +2304,19 @@ a {
 
   .movement-card {
     min-height: 280px;
+  }
+
+  .balkan-route-intelligence {
+    grid-template-columns:
+      1fr;
+  }
+
+  .balkan-route-flow {
+    min-height: 70px;
+  }
+
+  .balkan-route-flow strong {
+    transform: rotate(90deg);
   }
 
   .migration-footer-status {
@@ -1993,11 +2385,13 @@ a {
       28px;
   }
 
-  .migration-kpi-grid {
+  .migration-kpi-grid,
+  .balkan-kpi-grid {
     grid-template-columns: 1fr;
   }
 
-  .migration-kpi {
+  .migration-kpi,
+  .balkan-kpi {
     border-right: 0;
 
     border-bottom:
@@ -2005,7 +2399,8 @@ a {
       var(--border);
   }
 
-  .migration-kpi:last-child {
+  .migration-kpi:last-child,
+  .balkan-kpi:last-child {
     border-bottom: 0;
   }
 
@@ -2076,11 +2471,6 @@ a {
     gap: 2px;
   }
 
-  .country-coverage-note {
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
   .origin-ranking-heading {
     align-items: flex-start;
   }
@@ -2134,6 +2524,20 @@ a {
 
   .monthly-column {
     min-width: 60px;
+  }
+
+  .route-section-divider {
+    padding:
+      24px
+      20px;
+  }
+
+  .balkan-origin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .balkan-route-intelligence {
+    grid-template-columns: 1fr;
   }
 
   .migration-footer-status {
