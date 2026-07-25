@@ -28,6 +28,9 @@ jobs:
       - name: Update country arrivals data
         run: node scripts/update-country-arrivals.mjs
 
+      - name: Update origin countries data
+        run: node scripts/update-origin-countries.mjs
+
       - name: Update arrival snapshot history
         run: node scripts/update-arrival-snapshots.mjs
 
@@ -48,6 +51,10 @@ jobs:
           head -n 80 public/data/migration/country-arrivals.json
 
           echo ""
+          echo "Origin countries preview:"
+          head -n 100 public/data/migration/origin-countries.json
+
+          echo ""
           echo "Arrival snapshots preview:"
           head -n 60 public/data/migration/arrival-snapshots.json
 
@@ -62,6 +69,7 @@ jobs:
 
           git add public/data/migration/unhcr-arrivals.json
           git add public/data/migration/country-arrivals.json
+          git add public/data/migration/origin-countries.json
           git add public/data/migration/arrival-snapshots.json
           git add public/data/migration/summary.json
 
@@ -70,5 +78,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Update UNHCR migration data"
+          git commit -m "Update UNHCR migration intelligence data"
           git push
