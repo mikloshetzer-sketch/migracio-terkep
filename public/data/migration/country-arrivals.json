@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-07-25T06:21:53.080Z",
+    "generated_at": "2026-07-25T06:27:03.652Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -15,7 +15,7 @@
     "excluded_from_country_breakdown": [
       "Malta"
     ],
-    "important_note": "Malta is included in the regional UNHCR total but is not estimated as a residual. Country datasets may have different reporting cut-off dates."
+    "important_note": "Greece and Cyprus are calculated from separate official UNHCR sea and land monthly datasets. Malta remains excluded until a stable country-level dataset is added."
   },
   "summary": {
     "regional_arrivals_ytd": 48550,
@@ -41,6 +41,8 @@
       "country_code": "IT",
       "route": "Central Mediterranean",
       "arrivals_ytd": 15412,
+      "sea_arrivals_ytd": null,
+      "land_arrivals_ytd": null,
       "share_of_regional_total_percent": 31.74,
       "latest_month": {
         "date": "2026-07-01",
@@ -94,7 +96,14 @@
       ],
       "status": "ok",
       "source": "UNHCR",
-      "source_url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=656&population_group=4797&sv_id=100&widget_id=690058"
+      "sources": [
+        {
+          "type": "combined",
+          "url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=656&population_group=4797&sv_id=100&widget_id=690058",
+          "raw_records": 7,
+          "valid_records": 7
+        }
+      ]
     },
     {
       "country": "Spain",
@@ -102,6 +111,8 @@
       "country_code": "ES",
       "route": "Western Mediterranean / West African Atlantic",
       "arrivals_ytd": 14479,
+      "sea_arrivals_ytd": null,
+      "land_arrivals_ytd": null,
       "share_of_regional_total_percent": 29.82,
       "latest_month": {
         "date": "2026-07-01",
@@ -155,7 +166,14 @@
       ],
       "status": "ok",
       "source": "UNHCR",
-      "source_url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=729&population_group=4797%2C4798%2C5634&sv_id=100&widget_id=687069"
+      "sources": [
+        {
+          "type": "combined",
+          "url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=729&population_group=4797%2C4798%2C5634&sv_id=100&widget_id=687069",
+          "raw_records": 7,
+          "valid_records": 7
+        }
+      ]
     },
     {
       "country": "Greece",
@@ -163,12 +181,27 @@
       "country_code": "GR",
       "route": "Eastern Mediterranean",
       "arrivals_ytd": null,
+      "sea_arrivals_ytd": null,
+      "land_arrivals_ytd": null,
       "share_of_regional_total_percent": null,
       "latest_month": null,
       "monthly": [],
       "status": "no_data",
       "source": "UNHCR",
-      "source_url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24489&population_group=4797%2C4798&sv_id=100&widget_id=688675&useAdmRootLevelData=1"
+      "sources": [
+        {
+          "type": "sea",
+          "url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24489&population_group=4797&sv_id=100&widget_id=688684",
+          "raw_records": 0,
+          "valid_records": 0
+        },
+        {
+          "type": "land",
+          "url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24489&population_group=4798&sv_id=100&widget_id=688685",
+          "raw_records": 0,
+          "valid_records": 0
+        }
+      ]
     },
     {
       "country": "Cyprus",
@@ -176,12 +209,27 @@
       "country_code": "CY",
       "route": "Eastern Mediterranean",
       "arrivals_ytd": null,
+      "sea_arrivals_ytd": null,
+      "land_arrivals_ytd": null,
       "share_of_regional_total_percent": null,
       "latest_month": null,
       "monthly": [],
       "status": "no_data",
       "source": "UNHCR",
-      "source_url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24473&population_group=4797%2C4798&sv_id=100&widget_id=663857&useAdmRootLevelData=1"
+      "sources": [
+        {
+          "type": "sea",
+          "url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24473&population_group=4797&sv_id=100&widget_id=663865",
+          "raw_records": 0,
+          "valid_records": 0
+        },
+        {
+          "type": "land",
+          "url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=24473&population_group=4798&sv_id=100&widget_id=663866",
+          "raw_records": 0,
+          "valid_records": 0
+        }
+      ]
     }
   ]
 }
