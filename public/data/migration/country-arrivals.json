@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-07-26T07:07:55.696Z",
+    "generated_at": "2026-07-27T07:58:09.866Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -19,8 +19,8 @@
     "important_note": "Country datasets may have different reporting cut-off dates. Malta remains excluded until a stable country-level source is added."
   },
   "summary": {
-    "regional_arrivals_ytd": 48550,
-    "country_breakdown_total": 48478,
+    "regional_arrivals_ytd": 48996,
+    "country_breakdown_total": 48924,
     "country_breakdown_coverage_percent": 99.85,
     "covered_countries": 4,
     "configured_countries": 4,
@@ -30,7 +30,7 @@
     "top_arrival_country_hu": "Görögország",
     "top_arrival_country_code": "GR",
     "top_arrival_country_arrivals": 17797,
-    "top_arrival_country_share_percent": 36.66
+    "top_arrival_country_share_percent": 36.32
   },
   "countries": [
     {
@@ -41,7 +41,7 @@
       "arrivals_ytd": 17797,
       "sea_arrivals_ytd": 13550,
       "land_arrivals_ytd": 4247,
-      "share_of_regional_total_percent": 36.66,
+      "share_of_regional_total_percent": 36.32,
       "latest_month": null,
       "latest_data_date": "2026-07-19",
       "monthly": [],
@@ -68,15 +68,15 @@
       "country_hu": "Olaszország",
       "country_code": "IT",
       "route": "Central Mediterranean",
-      "arrivals_ytd": 15412,
-      "sea_arrivals_ytd": 15412,
+      "arrivals_ytd": 15858,
+      "sea_arrivals_ytd": 15858,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 31.74,
+      "share_of_regional_total_percent": 32.37,
       "latest_month": {
         "date": "2026-07-01",
         "year": 2026,
         "month": 7,
-        "people": 1024
+        "people": 1470
       },
       "latest_data_date": null,
       "monthly": [
@@ -120,7 +120,7 @@
           "date": "2026-07-01",
           "year": 2026,
           "month": 7,
-          "people": 1024
+          "people": 1470
         }
       ],
       "status": "ok",
@@ -143,7 +143,7 @@
       "arrivals_ytd": 14479,
       "sea_arrivals_ytd": null,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 29.82,
+      "share_of_regional_total_percent": 29.55,
       "latest_month": {
         "date": "2026-07-01",
         "year": 2026,
@@ -215,7 +215,7 @@
       "arrivals_ytd": 790,
       "sea_arrivals_ytd": 121,
       "land_arrivals_ytd": 669,
-      "share_of_regional_total_percent": 1.63,
+      "share_of_regional_total_percent": 1.61,
       "latest_month": null,
       "latest_data_date": "2026-07-19",
       "monthly": [],
