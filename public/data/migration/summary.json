@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Dashboard Summary",
-    "generated_at": "2026-07-27T07:58:11.552Z",
+    "generated_at": "2026-07-28T06:46:31.623Z",
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
@@ -9,11 +9,11 @@
   },
   "headline": {
     "year": 2026,
-    "arrivals_ytd": 48996,
+    "arrivals_ytd": 49014,
     "sea_arrivals_ytd": 41089,
-    "land_arrivals_ytd": 7907,
-    "sea_share_percent": 83.86,
-    "land_share_percent": 16.14
+    "land_arrivals_ytd": 7925,
+    "sea_share_percent": 83.83,
+    "land_share_percent": 16.17
   },
   "periods": {
     "last_7_days": {
@@ -22,7 +22,7 @@
       "arrivals": null,
       "actual_days": null,
       "reference_date": null,
-      "current_date": "2026-07-27",
+      "current_date": "2026-07-28",
       "status": "insufficient_history"
     },
     "last_30_days": {
@@ -31,24 +31,24 @@
       "arrivals": null,
       "actual_days": null,
       "reference_date": null,
-      "current_date": "2026-07-27",
+      "current_date": "2026-07-28",
       "status": "insufficient_history"
     },
     "latest_reported_change": {
       "label": "Latest reported change",
       "available": true,
-      "arrivals": 446,
+      "arrivals": 18,
       "actual_days": 1,
-      "reference_date": "2026-07-26",
-      "current_date": "2026-07-27",
+      "reference_date": "2026-07-27",
+      "current_date": "2026-07-28",
       "status": "ok"
     }
   },
   "latest_month": {
     "date": "2026-07-01",
-    "arrivals": 5681,
+    "arrivals": 5699,
     "sea_arrivals": 4706,
-    "land_arrivals": 975,
+    "land_arrivals": 993,
     "month_status": "partial",
     "month_complete": false,
     "change": null,
@@ -72,7 +72,7 @@
     "change_percent": 1.31
   },
   "data_status": {
-    "snapshot_count": 4,
+    "snapshot_count": 5,
     "seven_day_available": false,
     "thirty_day_available": false,
     "latest_available_month": "2026-07-01",
