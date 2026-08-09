@@ -1,64 +1,8 @@
 {
-  "updated_at": "2026-08-09T06:42:08.847Z",
+  "updated_at": "2026-08-09T12:34:52.242Z",
   "source": "GDELT Project API",
-  "status": "ok",
-  "message": "ok",
-  "count": 5,
-  "reports": [
-    {
-      "id": "https://www.lacronicabadajoz.com/internacional/2026/08/08/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200327.html",
-      "title": "De Alemania a los bálticos : cómo afrontar una crisis migratoria o una guerra híbrida",
-      "url": "https://www.lacronicabadajoz.com/internacional/2026/08/08/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200327.html",
-      "date": "2026-08-08TT1:83:00Z",
-      "countries": [],
-      "sources": [
-        "lacronicabadajoz.com"
-      ],
-      "score": 20
-    },
-    {
-      "id": "https://www.farodevigo.es/mundo/2026/08/08/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200304.html",
-      "title": "De Alemania a los bálticos : cómo afrontar una crisis migratoria o una guerra híbrida",
-      "url": "https://www.farodevigo.es/mundo/2026/08/08/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200304.html",
-      "date": "2026-08-08TT1:73:00Z",
-      "countries": [],
-      "sources": [
-        "farodevigo.es"
-      ],
-      "score": 20
-    },
-    {
-      "id": "https://www.elperiodicoextremadura.com/internacional/2026/08/08/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200320.html",
-      "title": "De Alemania a los bálticos : cómo afrontar una crisis migratoria o una guerra híbrida",
-      "url": "https://www.elperiodicoextremadura.com/internacional/2026/08/08/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200320.html",
-      "date": "2026-08-08TT1:73:00Z",
-      "countries": [],
-      "sources": [
-        "elperiodicoextremadura.com"
-      ],
-      "score": 20
-    },
-    {
-      "id": "https://www.elperiodico.com/es/internacional/20260808/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200300",
-      "title": "De Alemania a los bálticos : cómo afrontar una crisis migratoria o una guerra híbrida",
-      "url": "https://www.elperiodico.com/es/internacional/20260808/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200300",
-      "date": "2026-08-08TT1:70:00Z",
-      "countries": [],
-      "sources": [
-        "elperiodico.com"
-      ],
-      "score": 20
-    },
-    {
-      "id": "https://www.laprovincia.es/mundo/2026/08/08/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200306.html",
-      "title": "De Alemania a los bálticos : cómo afrontar una crisis migratoria o una guerra híbrida",
-      "url": "https://www.laprovincia.es/mundo/2026/08/08/polonia-alemania-balticos-finlandia-como-afrontar-crisis-migratoria-guerra-hibrida-133200306.html",
-      "date": "2026-08-08TT1:63:00Z",
-      "countries": [],
-      "sources": [
-        "laprovincia.es"
-      ],
-      "score": 20
-    }
-  ]
+  "status": "rate_limited",
+  "message": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newsletter briefings: https://blog.gdeltproject.org/announcing-our-new-daily-todays-trends-on-capitol-hill-todays-media-trends-newsletter-briefings/.",
+  "count": 0,
+  "reports": []
 }
