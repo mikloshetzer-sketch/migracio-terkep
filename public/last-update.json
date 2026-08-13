@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-08-13T01:18:53.499Z",
+  "updated_at": "2026-08-13T07:16:06.139Z",
   "source": "GDELT Project API",
-  "status": "ok",
+  "status": "script_error",
   "event_count": 0,
-  "message": "ok"
+  "message": "fetch failed"
 }
