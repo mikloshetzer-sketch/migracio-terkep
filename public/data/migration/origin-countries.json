@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Countries of Origin",
-    "generated_at": "2026-08-17T05:03:10.686Z",
+    "generated_at": "2026-08-18T04:56:29.686Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -1026,7 +1026,7 @@
       "scope": "all_arrivals",
       "scope_label": "Sea and land arrivals",
       "data_date": "2026-07-31",
-      "published_origin_total": 823,
+      "published_origin_total": 828,
       "origin_categories": 6,
       "status": "ok",
       "source_url": "https://data.unhcr.org/population/get/origin?fromDate=2026-01-01&geo_id=616&limit=6&population_collection=28&sv_id=100&widget_id=663858",
@@ -1042,11 +1042,11 @@
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 236,
+          "people": 237,
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": true,
-          "share_of_published_origin_data_percent": 28.68
+          "share_of_published_origin_data_percent": 28.62
         },
         {
           "year": 2026,
@@ -1063,7 +1063,7 @@
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 22.24
+          "share_of_published_origin_data_percent": 22.1
         },
         {
           "year": 2026,
@@ -1076,11 +1076,11 @@
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 145,
+          "people": 149,
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 17.62
+          "share_of_published_origin_data_percent": 18
         },
         {
           "year": 2026,
@@ -1097,7 +1097,7 @@
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 14.58
+          "share_of_published_origin_data_percent": 14.49
         },
         {
           "year": 2026,
@@ -1114,7 +1114,7 @@
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 10.33
+          "share_of_published_origin_data_percent": 10.27
         },
         {
           "year": 2026,
@@ -1131,7 +1131,7 @@
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 6.56
+          "share_of_published_origin_data_percent": 6.52
         }
       ]
     }
@@ -1167,7 +1167,7 @@
     {
       "origin_country": "Sudan",
       "origin_country_code": "SUD",
-      "people": 5687,
+      "people": 5691,
       "destination_count": 4,
       "destinations": [
         {
@@ -1204,7 +1204,7 @@
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
           "data_date": "2026-07-31",
-          "people": 145
+          "people": 149
         }
       ],
       "is_aggregate_origin": false
@@ -1338,7 +1338,7 @@
     {
       "origin_country": "Others",
       "origin_country_code": "OTH",
-      "people": 1667,
+      "people": 1668,
       "destination_count": 4,
       "destinations": [
         {
@@ -1375,7 +1375,7 @@
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
           "data_date": "2026-07-31",
-          "people": 236
+          "people": 237
         }
       ],
       "is_aggregate_origin": true
@@ -2488,11 +2488,11 @@
       "route": "Eastern Mediterranean",
       "scope": "all_arrivals",
       "scope_label": "Sea and land arrivals",
-      "people": 236,
+      "people": 237,
       "source": "Government, UNHCR",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": true,
-      "share_of_published_origin_data_percent": 28.68
+      "share_of_published_origin_data_percent": 28.62
     },
     {
       "year": 2026,
@@ -2560,7 +2560,7 @@
       "source": "Government, UNHCR",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 22.24
+      "share_of_published_origin_data_percent": 22.1
     },
     {
       "year": 2026,
@@ -2675,11 +2675,11 @@
       "route": "Eastern Mediterranean",
       "scope": "all_arrivals",
       "scope_label": "Sea and land arrivals",
-      "people": 145,
+      "people": 149,
       "source": "Government, UNHCR",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 17.62
+      "share_of_published_origin_data_percent": 18
     },
     {
       "year": 2026,
@@ -2696,7 +2696,7 @@
       "source": "Government, UNHCR",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 14.58
+      "share_of_published_origin_data_percent": 14.49
     },
     {
       "year": 2026,
@@ -2798,7 +2798,7 @@
       "source": "Government, UNHCR",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 10.33
+      "share_of_published_origin_data_percent": 10.27
     },
     {
       "year": 2026,
@@ -2900,7 +2900,7 @@
       "source": "Government, UNHCR",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 6.56
+      "share_of_published_origin_data_percent": 6.52
     },
     {
       "year": 2026,
