@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Dashboard Summary",
-    "generated_at": "2026-08-19T04:56:37.566Z",
+    "generated_at": "2026-08-20T04:58:34.815Z",
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
@@ -9,20 +9,20 @@
   },
   "headline": {
     "year": 2026,
-    "arrivals_ytd": 58617,
-    "sea_arrivals_ytd": 47455,
-    "land_arrivals_ytd": 11162,
-    "sea_share_percent": 80.96,
-    "land_share_percent": 19.04
+    "arrivals_ytd": 60028,
+    "sea_arrivals_ytd": 48611,
+    "land_arrivals_ytd": 11417,
+    "sea_share_percent": 80.98,
+    "land_share_percent": 19.02
   },
   "periods": {
     "last_7_days": {
       "label": "Last 7 days",
       "available": true,
-      "arrivals": 4301,
+      "arrivals": 5712,
       "actual_days": 7,
-      "reference_date": "2026-08-12",
-      "current_date": "2026-08-19",
+      "reference_date": "2026-08-13",
+      "current_date": "2026-08-20",
       "status": "ok"
     },
     "last_30_days": {
@@ -31,24 +31,24 @@
       "arrivals": null,
       "actual_days": null,
       "reference_date": null,
-      "current_date": "2026-08-19",
+      "current_date": "2026-08-20",
       "status": "insufficient_history"
     },
     "latest_reported_change": {
       "label": "Latest reported change",
       "available": true,
-      "arrivals": 0,
+      "arrivals": 1411,
       "actual_days": 1,
-      "reference_date": "2026-08-18",
-      "current_date": "2026-08-19",
+      "reference_date": "2026-08-19",
+      "current_date": "2026-08-20",
       "status": "ok"
     }
   },
   "latest_month": {
     "date": "2026-08-01",
-    "arrivals": 5047,
-    "sea_arrivals": 3400,
-    "land_arrivals": 1647,
+    "arrivals": 6458,
+    "sea_arrivals": 4556,
+    "land_arrivals": 1902,
     "month_status": "partial",
     "month_complete": false,
     "change": null,
@@ -72,7 +72,7 @@
     "change_percent": 9.68
   },
   "data_status": {
-    "snapshot_count": 27,
+    "snapshot_count": 28,
     "seven_day_available": true,
     "thirty_day_available": false,
     "latest_available_month": "2026-08-01",
