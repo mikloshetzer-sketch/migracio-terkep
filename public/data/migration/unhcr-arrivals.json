@@ -4,7 +4,7 @@
     "source": "UNHCR",
     "source_name": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
-    "generated_at": "2026-08-25T04:58:50.220Z",
+    "generated_at": "2026-08-26T05:00:13.959Z",
     "year": 2026,
     "coverage": [
       "Italy",
@@ -19,10 +19,10 @@
   },
   "summary": {
     "year": 2026,
-    "arrivals_ytd": 61106,
-    "sea_arrivals_ytd": 49671,
+    "arrivals_ytd": 61620,
+    "sea_arrivals_ytd": 50185,
     "land_arrivals_ytd": 11435,
-    "calculated_ytd": 61106,
+    "calculated_ytd": 61620,
     "ytd_difference": 0,
     "latest_available_month": "2026-08-01",
     "latest_month_arrivals": 7536,
@@ -117,8 +117,8 @@
       "date": "2026-07-01",
       "year": 2026,
       "month": 7,
-      "people": 10255,
-      "sea_arrivals": 7672,
+      "people": 10769,
+      "sea_arrivals": 8186,
       "land_arrivals": 2583,
       "calculation_difference": 0,
       "granularity": "monthly",
@@ -157,8 +157,8 @@
       "valid_2026_records": 8
     },
     "arithmetic_check": {
-      "total_ytd": 61106,
-      "sea_plus_land_ytd": 61106,
+      "total_ytd": 61620,
+      "sea_plus_land_ytd": 61620,
       "difference": 0,
       "status": "ok"
     }

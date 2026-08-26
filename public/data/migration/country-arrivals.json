@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-08-25T04:58:59.327Z",
+    "generated_at": "2026-08-26T05:00:25.308Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -19,8 +19,8 @@
     "important_note": "Country datasets may have different reporting cut-off dates. Malta remains excluded until a stable country-level source is added."
   },
   "summary": {
-    "regional_arrivals_ytd": 61106,
-    "country_breakdown_total": 61034,
+    "regional_arrivals_ytd": 61620,
+    "country_breakdown_total": 61548,
     "country_breakdown_coverage_percent": 99.88,
     "covered_countries": 4,
     "configured_countries": 4,
@@ -30,7 +30,7 @@
     "top_arrival_country_hu": "Görögország",
     "top_arrival_country_code": "GR",
     "top_arrival_country_arrivals": 22141,
-    "top_arrival_country_share_percent": 36.23
+    "top_arrival_country_share_percent": 35.93
   },
   "countries": [
     {
@@ -41,7 +41,7 @@
       "arrivals_ytd": 22141,
       "sea_arrivals_ytd": 17043,
       "land_arrivals_ytd": 5098,
-      "share_of_regional_total_percent": 36.23,
+      "share_of_regional_total_percent": 35.93,
       "latest_month": null,
       "latest_data_date": "2026-08-16",
       "monthly": [],
@@ -71,7 +71,7 @@
       "arrivals_ytd": 19972,
       "sea_arrivals_ytd": null,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 32.68,
+      "share_of_regional_total_percent": 32.41,
       "latest_month": {
         "date": "2026-08-01",
         "year": 2026,
@@ -146,10 +146,10 @@
       "country_hu": "Olaszország",
       "country_code": "IT",
       "route": "Central Mediterranean",
-      "arrivals_ytd": 18003,
-      "sea_arrivals_ytd": 18003,
+      "arrivals_ytd": 18517,
+      "sea_arrivals_ytd": 18517,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 29.46,
+      "share_of_regional_total_percent": 30.05,
       "latest_month": {
         "date": "2026-08-01",
         "year": 2026,
@@ -198,7 +198,7 @@
           "date": "2026-07-01",
           "year": 2026,
           "month": 7,
-          "people": 1665
+          "people": 2179
         },
         {
           "date": "2026-08-01",
@@ -227,7 +227,7 @@
       "arrivals_ytd": 918,
       "sea_arrivals_ytd": 142,
       "land_arrivals_ytd": 776,
-      "share_of_regional_total_percent": 1.5,
+      "share_of_regional_total_percent": 1.49,
       "latest_month": null,
       "latest_data_date": "2026-08-23",
       "monthly": [],
