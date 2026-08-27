@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Dashboard Summary",
-    "generated_at": "2026-08-26T05:00:27.828Z",
+    "generated_at": "2026-08-27T15:20:35.024Z",
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
@@ -9,46 +9,46 @@
   },
   "headline": {
     "year": 2026,
-    "arrivals_ytd": 61620,
-    "sea_arrivals_ytd": 50185,
-    "land_arrivals_ytd": 11435,
-    "sea_share_percent": 81.44,
-    "land_share_percent": 18.56
+    "arrivals_ytd": 62718,
+    "sea_arrivals_ytd": 51072,
+    "land_arrivals_ytd": 11646,
+    "sea_share_percent": 81.43,
+    "land_share_percent": 18.57
   },
   "periods": {
     "last_7_days": {
       "label": "Last 7 days",
       "available": true,
-      "arrivals": 3003,
+      "arrivals": 2690,
       "actual_days": 7,
-      "reference_date": "2026-08-19",
-      "current_date": "2026-08-26",
+      "reference_date": "2026-08-20",
+      "current_date": "2026-08-27",
       "status": "ok"
     },
     "last_30_days": {
       "label": "Last 30 days",
       "available": true,
-      "arrivals": 12624,
+      "arrivals": 13704,
       "actual_days": 30,
-      "reference_date": "2026-07-27",
-      "current_date": "2026-08-26",
+      "reference_date": "2026-07-28",
+      "current_date": "2026-08-27",
       "status": "ok"
     },
     "latest_reported_change": {
       "label": "Latest reported change",
       "available": true,
-      "arrivals": 514,
+      "arrivals": 1098,
       "actual_days": 1,
-      "reference_date": "2026-08-25",
-      "current_date": "2026-08-26",
+      "reference_date": "2026-08-26",
+      "current_date": "2026-08-27",
       "status": "ok"
     }
   },
   "latest_month": {
     "date": "2026-08-01",
-    "arrivals": 7536,
-    "sea_arrivals": 5616,
-    "land_arrivals": 1920,
+    "arrivals": 8648,
+    "sea_arrivals": 6517,
+    "land_arrivals": 2131,
     "month_status": "partial",
     "month_complete": false,
     "change": null,
@@ -58,8 +58,8 @@
     "available": true,
     "latest_complete_month": {
       "date": "2026-07-01",
-      "arrivals": 10769,
-      "sea_arrivals": 8186,
+      "arrivals": 10755,
+      "sea_arrivals": 8172,
       "land_arrivals": 2583
     },
     "previous_complete_month": {
@@ -68,11 +68,11 @@
       "sea_arrivals": 8132,
       "land_arrivals": 1218
     },
-    "change": 1419,
-    "change_percent": 15.18
+    "change": 1405,
+    "change_percent": 15.03
   },
   "data_status": {
-    "snapshot_count": 34,
+    "snapshot_count": 35,
     "seven_day_available": true,
     "thirty_day_available": true,
     "latest_available_month": "2026-08-01",
