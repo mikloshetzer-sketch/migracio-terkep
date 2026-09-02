@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-09-01T09:29:42.224Z",
+    "generated_at": "2026-09-02T08:51:38.019Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -19,8 +19,8 @@
     "important_note": "Country datasets may have different reporting cut-off dates. Malta remains excluded until a stable country-level source is added."
   },
   "summary": {
-    "regional_arrivals_ytd": 63330,
-    "country_breakdown_total": 63258,
+    "regional_arrivals_ytd": 64657,
+    "country_breakdown_total": 64585,
     "country_breakdown_coverage_percent": 99.89,
     "covered_countries": 4,
     "configured_countries": 4,
@@ -29,8 +29,8 @@
     "top_arrival_country": "Greece",
     "top_arrival_country_hu": "Görögország",
     "top_arrival_country_code": "GR",
-    "top_arrival_country_arrivals": 23239,
-    "top_arrival_country_share_percent": 36.7
+    "top_arrival_country_arrivals": 24523,
+    "top_arrival_country_share_percent": 37.93
   },
   "countries": [
     {
@@ -38,12 +38,12 @@
       "country_hu": "Görögország",
       "country_code": "GR",
       "route": "Eastern Mediterranean",
-      "arrivals_ytd": 23239,
-      "sea_arrivals_ytd": 17930,
-      "land_arrivals_ytd": 5309,
-      "share_of_regional_total_percent": 36.7,
+      "arrivals_ytd": 24523,
+      "sea_arrivals_ytd": 18963,
+      "land_arrivals_ytd": 5560,
+      "share_of_regional_total_percent": 37.93,
       "latest_month": null,
-      "latest_data_date": "2026-08-23",
+      "latest_data_date": "2026-08-30",
       "monthly": [],
       "status": "ok",
       "data_granularity": "annual_cumulative",
@@ -52,14 +52,14 @@
         {
           "type": "sea",
           "url": "https://data.unhcr.org/population/?geo_id=640&population_group=4797&sv_id=100&widget_id=688680&year=latest",
-          "date": "2026-08-23",
-          "people": 17930
+          "date": "2026-08-30",
+          "people": 18963
         },
         {
           "type": "land",
           "url": "https://data.unhcr.org/population/?geo_id=640&population_group=4798&sv_id=100&widget_id=688681&year=latest",
-          "date": "2026-08-23",
-          "people": 5309
+          "date": "2026-08-30",
+          "people": 5560
         }
       ]
     },
@@ -71,7 +71,7 @@
       "arrivals_ytd": 19972,
       "sea_arrivals_ytd": null,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 31.54,
+      "share_of_regional_total_percent": 30.89,
       "latest_month": {
         "date": "2026-08-01",
         "year": 2026,
@@ -149,7 +149,7 @@
       "arrivals_ytd": 19129,
       "sea_arrivals_ytd": 19129,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 30.21,
+      "share_of_regional_total_percent": 29.59,
       "latest_month": {
         "date": "2026-08-01",
         "year": 2026,
@@ -224,12 +224,12 @@
       "country_hu": "Ciprus",
       "country_code": "CY",
       "route": "Eastern Mediterranean",
-      "arrivals_ytd": 918,
-      "sea_arrivals_ytd": 142,
-      "land_arrivals_ytd": 776,
-      "share_of_regional_total_percent": 1.45,
+      "arrivals_ytd": 961,
+      "sea_arrivals_ytd": 155,
+      "land_arrivals_ytd": 806,
+      "share_of_regional_total_percent": 1.49,
       "latest_month": null,
-      "latest_data_date": "2026-08-23",
+      "latest_data_date": "2026-08-30",
       "monthly": [],
       "status": "ok",
       "data_granularity": "annual_cumulative",
@@ -238,14 +238,14 @@
         {
           "type": "sea",
           "url": "https://data.unhcr.org/population/?geo_id=616&population_group=4797&sv_id=100&widget_id=663861&year=latest",
-          "date": "2026-08-23",
-          "people": 142
+          "date": "2026-08-30",
+          "people": 155
         },
         {
           "type": "land",
           "url": "https://data.unhcr.org/population/?geo_id=616&population_group=4798&sv_id=100&widget_id=663862&year=latest",
-          "date": "2026-08-23",
-          "people": 776
+          "date": "2026-08-30",
+          "people": 806
         }
       ]
     }
