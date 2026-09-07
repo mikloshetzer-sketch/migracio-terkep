@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-09-06T08:44:13.218Z",
+    "generated_at": "2026-09-07T09:28:42.648Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -19,8 +19,8 @@
     "important_note": "Country datasets may have different reporting cut-off dates. Malta remains excluded until a stable country-level source is added."
   },
   "summary": {
-    "regional_arrivals_ytd": 64657,
-    "country_breakdown_total": 64585,
+    "regional_arrivals_ytd": 65340,
+    "country_breakdown_total": 65268,
     "country_breakdown_coverage_percent": 99.89,
     "covered_countries": 4,
     "configured_countries": 4,
@@ -30,7 +30,7 @@
     "top_arrival_country_hu": "Görögország",
     "top_arrival_country_code": "GR",
     "top_arrival_country_arrivals": 24523,
-    "top_arrival_country_share_percent": 37.93
+    "top_arrival_country_share_percent": 37.53
   },
   "countries": [
     {
@@ -41,7 +41,7 @@
       "arrivals_ytd": 24523,
       "sea_arrivals_ytd": 18963,
       "land_arrivals_ytd": 5560,
-      "share_of_regional_total_percent": 37.93,
+      "share_of_regional_total_percent": 37.53,
       "latest_month": null,
       "latest_data_date": "2026-08-30",
       "monthly": [],
@@ -71,7 +71,7 @@
       "arrivals_ytd": 19972,
       "sea_arrivals_ytd": null,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 30.89,
+      "share_of_regional_total_percent": 30.57,
       "latest_month": {
         "date": "2026-08-01",
         "year": 2026,
@@ -146,15 +146,15 @@
       "country_hu": "Olaszország",
       "country_code": "IT",
       "route": "Central Mediterranean",
-      "arrivals_ytd": 19129,
-      "sea_arrivals_ytd": 19129,
+      "arrivals_ytd": 19797,
+      "sea_arrivals_ytd": 19797,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 29.59,
+      "share_of_regional_total_percent": 30.3,
       "latest_month": {
-        "date": "2026-08-01",
+        "date": "2026-09-01",
         "year": 2026,
-        "month": 8,
-        "people": 2562
+        "month": 9,
+        "people": 625
       },
       "latest_data_date": null,
       "monthly": [
@@ -204,7 +204,13 @@
           "date": "2026-08-01",
           "year": 2026,
           "month": 8,
-          "people": 2562
+          "people": 2605
+        },
+        {
+          "date": "2026-09-01",
+          "year": 2026,
+          "month": 9,
+          "people": 625
         }
       ],
       "status": "ok",
@@ -224,12 +230,12 @@
       "country_hu": "Ciprus",
       "country_code": "CY",
       "route": "Eastern Mediterranean",
-      "arrivals_ytd": 961,
-      "sea_arrivals_ytd": 155,
-      "land_arrivals_ytd": 806,
+      "arrivals_ytd": 976,
+      "sea_arrivals_ytd": 156,
+      "land_arrivals_ytd": 820,
       "share_of_regional_total_percent": 1.49,
       "latest_month": null,
-      "latest_data_date": "2026-08-30",
+      "latest_data_date": "2026-09-06",
       "monthly": [],
       "status": "ok",
       "data_granularity": "annual_cumulative",
@@ -238,14 +244,14 @@
         {
           "type": "sea",
           "url": "https://data.unhcr.org/population/?geo_id=616&population_group=4797&sv_id=100&widget_id=663861&year=latest",
-          "date": "2026-08-30",
-          "people": 155
+          "date": "2026-09-06",
+          "people": 156
         },
         {
           "type": "land",
           "url": "https://data.unhcr.org/population/?geo_id=616&population_group=4798&sv_id=100&widget_id=663862&year=latest",
-          "date": "2026-08-30",
-          "people": 806
+          "date": "2026-09-06",
+          "people": 820
         }
       ]
     }

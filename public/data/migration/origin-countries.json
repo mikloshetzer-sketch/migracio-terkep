@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Countries of Origin",
-    "generated_at": "2026-09-06T08:44:15.270Z",
+    "generated_at": "2026-09-07T09:28:44.023Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -1025,15 +1025,15 @@
       "route": "Eastern Mediterranean",
       "scope": "all_arrivals",
       "scope_label": "Sea and land arrivals",
-      "data_date": "2026-07-31",
-      "published_origin_total": 828,
+      "data_date": "2026-08-31",
+      "published_origin_total": 970,
       "origin_categories": 6,
       "status": "ok",
       "source_url": "https://data.unhcr.org/population/get/origin?fromDate=2026-01-01&geo_id=616&limit=6&population_collection=28&sv_id=100&widget_id=663858",
       "origins": [
         {
           "year": 2026,
-          "data_date": "2026-07-31",
+          "data_date": "2026-08-31",
           "origin_country": "Others",
           "origin_country_code": "OTH",
           "destination_country": "Cyprus",
@@ -1042,17 +1042,34 @@
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 237,
+          "people": 272,
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": true,
-          "share_of_published_origin_data_percent": 28.62
+          "share_of_published_origin_data_percent": 28.04
         },
         {
           "year": 2026,
-          "data_date": "2026-07-31",
+          "data_date": "2026-08-31",
           "origin_country": "Somalia",
           "origin_country_code": "SOM",
+          "destination_country": "Cyprus",
+          "destination_country_hu": "Ciprus",
+          "destination_country_code": "CY",
+          "route": "Eastern Mediterranean",
+          "scope": "all_arrivals",
+          "scope_label": "Sea and land arrivals",
+          "people": 198,
+          "source": "Government, UNHCR",
+          "source_dataset": "Europe Sea Arrivals",
+          "is_aggregate_origin": false,
+          "share_of_published_origin_data_percent": 20.41
+        },
+        {
+          "year": 2026,
+          "data_date": "2026-08-31",
+          "origin_country": "Sudan",
+          "origin_country_code": "SUD",
           "destination_country": "Cyprus",
           "destination_country_hu": "Ciprus",
           "destination_country_code": "CY",
@@ -1063,13 +1080,13 @@
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 22.1
+          "share_of_published_origin_data_percent": 18.87
         },
         {
           "year": 2026,
-          "data_date": "2026-07-31",
-          "origin_country": "Sudan",
-          "origin_country_code": "SUD",
+          "data_date": "2026-08-31",
+          "origin_country": "Syrian Arab Rep.",
+          "origin_country_code": "SYR",
           "destination_country": "Cyprus",
           "destination_country_hu": "Ciprus",
           "destination_country_code": "CY",
@@ -1080,28 +1097,11 @@
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 18
+          "share_of_published_origin_data_percent": 15.36
         },
         {
           "year": 2026,
-          "data_date": "2026-07-31",
-          "origin_country": "Syrian Arab Rep.",
-          "origin_country_code": "SYR",
-          "destination_country": "Cyprus",
-          "destination_country_hu": "Ciprus",
-          "destination_country_code": "CY",
-          "route": "Eastern Mediterranean",
-          "scope": "all_arrivals",
-          "scope_label": "Sea and land arrivals",
-          "people": 120,
-          "source": "Government, UNHCR",
-          "source_dataset": "Europe Sea Arrivals",
-          "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 14.49
-        },
-        {
-          "year": 2026,
-          "data_date": "2026-07-31",
+          "data_date": "2026-08-31",
           "origin_country": "Iran (Islamic Rep. of)",
           "origin_country_code": "IRN",
           "destination_country": "Cyprus",
@@ -1110,15 +1110,15 @@
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 85,
+          "people": 102,
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 10.27
+          "share_of_published_origin_data_percent": 10.52
         },
         {
           "year": 2026,
-          "data_date": "2026-07-31",
+          "data_date": "2026-08-31",
           "origin_country": "Nigeria",
           "origin_country_code": "NIG",
           "destination_country": "Cyprus",
@@ -1127,11 +1127,11 @@
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 54,
+          "people": 66,
           "source": "Government, UNHCR",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 6.52
+          "share_of_published_origin_data_percent": 6.8
         }
       ]
     }
@@ -1167,7 +1167,7 @@
     {
       "origin_country": "Sudan",
       "origin_country_code": "SUD",
-      "people": 5745,
+      "people": 5779,
       "destination_count": 4,
       "destinations": [
         {
@@ -1203,8 +1203,8 @@
           "destination_country_code": "CY",
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
-          "data_date": "2026-07-31",
-          "people": 149
+          "data_date": "2026-08-31",
+          "people": 183
         }
       ],
       "is_aggregate_origin": false
@@ -1239,7 +1239,7 @@
     {
       "origin_country": "Somalia",
       "origin_country_code": "SOM",
-      "people": 2665,
+      "people": 2680,
       "destination_count": 4,
       "destinations": [
         {
@@ -1275,8 +1275,8 @@
           "destination_country_code": "CY",
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
-          "data_date": "2026-07-31",
-          "people": 183
+          "data_date": "2026-08-31",
+          "people": 198
         }
       ],
       "is_aggregate_origin": false
@@ -1338,7 +1338,7 @@
     {
       "origin_country": "Others",
       "origin_country_code": "OTH",
-      "people": 1695,
+      "people": 1730,
       "destination_count": 4,
       "destinations": [
         {
@@ -1374,8 +1374,8 @@
           "destination_country_code": "CY",
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
-          "data_date": "2026-07-31",
-          "people": 237
+          "data_date": "2026-08-31",
+          "people": 272
         }
       ],
       "is_aggregate_origin": true
@@ -1617,7 +1617,7 @@
     {
       "origin_country": "Syrian Arab Rep.",
       "origin_country_code": "SYR",
-      "people": 538,
+      "people": 567,
       "destination_count": 3,
       "destinations": [
         {
@@ -1644,8 +1644,8 @@
           "destination_country_code": "CY",
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
-          "data_date": "2026-07-31",
-          "people": 120
+          "data_date": "2026-08-31",
+          "people": 149
         }
       ],
       "is_aggregate_origin": false
@@ -1725,7 +1725,7 @@
     {
       "origin_country": "Nigeria",
       "origin_country_code": "NIG",
-      "people": 366,
+      "people": 378,
       "destination_count": 2,
       "destinations": [
         {
@@ -1743,8 +1743,8 @@
           "destination_country_code": "CY",
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
-          "data_date": "2026-07-31",
-          "people": 54
+          "data_date": "2026-08-31",
+          "people": 66
         }
       ],
       "is_aggregate_origin": false
@@ -1752,7 +1752,7 @@
     {
       "origin_country": "Iran (Islamic Rep. of)",
       "origin_country_code": "IRN",
-      "people": 313,
+      "people": 330,
       "destination_count": 2,
       "destinations": [
         {
@@ -1770,8 +1770,8 @@
           "destination_country_code": "CY",
           "route": "Eastern Mediterranean",
           "scope": "all_arrivals",
-          "data_date": "2026-07-31",
-          "people": 85
+          "data_date": "2026-08-31",
+          "people": 102
         }
       ],
       "is_aggregate_origin": false
@@ -2445,6 +2445,23 @@
     },
     {
       "year": 2026,
+      "data_date": "2026-08-31",
+      "origin_country": "Others",
+      "origin_country_code": "OTH",
+      "destination_country": "Cyprus",
+      "destination_country_hu": "Ciprus",
+      "destination_country_code": "CY",
+      "route": "Eastern Mediterranean",
+      "scope": "all_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 272,
+      "source": "Government, UNHCR",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": true,
+      "share_of_published_origin_data_percent": 28.04
+    },
+    {
+      "year": 2026,
       "data_date": "2026-06-30",
       "origin_country": "Syrian Arab Rep.",
       "origin_country_code": "SYR",
@@ -2514,23 +2531,6 @@
     {
       "year": 2026,
       "data_date": "2026-07-31",
-      "origin_country": "Others",
-      "origin_country_code": "OTH",
-      "destination_country": "Cyprus",
-      "destination_country_hu": "Ciprus",
-      "destination_country_code": "CY",
-      "route": "Eastern Mediterranean",
-      "scope": "all_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 237,
-      "source": "Government, UNHCR",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": true,
-      "share_of_published_origin_data_percent": 28.62
-    },
-    {
-      "year": 2026,
-      "data_date": "2026-07-31",
       "origin_country": "Iran (Islamic Rep. of)",
       "origin_country_code": "IRN",
       "destination_country": "Italy",
@@ -2561,6 +2561,23 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 1.77
+    },
+    {
+      "year": 2026,
+      "data_date": "2026-08-31",
+      "origin_country": "Somalia",
+      "origin_country_code": "SOM",
+      "destination_country": "Cyprus",
+      "destination_country_hu": "Ciprus",
+      "destination_country_code": "CY",
+      "route": "Eastern Mediterranean",
+      "scope": "all_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 198,
+      "source": "Government, UNHCR",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": false,
+      "share_of_published_origin_data_percent": 20.41
     },
     {
       "year": 2026,
@@ -2598,9 +2615,9 @@
     },
     {
       "year": 2026,
-      "data_date": "2026-07-31",
-      "origin_country": "Somalia",
-      "origin_country_code": "SOM",
+      "data_date": "2026-08-31",
+      "origin_country": "Sudan",
+      "origin_country_code": "SUD",
       "destination_country": "Cyprus",
       "destination_country_hu": "Ciprus",
       "destination_country_code": "CY",
@@ -2611,7 +2628,7 @@
       "source": "Government, UNHCR",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 22.1
+      "share_of_published_origin_data_percent": 18.87
     },
     {
       "year": 2026,
@@ -2666,9 +2683,9 @@
     },
     {
       "year": 2026,
-      "data_date": "2026-07-31",
-      "origin_country": "Sudan",
-      "origin_country_code": "SUD",
+      "data_date": "2026-08-31",
+      "origin_country": "Syrian Arab Rep.",
+      "origin_country_code": "SYR",
       "destination_country": "Cyprus",
       "destination_country_hu": "Ciprus",
       "destination_country_code": "CY",
@@ -2679,7 +2696,7 @@
       "source": "Government, UNHCR",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 18
+      "share_of_published_origin_data_percent": 15.36
     },
     {
       "year": 2026,
@@ -2697,23 +2714,6 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 0.9
-    },
-    {
-      "year": 2026,
-      "data_date": "2026-07-31",
-      "origin_country": "Syrian Arab Rep.",
-      "origin_country_code": "SYR",
-      "destination_country": "Cyprus",
-      "destination_country_hu": "Ciprus",
-      "destination_country_code": "CY",
-      "route": "Eastern Mediterranean",
-      "scope": "all_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 120,
-      "source": "Government, UNHCR",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 14.49
     },
     {
       "year": 2026,
@@ -2768,6 +2768,23 @@
     },
     {
       "year": 2026,
+      "data_date": "2026-08-31",
+      "origin_country": "Iran (Islamic Rep. of)",
+      "origin_country_code": "IRN",
+      "destination_country": "Cyprus",
+      "destination_country_hu": "Ciprus",
+      "destination_country_code": "CY",
+      "route": "Eastern Mediterranean",
+      "scope": "all_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 102,
+      "source": "Government, UNHCR",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": false,
+      "share_of_published_origin_data_percent": 10.52
+    },
+    {
+      "year": 2026,
       "data_date": "2026-07-31",
       "origin_country": "Gambia",
       "origin_country_code": "GAM",
@@ -2782,23 +2799,6 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 0.6
-    },
-    {
-      "year": 2026,
-      "data_date": "2026-07-31",
-      "origin_country": "Iran (Islamic Rep. of)",
-      "origin_country_code": "IRN",
-      "destination_country": "Cyprus",
-      "destination_country_hu": "Ciprus",
-      "destination_country_code": "CY",
-      "route": "Eastern Mediterranean",
-      "scope": "all_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 85,
-      "source": "Government, UNHCR",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 10.27
     },
     {
       "year": 2026,
@@ -2853,6 +2853,23 @@
     },
     {
       "year": 2026,
+      "data_date": "2026-08-31",
+      "origin_country": "Nigeria",
+      "origin_country_code": "NIG",
+      "destination_country": "Cyprus",
+      "destination_country_hu": "Ciprus",
+      "destination_country_code": "CY",
+      "route": "Eastern Mediterranean",
+      "scope": "all_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 66,
+      "source": "Government, UNHCR",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": false,
+      "share_of_published_origin_data_percent": 6.8
+    },
+    {
+      "year": 2026,
       "data_date": "2026-07-31",
       "origin_country": "Iraq",
       "origin_country_code": "IRQ",
@@ -2901,23 +2918,6 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 0.35
-    },
-    {
-      "year": 2026,
-      "data_date": "2026-07-31",
-      "origin_country": "Nigeria",
-      "origin_country_code": "NIG",
-      "destination_country": "Cyprus",
-      "destination_country_hu": "Ciprus",
-      "destination_country_code": "CY",
-      "route": "Eastern Mediterranean",
-      "scope": "all_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 54,
-      "source": "Government, UNHCR",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 6.52
     },
     {
       "year": 2026,
