@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Dashboard Summary",
-    "generated_at": "2026-09-23T09:23:16.915Z",
+    "generated_at": "2026-09-24T09:23:21.264Z",
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
@@ -9,46 +9,46 @@
   },
   "headline": {
     "year": 2026,
-    "arrivals_ytd": 71704,
-    "sea_arrivals_ytd": 60173,
-    "land_arrivals_ytd": 11531,
-    "sea_share_percent": 83.92,
-    "land_share_percent": 16.08
+    "arrivals_ytd": 72659,
+    "sea_arrivals_ytd": 61023,
+    "land_arrivals_ytd": 11636,
+    "sea_share_percent": 83.99,
+    "land_share_percent": 16.01
   },
   "periods": {
     "last_7_days": {
       "label": "Last 7 days",
       "available": true,
-      "arrivals": 2272,
+      "arrivals": 3227,
       "actual_days": 7,
-      "reference_date": "2026-09-16",
-      "current_date": "2026-09-23",
+      "reference_date": "2026-09-17",
+      "current_date": "2026-09-24",
       "status": "ok"
     },
     "last_30_days": {
       "label": "Last 30 days",
       "available": true,
-      "arrivals": 11676,
+      "arrivals": 11553,
       "actual_days": 30,
-      "reference_date": "2026-08-24",
-      "current_date": "2026-09-23",
+      "reference_date": "2026-08-25",
+      "current_date": "2026-09-24",
       "status": "ok"
     },
     "latest_reported_change": {
       "label": "Latest reported change",
       "available": true,
-      "arrivals": 0,
+      "arrivals": 955,
       "actual_days": 1,
-      "reference_date": "2026-09-22",
-      "current_date": "2026-09-23",
+      "reference_date": "2026-09-23",
+      "current_date": "2026-09-24",
       "status": "ok"
     }
   },
   "latest_month": {
     "date": "2026-09-01",
-    "arrivals": 5972,
-    "sea_arrivals": 5463,
-    "land_arrivals": 509,
+    "arrivals": 6927,
+    "sea_arrivals": 6313,
+    "land_arrivals": 614,
     "month_status": "partial",
     "month_complete": false,
     "change": null,
@@ -72,7 +72,7 @@
     "change_percent": 8.43
   },
   "data_status": {
-    "snapshot_count": 62,
+    "snapshot_count": 63,
     "seven_day_available": true,
     "thirty_day_available": true,
     "latest_available_month": "2026-09-01",
