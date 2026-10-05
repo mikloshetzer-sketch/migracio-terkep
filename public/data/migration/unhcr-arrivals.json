@@ -4,7 +4,7 @@
     "source": "UNHCR",
     "source_name": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
-    "generated_at": "2026-10-04T10:39:35.568Z",
+    "generated_at": "2026-10-05T11:39:01.983Z",
     "year": 2026,
     "coverage": [
       "Italy",
@@ -19,16 +19,16 @@
   },
   "summary": {
     "year": 2026,
-    "arrivals_ytd": 74737,
-    "sea_arrivals_ytd": 62834,
-    "land_arrivals_ytd": 11903,
-    "calculated_ytd": 74737,
+    "arrivals_ytd": 75388,
+    "sea_arrivals_ytd": 63406,
+    "land_arrivals_ytd": 11982,
+    "calculated_ytd": 75388,
     "ytd_difference": 0,
-    "latest_available_month": "2026-09-01",
-    "latest_month_arrivals": 8991,
-    "latest_month_sea_arrivals": 8110,
-    "latest_month_land_arrivals": 881,
-    "monthly_records": 9,
+    "latest_available_month": "2026-10-01",
+    "latest_month_arrivals": 349,
+    "latest_month_sea_arrivals": 327,
+    "latest_month_land_arrivals": 22,
+    "monthly_records": 10,
     "seven_day_arrivals": null,
     "thirty_day_arrivals": null,
     "seven_day_status": "requires_daily_or_event_level_data",
@@ -143,9 +143,22 @@
       "date": "2026-09-01",
       "year": 2026,
       "month": 9,
-      "people": 8991,
-      "sea_arrivals": 8110,
-      "land_arrivals": 881,
+      "people": 9293,
+      "sea_arrivals": 8355,
+      "land_arrivals": 938,
+      "calculation_difference": 0,
+      "granularity": "monthly",
+      "data_type": "arrival",
+      "source": "UNHCR",
+      "source_dataset": "Europe Sea Arrivals"
+    },
+    {
+      "date": "2026-10-01",
+      "year": 2026,
+      "month": 10,
+      "people": 349,
+      "sea_arrivals": 327,
+      "land_arrivals": 22,
       "calculation_difference": 0,
       "granularity": "monthly",
       "data_type": "arrival",
@@ -156,22 +169,22 @@
   "diagnostics": {
     "total": {
       "widget_id": "686750",
-      "raw_records": 9,
-      "valid_2026_records": 9
+      "raw_records": 10,
+      "valid_2026_records": 10
     },
     "sea": {
       "widget_id": "686751",
-      "raw_records": 9,
-      "valid_2026_records": 9
+      "raw_records": 10,
+      "valid_2026_records": 10
     },
     "land": {
       "widget_id": "686752",
-      "raw_records": 9,
-      "valid_2026_records": 9
+      "raw_records": 10,
+      "valid_2026_records": 10
     },
     "arithmetic_check": {
-      "total_ytd": 74737,
-      "sea_plus_land_ytd": 74737,
+      "total_ytd": 75388,
+      "sea_plus_land_ytd": 75388,
       "difference": 0,
       "status": "ok"
     }
