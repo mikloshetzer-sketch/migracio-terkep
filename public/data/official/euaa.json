@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-05T12:16:55.872Z",
+  "generated_at": "2026-10-06T12:01:58.607Z",
   "status": "ok",
   "source": "EUAA",
   "source_type": "official",
@@ -40,9 +40,9 @@
     },
     {
       "url": "https://www.euaa.europa.eu/latest-asylum-trends-monthly-overview/annexes",
-      "ok": true,
-      "status": 200,
-      "error": null
+      "ok": false,
+      "status": 404,
+      "error": "HTTP 404"
     }
   ],
   "metrics": {
