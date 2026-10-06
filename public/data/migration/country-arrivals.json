@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-10-05T11:39:11.663Z",
+    "generated_at": "2026-10-06T11:22:20.978Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -19,9 +19,9 @@
     "important_note": "Country datasets may have different reporting cut-off dates. Malta remains excluded until a stable country-level source is added."
   },
   "summary": {
-    "regional_arrivals_ytd": 75388,
-    "country_breakdown_total": 75519,
-    "country_breakdown_coverage_percent": 100.17,
+    "regional_arrivals_ytd": 78128,
+    "country_breakdown_total": 78018,
+    "country_breakdown_coverage_percent": 99.86,
     "covered_countries": 4,
     "configured_countries": 4,
     "missing_countries": [],
@@ -30,7 +30,7 @@
     "top_arrival_country_hu": "Görögország",
     "top_arrival_country_code": "GR",
     "top_arrival_country_arrivals": 29401,
-    "top_arrival_country_share_percent": 39
+    "top_arrival_country_share_percent": 37.63
   },
   "countries": [
     {
@@ -41,7 +41,7 @@
       "arrivals_ytd": 29401,
       "sea_arrivals_ytd": 23166,
       "land_arrivals_ytd": 6235,
-      "share_of_regional_total_percent": 39,
+      "share_of_regional_total_percent": 37.63,
       "latest_month": null,
       "latest_data_date": "2026-09-27",
       "monthly": [],
@@ -64,6 +64,90 @@
       ]
     },
     {
+      "country": "Spain",
+      "country_hu": "Spanyolország",
+      "country_code": "ES",
+      "route": "Western Mediterranean / West African Atlantic",
+      "arrivals_ytd": 24646,
+      "sea_arrivals_ytd": null,
+      "land_arrivals_ytd": null,
+      "share_of_regional_total_percent": 31.55,
+      "latest_month": {
+        "date": "2026-09-01",
+        "year": 2026,
+        "month": 9,
+        "people": 4229
+      },
+      "latest_data_date": null,
+      "monthly": [
+        {
+          "date": "2026-01-01",
+          "year": 2026,
+          "month": 1,
+          "people": 2267
+        },
+        {
+          "date": "2026-02-01",
+          "year": 2026,
+          "month": 2,
+          "people": 2253
+        },
+        {
+          "date": "2026-03-01",
+          "year": 2026,
+          "month": 3,
+          "people": 1698
+        },
+        {
+          "date": "2026-04-01",
+          "year": 2026,
+          "month": 4,
+          "people": 1705
+        },
+        {
+          "date": "2026-05-01",
+          "year": 2026,
+          "month": 5,
+          "people": 2301
+        },
+        {
+          "date": "2026-06-01",
+          "year": 2026,
+          "month": 6,
+          "people": 1914
+        },
+        {
+          "date": "2026-07-01",
+          "year": 2026,
+          "month": 7,
+          "people": 4959
+        },
+        {
+          "date": "2026-08-01",
+          "year": 2026,
+          "month": 8,
+          "people": 3320
+        },
+        {
+          "date": "2026-09-01",
+          "year": 2026,
+          "month": 9,
+          "people": 4229
+        }
+      ],
+      "status": "ok",
+      "data_granularity": "monthly",
+      "source": "UNHCR",
+      "sources": [
+        {
+          "type": "monthly",
+          "url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=729&population_group=4797%2C4798%2C5634&sv_id=100&widget_id=687069",
+          "date": null,
+          "people": null
+        }
+      ]
+    },
+    {
       "country": "Italy",
       "country_hu": "Olaszország",
       "country_code": "IT",
@@ -71,7 +155,7 @@
       "arrivals_ytd": 22736,
       "sea_arrivals_ytd": 22736,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 30.16,
+      "share_of_regional_total_percent": 29.1,
       "latest_month": {
         "date": "2026-10-01",
         "year": 2026,
@@ -154,90 +238,6 @@
       ]
     },
     {
-      "country": "Spain",
-      "country_hu": "Spanyolország",
-      "country_code": "ES",
-      "route": "Western Mediterranean / West African Atlantic",
-      "arrivals_ytd": 22147,
-      "sea_arrivals_ytd": null,
-      "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 29.38,
-      "latest_month": {
-        "date": "2026-09-01",
-        "year": 2026,
-        "month": 9,
-        "people": 1730
-      },
-      "latest_data_date": null,
-      "monthly": [
-        {
-          "date": "2026-01-01",
-          "year": 2026,
-          "month": 1,
-          "people": 2267
-        },
-        {
-          "date": "2026-02-01",
-          "year": 2026,
-          "month": 2,
-          "people": 2253
-        },
-        {
-          "date": "2026-03-01",
-          "year": 2026,
-          "month": 3,
-          "people": 1698
-        },
-        {
-          "date": "2026-04-01",
-          "year": 2026,
-          "month": 4,
-          "people": 1705
-        },
-        {
-          "date": "2026-05-01",
-          "year": 2026,
-          "month": 5,
-          "people": 2301
-        },
-        {
-          "date": "2026-06-01",
-          "year": 2026,
-          "month": 6,
-          "people": 1914
-        },
-        {
-          "date": "2026-07-01",
-          "year": 2026,
-          "month": 7,
-          "people": 4959
-        },
-        {
-          "date": "2026-08-01",
-          "year": 2026,
-          "month": 8,
-          "people": 3320
-        },
-        {
-          "date": "2026-09-01",
-          "year": 2026,
-          "month": 9,
-          "people": 1730
-        }
-      ],
-      "status": "ok",
-      "data_granularity": "monthly",
-      "source": "UNHCR",
-      "sources": [
-        {
-          "type": "monthly",
-          "url": "https://data.unhcr.org/population/get/timeseries?frequency=month&fromDate=2026-01-01&geo_id=729&population_group=4797%2C4798%2C5634&sv_id=100&widget_id=687069",
-          "date": null,
-          "people": null
-        }
-      ]
-    },
-    {
       "country": "Cyprus",
       "country_hu": "Ciprus",
       "country_code": "CY",
@@ -245,7 +245,7 @@
       "arrivals_ytd": 1235,
       "sea_arrivals_ytd": 188,
       "land_arrivals_ytd": 1047,
-      "share_of_regional_total_percent": 1.64,
+      "share_of_regional_total_percent": 1.58,
       "latest_month": null,
       "latest_data_date": "2026-10-04",
       "monthly": [],
