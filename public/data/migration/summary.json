@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Dashboard Summary",
-    "generated_at": "2026-10-09T11:24:16.406Z",
+    "generated_at": "2026-10-10T10:41:43.814Z",
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
     "source_url": "https://data.unhcr.org/en/situations/europe-sea-arrivals",
@@ -21,8 +21,8 @@
       "available": true,
       "arrivals": 3391,
       "actual_days": 7,
-      "reference_date": "2026-10-02",
-      "current_date": "2026-10-09",
+      "reference_date": "2026-10-03",
+      "current_date": "2026-10-10",
       "status": "ok"
     },
     "last_30_days": {
@@ -30,8 +30,8 @@
       "available": true,
       "arrivals": 11749,
       "actual_days": 30,
-      "reference_date": "2026-09-09",
-      "current_date": "2026-10-09",
+      "reference_date": "2026-09-10",
+      "current_date": "2026-10-10",
       "status": "ok"
     },
     "latest_reported_change": {
@@ -39,8 +39,8 @@
       "available": true,
       "arrivals": 0,
       "actual_days": 1,
-      "reference_date": "2026-10-08",
-      "current_date": "2026-10-09",
+      "reference_date": "2026-10-09",
+      "current_date": "2026-10-10",
       "status": "ok"
     }
   },
@@ -72,7 +72,7 @@
     "change_percent": 3.06
   },
   "data_status": {
-    "snapshot_count": 78,
+    "snapshot_count": 79,
     "seven_day_available": true,
     "thirty_day_available": true,
     "latest_available_month": "2026-10-01",
