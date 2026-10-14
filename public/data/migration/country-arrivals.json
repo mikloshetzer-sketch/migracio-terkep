@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-10-13T11:56:49.312Z",
+    "generated_at": "2026-10-14T09:36:22.035Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -19,9 +19,9 @@
     "important_note": "Country datasets may have different reporting cut-off dates. Malta remains excluded until a stable country-level source is added."
   },
   "summary": {
-    "regional_arrivals_ytd": 80290,
-    "country_breakdown_total": 80180,
-    "country_breakdown_coverage_percent": 99.86,
+    "regional_arrivals_ytd": 81927,
+    "country_breakdown_total": 81817,
+    "country_breakdown_coverage_percent": 99.87,
     "covered_countries": 4,
     "configured_countries": 4,
     "missing_countries": [],
@@ -29,8 +29,8 @@
     "top_arrival_country": "Greece",
     "top_arrival_country_hu": "Görögország",
     "top_arrival_country_code": "GR",
-    "top_arrival_country_arrivals": 30352,
-    "top_arrival_country_share_percent": 37.8
+    "top_arrival_country_arrivals": 31989,
+    "top_arrival_country_share_percent": 39.05
   },
   "countries": [
     {
@@ -38,12 +38,12 @@
       "country_hu": "Görögország",
       "country_code": "GR",
       "route": "Eastern Mediterranean",
-      "arrivals_ytd": 30352,
-      "sea_arrivals_ytd": 23932,
-      "land_arrivals_ytd": 6420,
-      "share_of_regional_total_percent": 37.8,
+      "arrivals_ytd": 31989,
+      "sea_arrivals_ytd": 25380,
+      "land_arrivals_ytd": 6609,
+      "share_of_regional_total_percent": 39.05,
       "latest_month": null,
-      "latest_data_date": "2026-10-04",
+      "latest_data_date": "2026-10-11",
       "monthly": [],
       "status": "ok",
       "data_granularity": "annual_cumulative",
@@ -52,14 +52,14 @@
         {
           "type": "sea",
           "url": "https://data.unhcr.org/population/?geo_id=640&population_group=4797&sv_id=100&widget_id=688680&year=latest",
-          "date": "2026-10-04",
-          "people": 23932
+          "date": "2026-10-11",
+          "people": 25380
         },
         {
           "type": "land",
           "url": "https://data.unhcr.org/population/?geo_id=640&population_group=4798&sv_id=100&widget_id=688681&year=latest",
-          "date": "2026-10-04",
-          "people": 6420
+          "date": "2026-10-11",
+          "people": 6609
         }
       ]
     },
@@ -71,7 +71,7 @@
       "arrivals_ytd": 24646,
       "sea_arrivals_ytd": null,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 30.7,
+      "share_of_regional_total_percent": 30.08,
       "latest_month": {
         "date": "2026-09-01",
         "year": 2026,
@@ -155,7 +155,7 @@
       "arrivals_ytd": 23869,
       "sea_arrivals_ytd": 23869,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 29.73,
+      "share_of_regional_total_percent": 29.13,
       "latest_month": {
         "date": "2026-10-01",
         "year": 2026,
@@ -245,7 +245,7 @@
       "arrivals_ytd": 1313,
       "sea_arrivals_ytd": 191,
       "land_arrivals_ytd": 1122,
-      "share_of_regional_total_percent": 1.64,
+      "share_of_regional_total_percent": 1.6,
       "latest_month": null,
       "latest_data_date": "2026-10-11",
       "monthly": [],
