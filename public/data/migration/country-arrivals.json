@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-10-18T08:55:59.267Z",
+    "generated_at": "2026-10-19T10:03:38.775Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -19,8 +19,8 @@
     "important_note": "Country datasets may have different reporting cut-off dates. Malta remains excluded until a stable country-level source is added."
   },
   "summary": {
-    "regional_arrivals_ytd": 81927,
-    "country_breakdown_total": 81817,
+    "regional_arrivals_ytd": 85572,
+    "country_breakdown_total": 85460,
     "country_breakdown_coverage_percent": 99.87,
     "covered_countries": 4,
     "configured_countries": 4,
@@ -30,7 +30,7 @@
     "top_arrival_country_hu": "Görögország",
     "top_arrival_country_code": "GR",
     "top_arrival_country_arrivals": 31989,
-    "top_arrival_country_share_percent": 39.05
+    "top_arrival_country_share_percent": 37.38
   },
   "countries": [
     {
@@ -41,7 +41,7 @@
       "arrivals_ytd": 31989,
       "sea_arrivals_ytd": 25380,
       "land_arrivals_ytd": 6609,
-      "share_of_regional_total_percent": 39.05,
+      "share_of_regional_total_percent": 37.38,
       "latest_month": null,
       "latest_data_date": "2026-10-11",
       "monthly": [],
@@ -68,15 +68,15 @@
       "country_hu": "Spanyolország",
       "country_code": "ES",
       "route": "Western Mediterranean / West African Atlantic",
-      "arrivals_ytd": 24646,
+      "arrivals_ytd": 27228,
       "sea_arrivals_ytd": null,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 30.08,
+      "share_of_regional_total_percent": 31.82,
       "latest_month": {
-        "date": "2026-09-01",
+        "date": "2026-10-01",
         "year": 2026,
-        "month": 9,
-        "people": 4229
+        "month": 10,
+        "people": 2584
       },
       "latest_data_date": null,
       "monthly": [
@@ -132,7 +132,13 @@
           "date": "2026-09-01",
           "year": 2026,
           "month": 9,
-          "people": 4229
+          "people": 4227
+        },
+        {
+          "date": "2026-10-01",
+          "year": 2026,
+          "month": 10,
+          "people": 2584
         }
       ],
       "status": "ok",
@@ -152,15 +158,15 @@
       "country_hu": "Olaszország",
       "country_code": "IT",
       "route": "Central Mediterranean",
-      "arrivals_ytd": 23869,
-      "sea_arrivals_ytd": 23869,
+      "arrivals_ytd": 24930,
+      "sea_arrivals_ytd": 24930,
       "land_arrivals_ytd": null,
       "share_of_regional_total_percent": 29.13,
       "latest_month": {
         "date": "2026-10-01",
         "year": 2026,
         "month": 10,
-        "people": 1455
+        "people": 2516
       },
       "latest_data_date": null,
       "monthly": [
@@ -222,7 +228,7 @@
           "date": "2026-10-01",
           "year": 2026,
           "month": 10,
-          "people": 1455
+          "people": 2516
         }
       ],
       "status": "ok",
@@ -245,7 +251,7 @@
       "arrivals_ytd": 1313,
       "sea_arrivals_ytd": 191,
       "land_arrivals_ytd": 1122,
-      "share_of_regional_total_percent": 1.6,
+      "share_of_regional_total_percent": 1.53,
       "latest_month": null,
       "latest_data_date": "2026-10-11",
       "monthly": [],
