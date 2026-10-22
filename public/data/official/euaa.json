@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T10:08:35.323Z",
+  "generated_at": "2026-10-22T10:11:08.008Z",
   "status": "ok",
   "source": "EUAA",
   "source_type": "official",
@@ -47,8 +47,8 @@
   ],
   "metrics": {
     "applications_last_12_months": null,
-    "recognition_rate_pct": 20,
-    "pending_cases": 4,
+    "recognition_rate_pct": null,
+    "pending_cases": null,
     "trend_indicators": {
       "afghan_applications_pct": null,
       "syrian_applications_pct": null,
