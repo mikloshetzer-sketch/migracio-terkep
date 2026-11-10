@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T13:54:27.945Z",
+  "generated_at": "2026-11-10T13:28:19.101Z",
   "status": "ok",
   "source": "Eurostat",
   "source_type": "official",
@@ -20,7 +20,7 @@
     }
   },
   "asylum_applications_monthly": {
-    "latest_period": "2026-09",
+    "latest_period": "2026-10",
     "totals_by_country": {
       "AT": 0,
       "BE": 0,
