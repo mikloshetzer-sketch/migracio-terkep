@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Countries of Origin",
-    "generated_at": "2026-11-09T13:04:00.008Z",
+    "generated_at": "2026-11-10T12:47:53.111Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -26,14 +26,14 @@
     "top_origin_observed_people": 11907,
     "top_origin_destination_count": 2,
     "strongest_observed_movement": {
-      "origin_country": "Sudan",
-      "origin_country_code": "SUD",
-      "destination_country": "Greece",
-      "destination_country_hu": "Görögország",
-      "destination_country_code": "GR",
-      "route": "Eastern Mediterranean",
-      "scope": "sea_arrivals",
-      "people": 7538,
+      "origin_country": "Algeria",
+      "origin_country_code": "ALG",
+      "destination_country": "Spain",
+      "destination_country_hu": "Spanyolország",
+      "destination_country_code": "ES",
+      "route": "Western Mediterranean / West African Atlantic",
+      "scope": "sea_and_land_arrivals",
+      "people": 9044,
       "data_date": "2026-09-30"
     }
   },
@@ -840,15 +840,15 @@
       "route": "Western Mediterranean / West African Atlantic",
       "scope": "sea_and_land_arrivals",
       "scope_label": "Sea and land arrivals",
-      "data_date": "2026-08-31",
-      "published_origin_total": 20360,
+      "data_date": "2026-09-30",
+      "published_origin_total": 24828,
       "origin_categories": 10,
       "status": "ok",
       "source_url": "https://data.unhcr.org/population/get/origin?fromDate=1900-01-01&geo_id=729&limit=10&population_group=5650%2C5652%2C5653%2C5655%2C5656%2C5657%2C5661%2C5662%2C5663%2C5664%2C5666%2C5668%2C5671%2C5673%2C5674%2C5675%2C5676%2C5684%2C5685%2C5688%2C5769&sv_id=100&widget_id=687070",
       "origins": [
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Algeria",
           "origin_country_code": "ALG",
           "destination_country": "Spain",
@@ -857,15 +857,15 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 7328,
+          "people": 9044,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 35.99
+          "share_of_published_origin_data_percent": 36.43
         },
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Morocco",
           "origin_country_code": "MOR",
           "destination_country": "Spain",
@@ -874,15 +874,15 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 4857,
+          "people": 5530,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 23.86
+          "share_of_published_origin_data_percent": 22.27
         },
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Mali",
           "origin_country_code": "MLI",
           "destination_country": "Spain",
@@ -891,15 +891,15 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 1832,
+          "people": 2190,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 9
+          "share_of_published_origin_data_percent": 8.82
         },
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Senegal",
           "origin_country_code": "SEN",
           "destination_country": "Spain",
@@ -908,15 +908,15 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 1351,
+          "people": 2009,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 6.64
+          "share_of_published_origin_data_percent": 8.09
         },
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Guinea",
           "origin_country_code": "GUI",
           "destination_country": "Spain",
@@ -925,15 +925,15 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 1308,
+          "people": 1634,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 6.42
+          "share_of_published_origin_data_percent": 6.58
         },
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Others",
           "origin_country_code": "OTH",
           "destination_country": "Spain",
@@ -942,15 +942,15 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 1194,
+          "people": 1397,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": true,
-          "share_of_published_origin_data_percent": 5.86
+          "share_of_published_origin_data_percent": 5.63
         },
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Gambia",
           "origin_country_code": "GAM",
           "destination_country": "Spain",
@@ -959,15 +959,15 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 1049,
+          "people": 1390,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 5.15
+          "share_of_published_origin_data_percent": 5.6
         },
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Sudan",
           "origin_country_code": "SUD",
           "destination_country": "Spain",
@@ -976,15 +976,15 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 740,
+          "people": 749,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 3.63
+          "share_of_published_origin_data_percent": 3.02
         },
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Somalia",
           "origin_country_code": "SOM",
           "destination_country": "Spain",
@@ -993,15 +993,15 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 369,
+          "people": 494,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 1.81
+          "share_of_published_origin_data_percent": 1.99
         },
         {
           "year": 2026,
-          "data_date": "2026-08-31",
+          "data_date": "2026-09-30",
           "origin_country": "Côte d'Ivoire",
           "origin_country_code": "ICO",
           "destination_country": "Spain",
@@ -1010,11 +1010,11 @@
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
           "scope_label": "Sea and land arrivals",
-          "people": 332,
+          "people": 391,
           "source": "FRONTEX public data",
           "source_dataset": "Europe Sea Arrivals",
           "is_aggregate_origin": false,
-          "share_of_published_origin_data_percent": 1.63
+          "share_of_published_origin_data_percent": 1.57
         }
       ]
     },
@@ -1165,9 +1165,36 @@
       "is_aggregate_origin": false
     },
     {
+      "origin_country": "Algeria",
+      "origin_country_code": "ALG",
+      "people": 11803,
+      "destination_count": 2,
+      "destinations": [
+        {
+          "destination_country": "Italy",
+          "destination_country_hu": "Olaszország",
+          "destination_country_code": "IT",
+          "route": "Central Mediterranean",
+          "scope": "sea_arrivals",
+          "data_date": "2026-09-30",
+          "people": 2759
+        },
+        {
+          "destination_country": "Spain",
+          "destination_country_hu": "Spanyolország",
+          "destination_country_code": "ES",
+          "route": "Western Mediterranean / West African Atlantic",
+          "scope": "sea_and_land_arrivals",
+          "data_date": "2026-09-30",
+          "people": 9044
+        }
+      ],
+      "is_aggregate_origin": false
+    },
+    {
       "origin_country": "Sudan",
       "origin_country_code": "SUD",
-      "people": 10313,
+      "people": 10322,
       "destination_count": 4,
       "destinations": [
         {
@@ -1194,8 +1221,8 @@
           "destination_country_code": "ES",
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 740
+          "data_date": "2026-09-30",
+          "people": 749
         },
         {
           "destination_country": "Cyprus",
@@ -1210,36 +1237,9 @@
       "is_aggregate_origin": false
     },
     {
-      "origin_country": "Algeria",
-      "origin_country_code": "ALG",
-      "people": 10087,
-      "destination_count": 2,
-      "destinations": [
-        {
-          "destination_country": "Italy",
-          "destination_country_hu": "Olaszország",
-          "destination_country_code": "IT",
-          "route": "Central Mediterranean",
-          "scope": "sea_arrivals",
-          "data_date": "2026-09-30",
-          "people": 2759
-        },
-        {
-          "destination_country": "Spain",
-          "destination_country_hu": "Spanyolország",
-          "destination_country_code": "ES",
-          "route": "Western Mediterranean / West African Atlantic",
-          "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 7328
-        }
-      ],
-      "is_aggregate_origin": false
-    },
-    {
       "origin_country": "Morocco",
       "origin_country_code": "MOR",
-      "people": 5026,
+      "people": 5699,
       "destination_count": 2,
       "destinations": [
         {
@@ -1257,8 +1257,8 @@
           "destination_country_code": "ES",
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 4857
+          "data_date": "2026-09-30",
+          "people": 5530
         }
       ],
       "is_aggregate_origin": false
@@ -1266,7 +1266,7 @@
     {
       "origin_country": "Somalia",
       "origin_country_code": "SOM",
-      "people": 4014,
+      "people": 4139,
       "destination_count": 4,
       "destinations": [
         {
@@ -1293,8 +1293,8 @@
           "destination_country_code": "ES",
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 369
+          "data_date": "2026-09-30",
+          "people": 494
         },
         {
           "destination_country": "Cyprus",
@@ -1307,6 +1307,51 @@
         }
       ],
       "is_aggregate_origin": false
+    },
+    {
+      "origin_country": "Others",
+      "origin_country_code": "OTH",
+      "people": 3139,
+      "destination_count": 4,
+      "destinations": [
+        {
+          "destination_country": "Italy",
+          "destination_country_hu": "Olaszország",
+          "destination_country_code": "IT",
+          "route": "Central Mediterranean",
+          "scope": "sea_arrivals",
+          "data_date": "2026-09-30",
+          "people": 359
+        },
+        {
+          "destination_country": "Greece",
+          "destination_country_hu": "Görögország",
+          "destination_country_code": "GR",
+          "route": "Eastern Mediterranean",
+          "scope": "sea_arrivals",
+          "data_date": "2026-09-30",
+          "people": 987
+        },
+        {
+          "destination_country": "Spain",
+          "destination_country_hu": "Spanyolország",
+          "destination_country_code": "ES",
+          "route": "Western Mediterranean / West African Atlantic",
+          "scope": "sea_and_land_arrivals",
+          "data_date": "2026-09-30",
+          "people": 1397
+        },
+        {
+          "destination_country": "Cyprus",
+          "destination_country_hu": "Ciprus",
+          "destination_country_code": "CY",
+          "route": "Eastern Mediterranean",
+          "scope": "all_arrivals",
+          "data_date": "2026-10-31",
+          "people": 396
+        }
+      ],
+      "is_aggregate_origin": true
     },
     {
       "origin_country": "Egypt",
@@ -1334,51 +1379,6 @@
         }
       ],
       "is_aggregate_origin": false
-    },
-    {
-      "origin_country": "Others",
-      "origin_country_code": "OTH",
-      "people": 2936,
-      "destination_count": 4,
-      "destinations": [
-        {
-          "destination_country": "Italy",
-          "destination_country_hu": "Olaszország",
-          "destination_country_code": "IT",
-          "route": "Central Mediterranean",
-          "scope": "sea_arrivals",
-          "data_date": "2026-09-30",
-          "people": 359
-        },
-        {
-          "destination_country": "Greece",
-          "destination_country_hu": "Görögország",
-          "destination_country_code": "GR",
-          "route": "Eastern Mediterranean",
-          "scope": "sea_arrivals",
-          "data_date": "2026-09-30",
-          "people": 987
-        },
-        {
-          "destination_country": "Spain",
-          "destination_country_hu": "Spanyolország",
-          "destination_country_code": "ES",
-          "route": "Western Mediterranean / West African Atlantic",
-          "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 1194
-        },
-        {
-          "destination_country": "Cyprus",
-          "destination_country_hu": "Ciprus",
-          "destination_country_code": "CY",
-          "route": "Eastern Mediterranean",
-          "scope": "all_arrivals",
-          "data_date": "2026-10-31",
-          "people": 396
-        }
-      ],
-      "is_aggregate_origin": true
     },
     {
       "origin_country": "Eritrea",
@@ -1410,7 +1410,7 @@
     {
       "origin_country": "Mali",
       "origin_country_code": "MLI",
-      "people": 2272,
+      "people": 2630,
       "destination_count": 2,
       "destinations": [
         {
@@ -1428,8 +1428,71 @@
           "destination_country_code": "ES",
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 1832
+          "data_date": "2026-09-30",
+          "people": 2190
+        }
+      ],
+      "is_aggregate_origin": false
+    },
+    {
+      "origin_country": "Senegal",
+      "origin_country_code": "SEN",
+      "people": 2198,
+      "destination_count": 3,
+      "destinations": [
+        {
+          "destination_country": "Italy",
+          "destination_country_hu": "Olaszország",
+          "destination_country_code": "IT",
+          "route": "Central Mediterranean",
+          "scope": "sea_arrivals",
+          "data_date": "2026-09-30",
+          "people": 53
+        },
+        {
+          "destination_country": "Greece",
+          "destination_country_hu": "Görögország",
+          "destination_country_code": "GR",
+          "route": "Eastern Mediterranean",
+          "scope": "sea_arrivals",
+          "data_date": "2026-09-30",
+          "people": 136
+        },
+        {
+          "destination_country": "Spain",
+          "destination_country_hu": "Spanyolország",
+          "destination_country_code": "ES",
+          "route": "Western Mediterranean / West African Atlantic",
+          "scope": "sea_and_land_arrivals",
+          "data_date": "2026-09-30",
+          "people": 2009
+        }
+      ],
+      "is_aggregate_origin": false
+    },
+    {
+      "origin_country": "Guinea",
+      "origin_country_code": "GUI",
+      "people": 1932,
+      "destination_count": 2,
+      "destinations": [
+        {
+          "destination_country": "Italy",
+          "destination_country_hu": "Olaszország",
+          "destination_country_code": "IT",
+          "route": "Central Mediterranean",
+          "scope": "sea_arrivals",
+          "data_date": "2026-09-30",
+          "people": 298
+        },
+        {
+          "destination_country": "Spain",
+          "destination_country_hu": "Spanyolország",
+          "destination_country_code": "ES",
+          "route": "Western Mediterranean / West African Atlantic",
+          "scope": "sea_and_land_arrivals",
+          "data_date": "2026-09-30",
+          "people": 1634
         }
       ],
       "is_aggregate_origin": false
@@ -1462,33 +1525,6 @@
       "is_aggregate_origin": false
     },
     {
-      "origin_country": "Guinea",
-      "origin_country_code": "GUI",
-      "people": 1606,
-      "destination_count": 2,
-      "destinations": [
-        {
-          "destination_country": "Italy",
-          "destination_country_hu": "Olaszország",
-          "destination_country_code": "IT",
-          "route": "Central Mediterranean",
-          "scope": "sea_arrivals",
-          "data_date": "2026-09-30",
-          "people": 298
-        },
-        {
-          "destination_country": "Spain",
-          "destination_country_hu": "Spanyolország",
-          "destination_country_code": "ES",
-          "route": "Western Mediterranean / West African Atlantic",
-          "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 1308
-        }
-      ],
-      "is_aggregate_origin": false
-    },
-    {
       "origin_country": "Pakistan",
       "origin_country_code": "PAK",
       "people": 1568,
@@ -1507,10 +1543,10 @@
       "is_aggregate_origin": false
     },
     {
-      "origin_country": "Senegal",
-      "origin_country_code": "SEN",
-      "people": 1540,
-      "destination_count": 3,
+      "origin_country": "Gambia",
+      "origin_country_code": "GAM",
+      "people": 1506,
+      "destination_count": 2,
       "destinations": [
         {
           "destination_country": "Italy",
@@ -1519,16 +1555,7 @@
           "route": "Central Mediterranean",
           "scope": "sea_arrivals",
           "data_date": "2026-09-30",
-          "people": 53
-        },
-        {
-          "destination_country": "Greece",
-          "destination_country_hu": "Görögország",
-          "destination_country_code": "GR",
-          "route": "Eastern Mediterranean",
-          "scope": "sea_arrivals",
-          "data_date": "2026-09-30",
-          "people": 136
+          "people": 116
         },
         {
           "destination_country": "Spain",
@@ -1536,8 +1563,8 @@
           "destination_country_code": "ES",
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 1351
+          "data_date": "2026-09-30",
+          "people": 1390
         }
       ],
       "is_aggregate_origin": false
@@ -1556,33 +1583,6 @@
           "scope": "sea_arrivals",
           "data_date": "2026-09-30",
           "people": 1202
-        }
-      ],
-      "is_aggregate_origin": false
-    },
-    {
-      "origin_country": "Gambia",
-      "origin_country_code": "GAM",
-      "people": 1165,
-      "destination_count": 2,
-      "destinations": [
-        {
-          "destination_country": "Italy",
-          "destination_country_hu": "Olaszország",
-          "destination_country_code": "IT",
-          "route": "Central Mediterranean",
-          "scope": "sea_arrivals",
-          "data_date": "2026-09-30",
-          "people": 116
-        },
-        {
-          "destination_country": "Spain",
-          "destination_country_hu": "Spanyolország",
-          "destination_country_code": "ES",
-          "route": "Western Mediterranean / West African Atlantic",
-          "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 1049
         }
       ],
       "is_aggregate_origin": false
@@ -1707,7 +1707,7 @@
     {
       "origin_country": "Côte d'Ivoire",
       "origin_country_code": "ICO",
-      "people": 681,
+      "people": 740,
       "destination_count": 2,
       "destinations": [
         {
@@ -1725,8 +1725,8 @@
           "destination_country_code": "ES",
           "route": "Western Mediterranean / West African Atlantic",
           "scope": "sea_and_land_arrivals",
-          "data_date": "2026-08-31",
-          "people": 332
+          "data_date": "2026-09-30",
+          "people": 391
         }
       ],
       "is_aggregate_origin": false
@@ -1970,6 +1970,23 @@
     {
       "year": 2026,
       "data_date": "2026-09-30",
+      "origin_country": "Algeria",
+      "origin_country_code": "ALG",
+      "destination_country": "Spain",
+      "destination_country_hu": "Spanyolország",
+      "destination_country_code": "ES",
+      "route": "Western Mediterranean / West African Atlantic",
+      "scope": "sea_and_land_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 9044,
+      "source": "FRONTEX public data",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": false,
+      "share_of_published_origin_data_percent": 36.43
+    },
+    {
+      "year": 2026,
+      "data_date": "2026-09-30",
       "origin_country": "Sudan",
       "origin_country_code": "SUD",
       "destination_country": "Greece",
@@ -1983,23 +2000,6 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 32.31
-    },
-    {
-      "year": 2026,
-      "data_date": "2026-08-31",
-      "origin_country": "Algeria",
-      "origin_country_code": "ALG",
-      "destination_country": "Spain",
-      "destination_country_hu": "Spanyolország",
-      "destination_country_code": "ES",
-      "route": "Western Mediterranean / West African Atlantic",
-      "scope": "sea_and_land_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 7328,
-      "source": "FRONTEX public data",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 35.99
     },
     {
       "year": 2026,
@@ -2037,7 +2037,7 @@
     },
     {
       "year": 2026,
-      "data_date": "2026-08-31",
+      "data_date": "2026-09-30",
       "origin_country": "Morocco",
       "origin_country_code": "MOR",
       "destination_country": "Spain",
@@ -2046,11 +2046,11 @@
       "route": "Western Mediterranean / West African Atlantic",
       "scope": "sea_and_land_arrivals",
       "scope_label": "Sea and land arrivals",
-      "people": 4857,
+      "people": 5530,
       "source": "FRONTEX public data",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 23.86
+      "share_of_published_origin_data_percent": 22.27
     },
     {
       "year": 2026,
@@ -2088,7 +2088,7 @@
     },
     {
       "year": 2026,
-      "data_date": "2026-08-31",
+      "data_date": "2026-09-30",
       "origin_country": "Mali",
       "origin_country_code": "MLI",
       "destination_country": "Spain",
@@ -2097,11 +2097,28 @@
       "route": "Western Mediterranean / West African Atlantic",
       "scope": "sea_and_land_arrivals",
       "scope_label": "Sea and land arrivals",
-      "people": 1832,
+      "people": 2190,
       "source": "FRONTEX public data",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 9
+      "share_of_published_origin_data_percent": 8.82
+    },
+    {
+      "year": 2026,
+      "data_date": "2026-09-30",
+      "origin_country": "Senegal",
+      "origin_country_code": "SEN",
+      "destination_country": "Spain",
+      "destination_country_hu": "Spanyolország",
+      "destination_country_code": "ES",
+      "route": "Western Mediterranean / West African Atlantic",
+      "scope": "sea_and_land_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 2009,
+      "source": "FRONTEX public data",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": false,
+      "share_of_published_origin_data_percent": 8.09
     },
     {
       "year": 2026,
@@ -2174,6 +2191,23 @@
     {
       "year": 2026,
       "data_date": "2026-09-30",
+      "origin_country": "Guinea",
+      "origin_country_code": "GUI",
+      "destination_country": "Spain",
+      "destination_country_hu": "Spanyolország",
+      "destination_country_code": "ES",
+      "route": "Western Mediterranean / West African Atlantic",
+      "scope": "sea_and_land_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 1634,
+      "source": "FRONTEX public data",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": false,
+      "share_of_published_origin_data_percent": 6.58
+    },
+    {
+      "year": 2026,
+      "data_date": "2026-09-30",
       "origin_country": "Pakistan",
       "origin_country_code": "PAK",
       "destination_country": "Italy",
@@ -2207,37 +2241,37 @@
     },
     {
       "year": 2026,
-      "data_date": "2026-08-31",
-      "origin_country": "Senegal",
-      "origin_country_code": "SEN",
+      "data_date": "2026-09-30",
+      "origin_country": "Others",
+      "origin_country_code": "OTH",
       "destination_country": "Spain",
       "destination_country_hu": "Spanyolország",
       "destination_country_code": "ES",
       "route": "Western Mediterranean / West African Atlantic",
       "scope": "sea_and_land_arrivals",
       "scope_label": "Sea and land arrivals",
-      "people": 1351,
+      "people": 1397,
       "source": "FRONTEX public data",
       "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 6.64
+      "is_aggregate_origin": true,
+      "share_of_published_origin_data_percent": 5.63
     },
     {
       "year": 2026,
-      "data_date": "2026-08-31",
-      "origin_country": "Guinea",
-      "origin_country_code": "GUI",
+      "data_date": "2026-09-30",
+      "origin_country": "Gambia",
+      "origin_country_code": "GAM",
       "destination_country": "Spain",
       "destination_country_hu": "Spanyolország",
       "destination_country_code": "ES",
       "route": "Western Mediterranean / West African Atlantic",
       "scope": "sea_and_land_arrivals",
       "scope_label": "Sea and land arrivals",
-      "people": 1308,
+      "people": 1390,
       "source": "FRONTEX public data",
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 6.42
+      "share_of_published_origin_data_percent": 5.6
     },
     {
       "year": 2026,
@@ -2258,23 +2292,6 @@
     },
     {
       "year": 2026,
-      "data_date": "2026-08-31",
-      "origin_country": "Others",
-      "origin_country_code": "OTH",
-      "destination_country": "Spain",
-      "destination_country_hu": "Spanyolország",
-      "destination_country_code": "ES",
-      "route": "Western Mediterranean / West African Atlantic",
-      "scope": "sea_and_land_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 1194,
-      "source": "FRONTEX public data",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": true,
-      "share_of_published_origin_data_percent": 5.86
-    },
-    {
-      "year": 2026,
       "data_date": "2026-09-30",
       "origin_country": "Eritrea",
       "origin_country_code": "ERT",
@@ -2289,23 +2306,6 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 4.64
-    },
-    {
-      "year": 2026,
-      "data_date": "2026-08-31",
-      "origin_country": "Gambia",
-      "origin_country_code": "GAM",
-      "destination_country": "Spain",
-      "destination_country_hu": "Spanyolország",
-      "destination_country_code": "ES",
-      "route": "Western Mediterranean / West African Atlantic",
-      "scope": "sea_and_land_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 1049,
-      "source": "FRONTEX public data",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 5.15
     },
     {
       "year": 2026,
@@ -2344,6 +2344,23 @@
     {
       "year": 2026,
       "data_date": "2026-09-30",
+      "origin_country": "Sudan",
+      "origin_country_code": "SUD",
+      "destination_country": "Spain",
+      "destination_country_hu": "Spanyolország",
+      "destination_country_code": "ES",
+      "route": "Western Mediterranean / West African Atlantic",
+      "scope": "sea_and_land_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 749,
+      "source": "FRONTEX public data",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": false,
+      "share_of_published_origin_data_percent": 3.02
+    },
+    {
+      "year": 2026,
+      "data_date": "2026-09-30",
       "origin_country": "Yemen",
       "origin_country_code": "YEM",
       "destination_country": "Greece",
@@ -2357,23 +2374,6 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 3.18
-    },
-    {
-      "year": 2026,
-      "data_date": "2026-08-31",
-      "origin_country": "Sudan",
-      "origin_country_code": "SUD",
-      "destination_country": "Spain",
-      "destination_country_hu": "Spanyolország",
-      "destination_country_code": "ES",
-      "route": "Western Mediterranean / West African Atlantic",
-      "scope": "sea_and_land_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 740,
-      "source": "FRONTEX public data",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 3.63
     },
     {
       "year": 2026,
@@ -2408,6 +2408,23 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 2.43
+    },
+    {
+      "year": 2026,
+      "data_date": "2026-09-30",
+      "origin_country": "Somalia",
+      "origin_country_code": "SOM",
+      "destination_country": "Spain",
+      "destination_country_hu": "Spanyolország",
+      "destination_country_code": "ES",
+      "route": "Western Mediterranean / West African Atlantic",
+      "scope": "sea_and_land_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 494,
+      "source": "FRONTEX public data",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": false,
+      "share_of_published_origin_data_percent": 1.99
     },
     {
       "year": 2026,
@@ -2462,6 +2479,23 @@
     },
     {
       "year": 2026,
+      "data_date": "2026-09-30",
+      "origin_country": "Côte d'Ivoire",
+      "origin_country_code": "ICO",
+      "destination_country": "Spain",
+      "destination_country_hu": "Spanyolország",
+      "destination_country_code": "ES",
+      "route": "Western Mediterranean / West African Atlantic",
+      "scope": "sea_and_land_arrivals",
+      "scope_label": "Sea and land arrivals",
+      "people": 391,
+      "source": "FRONTEX public data",
+      "source_dataset": "Europe Sea Arrivals",
+      "is_aggregate_origin": false,
+      "share_of_published_origin_data_percent": 1.57
+    },
+    {
+      "year": 2026,
       "data_date": "2026-10-31",
       "origin_country": "Somalia",
       "origin_country_code": "SOM",
@@ -2493,23 +2527,6 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 1.6
-    },
-    {
-      "year": 2026,
-      "data_date": "2026-08-31",
-      "origin_country": "Somalia",
-      "origin_country_code": "SOM",
-      "destination_country": "Spain",
-      "destination_country_hu": "Spanyolország",
-      "destination_country_code": "ES",
-      "route": "Western Mediterranean / West African Atlantic",
-      "scope": "sea_and_land_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 369,
-      "source": "FRONTEX public data",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 1.81
     },
     {
       "year": 2026,
@@ -2578,23 +2595,6 @@
       "source_dataset": "Europe Sea Arrivals",
       "is_aggregate_origin": false,
       "share_of_published_origin_data_percent": 1.52
-    },
-    {
-      "year": 2026,
-      "data_date": "2026-08-31",
-      "origin_country": "Côte d'Ivoire",
-      "origin_country_code": "ICO",
-      "destination_country": "Spain",
-      "destination_country_hu": "Spanyolország",
-      "destination_country_code": "ES",
-      "route": "Western Mediterranean / West African Atlantic",
-      "scope": "sea_and_land_arrivals",
-      "scope_label": "Sea and land arrivals",
-      "people": 332,
-      "source": "FRONTEX public data",
-      "source_dataset": "Europe Sea Arrivals",
-      "is_aggregate_origin": false,
-      "share_of_published_origin_data_percent": 1.63
     },
     {
       "year": 2026,
