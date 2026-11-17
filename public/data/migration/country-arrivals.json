@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-11-16T12:56:26.851Z",
+    "generated_at": "2026-11-17T13:38:52.340Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -19,64 +19,34 @@
     "important_note": "Country datasets may have different reporting cut-off dates. Malta remains excluded until a stable country-level source is added."
   },
   "summary": {
-    "regional_arrivals_ytd": 101689,
-    "country_breakdown_total": 101579,
-    "country_breakdown_coverage_percent": 99.89,
+    "regional_arrivals_ytd": 112985,
+    "country_breakdown_total": 112875,
+    "country_breakdown_coverage_percent": 99.9,
     "covered_countries": 4,
     "configured_countries": 4,
     "missing_countries": [],
     "complete_country_download": true,
-    "top_arrival_country": "Greece",
-    "top_arrival_country_hu": "Görögország",
-    "top_arrival_country_code": "GR",
-    "top_arrival_country_arrivals": 39007,
-    "top_arrival_country_share_percent": 38.36
+    "top_arrival_country": "Spain",
+    "top_arrival_country_hu": "Spanyolország",
+    "top_arrival_country_code": "ES",
+    "top_arrival_country_arrivals": 44238,
+    "top_arrival_country_share_percent": 39.15
   },
   "countries": [
-    {
-      "country": "Greece",
-      "country_hu": "Görögország",
-      "country_code": "GR",
-      "route": "Eastern Mediterranean",
-      "arrivals_ytd": 39007,
-      "sea_arrivals_ytd": 31869,
-      "land_arrivals_ytd": 7138,
-      "share_of_regional_total_percent": 38.36,
-      "latest_month": null,
-      "latest_data_date": "2026-11-08",
-      "monthly": [],
-      "status": "ok",
-      "data_granularity": "annual_cumulative",
-      "source": "UNHCR",
-      "sources": [
-        {
-          "type": "sea",
-          "url": "https://data.unhcr.org/population/?geo_id=640&population_group=4797&sv_id=100&widget_id=688680&year=latest",
-          "date": "2026-11-08",
-          "people": 31869
-        },
-        {
-          "type": "land",
-          "url": "https://data.unhcr.org/population/?geo_id=640&population_group=4798&sv_id=100&widget_id=688681&year=latest",
-          "date": "2026-11-08",
-          "people": 7138
-        }
-      ]
-    },
     {
       "country": "Spain",
       "country_hu": "Spanyolország",
       "country_code": "ES",
       "route": "Western Mediterranean / West African Atlantic",
-      "arrivals_ytd": 32942,
+      "arrivals_ytd": 44238,
       "sea_arrivals_ytd": null,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 32.39,
+      "share_of_regional_total_percent": 39.15,
       "latest_month": {
-        "date": "2026-10-01",
+        "date": "2026-11-01",
         "year": 2026,
-        "month": 10,
-        "people": 8296
+        "month": 11,
+        "people": 11296
       },
       "latest_data_date": null,
       "monthly": [
@@ -139,6 +109,12 @@
           "year": 2026,
           "month": 10,
           "people": 8296
+        },
+        {
+          "date": "2026-11-01",
+          "year": 2026,
+          "month": 11,
+          "people": 11296
         }
       ],
       "status": "ok",
@@ -154,6 +130,36 @@
       ]
     },
     {
+      "country": "Greece",
+      "country_hu": "Görögország",
+      "country_code": "GR",
+      "route": "Eastern Mediterranean",
+      "arrivals_ytd": 39007,
+      "sea_arrivals_ytd": 31869,
+      "land_arrivals_ytd": 7138,
+      "share_of_regional_total_percent": 34.52,
+      "latest_month": null,
+      "latest_data_date": "2026-11-08",
+      "monthly": [],
+      "status": "ok",
+      "data_granularity": "annual_cumulative",
+      "source": "UNHCR",
+      "sources": [
+        {
+          "type": "sea",
+          "url": "https://data.unhcr.org/population/?geo_id=640&population_group=4797&sv_id=100&widget_id=688680&year=latest",
+          "date": "2026-11-08",
+          "people": 31869
+        },
+        {
+          "type": "land",
+          "url": "https://data.unhcr.org/population/?geo_id=640&population_group=4798&sv_id=100&widget_id=688681&year=latest",
+          "date": "2026-11-08",
+          "people": 7138
+        }
+      ]
+    },
+    {
       "country": "Italy",
       "country_hu": "Olaszország",
       "country_code": "IT",
@@ -161,7 +167,7 @@
       "arrivals_ytd": 28022,
       "sea_arrivals_ytd": 28022,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 27.56,
+      "share_of_regional_total_percent": 24.8,
       "latest_month": {
         "date": "2026-11-01",
         "year": 2026,
@@ -257,7 +263,7 @@
       "arrivals_ytd": 1608,
       "sea_arrivals_ytd": 261,
       "land_arrivals_ytd": 1347,
-      "share_of_regional_total_percent": 1.58,
+      "share_of_regional_total_percent": 1.42,
       "latest_month": null,
       "latest_data_date": "2026-11-15",
       "monthly": [],
