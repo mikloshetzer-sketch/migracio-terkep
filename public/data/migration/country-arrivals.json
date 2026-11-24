@@ -1,7 +1,7 @@
 {
   "metadata": {
     "dataset": "EU Migration Monitor - Country Arrivals",
-    "generated_at": "2026-11-23T14:58:06.930Z",
+    "generated_at": "2026-11-24T14:59:55.344Z",
     "year": 2026,
     "source": "UNHCR",
     "source_dataset": "Europe Sea Arrivals",
@@ -19,8 +19,8 @@
     "important_note": "Country datasets may have different reporting cut-off dates. Malta remains excluded until a stable country-level source is added."
   },
   "summary": {
-    "regional_arrivals_ytd": 114486,
-    "country_breakdown_total": 114376,
+    "regional_arrivals_ytd": 114578,
+    "country_breakdown_total": 114468,
     "country_breakdown_coverage_percent": 99.9,
     "covered_countries": 4,
     "configured_countries": 4,
@@ -30,7 +30,7 @@
     "top_arrival_country_hu": "Spanyolország",
     "top_arrival_country_code": "ES",
     "top_arrival_country_arrivals": 44238,
-    "top_arrival_country_share_percent": 38.64
+    "top_arrival_country_share_percent": 38.61
   },
   "countries": [
     {
@@ -41,7 +41,7 @@
       "arrivals_ytd": 44238,
       "sea_arrivals_ytd": null,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 38.64,
+      "share_of_regional_total_percent": 38.61,
       "latest_month": {
         "date": "2026-11-01",
         "year": 2026,
@@ -137,7 +137,7 @@
       "arrivals_ytd": 39911,
       "sea_arrivals_ytd": 32666,
       "land_arrivals_ytd": 7245,
-      "share_of_regional_total_percent": 34.86,
+      "share_of_regional_total_percent": 34.83,
       "latest_month": null,
       "latest_data_date": "2026-11-15",
       "monthly": [],
@@ -164,10 +164,10 @@
       "country_hu": "Olaszország",
       "country_code": "IT",
       "route": "Central Mediterranean",
-      "arrivals_ytd": 28580,
-      "sea_arrivals_ytd": 28580,
+      "arrivals_ytd": 28672,
+      "sea_arrivals_ytd": 28672,
       "land_arrivals_ytd": null,
-      "share_of_regional_total_percent": 24.96,
+      "share_of_regional_total_percent": 25.02,
       "latest_month": {
         "date": "2026-11-01",
         "year": 2026,
@@ -234,7 +234,7 @@
           "date": "2026-10-01",
           "year": 2026,
           "month": 10,
-          "people": 3825
+          "people": 3917
         },
         {
           "date": "2026-11-01",
